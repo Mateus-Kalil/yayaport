@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yasmim Nathalie Carvalho Costa | Engenheira Civil</title>
+
+    <link rel="icon" href="yaya1.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="yaya1.png" type="image/x-icon" />
+
     <style>
         * {
             margin: 0;
@@ -45,7 +49,6 @@
             z-index: 0;
         }
 
-        /* Chuva de Corações 3D */
         .heart {
             position: fixed;
             top: -10vh;
@@ -91,7 +94,6 @@
             }
         }
 
-        /* Partículas Flutuantes */
         .particle {
             position: fixed;
             width: 4px;
@@ -108,7 +110,6 @@
             50% { transform: translateY(-20px) translateX(20px); }
         }
 
-        /* Header/Navegação */
         nav {
             position: fixed;
             top: 0;
@@ -195,14 +196,12 @@
             width: 100%;
         }
 
-        /* Container Principal */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -259,6 +258,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            display: block;
         }
 
         @keyframes pulse {
@@ -311,7 +311,6 @@
             margin: 0 auto 2rem;
         }
 
-        /* Botões */
         .btn {
             display: inline-block;
             padding: 1rem 2rem;
@@ -354,7 +353,6 @@
             box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
         }
 
-        /* Seções */
         section {
             padding: 6rem 2rem;
             position: relative;
@@ -370,7 +368,6 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Sobre */
         .about-content {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -388,7 +385,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Educação */
         .education-card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -436,7 +432,6 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Experiência */
         .timeline {
             position: relative;
             padding-left: 50px;
@@ -526,7 +521,6 @@
             color: var(--primary);
         }
 
-        /* Conquistas/Prêmios */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -613,10 +607,6 @@
         }
 
         .achievement-card p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .achievement-card p {
             color: #00ffff;
             text-shadow: 
                 0 0 3px #00ffff,
@@ -633,7 +623,6 @@
                 0 0 10px #ff00ff;
         }
 
-        /* Habilidades */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -687,7 +676,6 @@
             from { width: 0; }
         }
 
-        /* Contato */
         .contact-content {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -744,9 +732,8 @@
             font-size: 1.5rem;
         }
 
-        /* Footer */
         footer {
-            background: rgba(44, 62, 80, 0.95);
+            background: transparent;
             color: white;
             text-align: center;
             padding: 2rem;
@@ -783,7 +770,6 @@
             box-shadow: 0 10px 25px rgba(255, 107, 157, 0.5);
         }
 
-        /* Scroll Reveal Animation */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -795,7 +781,6 @@
             transform: translateY(0);
         }
 
-        /* Responsivo */
         @media (max-width: 768px) {
             nav ul {
                 gap: 1rem;
@@ -832,7 +817,6 @@
             }
         }
 
-        /* Loading Animation */
         .loading {
             position: fixed;
             top: 0;
@@ -868,12 +852,10 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div class="loading">
         <div class="loading-heart">♥</div>
     </div>
 
-    <!-- Navegação -->
     <nav>
         <div class="container">
             <div class="logo">Yasmim Nathalie</div>
@@ -889,11 +871,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-image">
-                <img src="yyasmim.png" alt="Yasmim Nathalie" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                <img src="yaya.png" alt="Yasmim Nathalie">
             </div>
             <h1>Yasmim Nathalie Carvalho Costa</h1>
             <p class="subtitle">Engenheira Civil</p>
@@ -909,7 +890,6 @@
         </div>
     </section>
 
-    <!-- Sobre -->
     <section id="sobre">
         <div class="container">
             <h2 class="section-title reveal">Sobre Mim</h2>
@@ -935,7 +915,6 @@
         </div>
     </section>
 
-    <!-- Educação -->
     <section id="educacao">
         <div class="container">
             <h2 class="section-title reveal">Educação</h2>
@@ -953,7 +932,6 @@
         </div>
     </section>
 
-    <!-- Experiência -->
     <section id="experiencia">
         <div class="container">
             <h2 class="section-title reveal">Experiência Profissional</h2>
@@ -1010,7 +988,6 @@
         </div>
     </section>
 
-    <!-- Conquistas -->
     <section id="conquistas">
         <div class="container">
             <h2 class="section-title reveal">Conquistas e Premiações</h2>
@@ -1060,7 +1037,6 @@
         </div>
     </section>
 
-    <!-- Habilidades -->
     <section id="habilidades">
         <div class="container">
             <h2 class="section-title reveal">Habilidades e Competências</h2>
@@ -1228,7 +1204,6 @@
         </div>
     </section>
 
-    <!-- Contato -->
     <section id="contato">
         <div class="container">
             <h2 class="section-title reveal">Entre em Contato</h2>
@@ -1271,10 +1246,9 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>© 2024 Yasmim Nathalie Carvalho Costa - Engenheira Civil</p>
+            <p>© 2025 Yasmim Nathalie Carvalho Costa - Engenheira Civil</p>
             <p>Apaixonada por ferrovias, logística e inovação</p>
             <div class="social-links">
                 <a href="#" class="social-link" title="LinkedIn">in</a>
@@ -1285,7 +1259,6 @@
     </footer>
 
     <script>
-        // Chuva de Corações 3D
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -1303,7 +1276,6 @@
 
         setInterval(createHeart, 300);
 
-        // Criar Partículas
         function createParticles() {
             for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
@@ -1317,7 +1289,6 @@
 
         createParticles();
 
-        // Scroll Reveal Animation
         function reveal() {
             const reveals = document.querySelectorAll('.reveal');
             
@@ -1333,9 +1304,8 @@
         }
 
         window.addEventListener('scroll', reveal);
-        reveal(); // Initial check
+        reveal();
 
-        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1349,7 +1319,6 @@
             });
         });
 
-        // Animate skill bars on scroll
         const skillObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1365,7 +1334,6 @@
             skillObserver.observe(category);
         });
 
-        // Parallax effect for hero
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-content');
@@ -1375,32 +1343,6 @@
             }
         });
 
-        // Mobile menu toggle (if needed)
-        const createMobileMenu = () => {
-            if (window.innerWidth <= 768) {
-                const nav = document.querySelector('nav ul');
-                nav.style.display = 'none';
-                
-                const menuBtn = document.createElement('button');
-                menuBtn.innerHTML = '☰';
-                menuBtn.style.cssText = 'background: none; border: none; font-size: 2rem; color: var(--primary); cursor: pointer;';
-                
-                menuBtn.addEventListener('click', () => {
-                    nav.style.display = nav.style.display === 'none' ? 'flex' : 'none';
-                    nav.style.flexDirection = 'column';
-                    nav.style.position = 'absolute';
-                    nav.style.top = '100%';
-                    nav.style.left = '0';
-                    nav.style.right = '0';
-                    nav.style.background = 'white';
-                    nav.style.padding = '1rem';
-                });
-                
-                document.querySelector('nav .container').appendChild(menuBtn);
-            }
-        };
-
-        // Add hover effect to achievement cards
         document.querySelectorAll('.achievement-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-15px) scale(1.05)';
@@ -1411,7 +1353,6 @@
             });
         });
 
-        // Console easter egg
         console.log('%c💖 Portfólio desenvolvido com amor e dedicação 💖', 
             'color: #FF6B9D; font-size: 20px; font-weight: bold;');
         console.log('%cYasmim Nathalie Carvalho Costa - Engenheira Civil', 
