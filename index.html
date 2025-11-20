@@ -25,6 +25,10 @@
             --light: #ECF0F1;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
@@ -40,7 +44,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
                 radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
                 radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
@@ -58,9 +62,10 @@
             animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
             z-index: 1;
             pointer-events: none;
-            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6)) 
+            will-change: transform, opacity;
+            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6))
                     drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
-            text-shadow: 
+            text-shadow:
                 2px 2px 4px rgba(0, 0, 0, 0.3),
                 -2px -2px 4px rgba(255, 255, 255, 0.3),
                 0 0 10px rgba(255, 107, 157, 0.5);
@@ -72,12 +77,8 @@
                 opacity: 0;
                 transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5);
             }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 0.8;
-            }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
             100% {
                 top: 110vh;
                 opacity: 0;
@@ -86,12 +87,8 @@
         }
 
         @keyframes heartPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
 
         .particle {
@@ -103,6 +100,7 @@
             pointer-events: none;
             animation: float 6s ease-in-out infinite;
             z-index: 1;
+            will-change: transform;
         }
 
         @keyframes float {
@@ -152,19 +150,13 @@
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            animation: typingLogo 5s steps(20, end) infinite;
+            border-right: .15em solid var(--primary); /* Efeito de cursor */
+            animation: typingLogo 3s steps(20, end) forwards;
         }
 
         @keyframes typingLogo {
-            0% { 
-                width: 0;
-            }
-            40% { 
-                width: 100%;
-            }
-            100% {
-                width: 100%;
-            }
+            from { width: 0; }
+            to { width: 100%; border-color: transparent; }
         }
 
         nav ul {
@@ -222,6 +214,7 @@
             animation: fadeInUp 1s ease-out;
             position: relative;
             z-index: 10;
+            will-change: transform, opacity;
         }
 
         @keyframes fadeInUp {
@@ -245,9 +238,10 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 2.5s ease-in-out infinite;
             overflow: hidden;
             position: relative;
+            will-change: transform, box-shadow;
         }
 
         .hero-image img {
@@ -255,10 +249,6 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
         }
 
         @keyframes pulse {
@@ -282,19 +272,13 @@
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            animation: typing 5s steps(40, end) infinite;
+            border-right: .15em solid var(--primary);
+            animation: typing 3s steps(40, end) 1s forwards;
         }
 
         @keyframes typing {
-            0% { 
-                width: 0;
-            }
-            60% { 
-                width: 100%;
-            }
-            100% {
-                width: 100%;
-            }
+            from { width: 0 }
+            to { width: 100%; border-color: transparent; }
         }
 
         .hero .subtitle {
@@ -317,7 +301,7 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             margin: 0.5rem;
             position: relative;
             overflow: hidden;
@@ -337,6 +321,7 @@
             height: 100%;
             background: linear-gradient(135deg, #000000 0%, var(--purple) 100%);
             transition: left 0.3s;
+            z-index: 0;
         }
 
         .btn-primary:hover::before {
@@ -358,24 +343,25 @@
             position: relative;
             z-index: 10;
         }
-
+        
         .section-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 3rem;
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .about-content, .education-card, .timeline-item, .achievement-card, .skill-category, .contact-content {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
         .about-content {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 3rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
-            animation: fadeInUp 0.8s ease-out;
         }
 
         .about-content p {
@@ -386,52 +372,35 @@
         }
 
         .education-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
             border-left: 5px solid var(--primary);
-            transition: all 0.3s;
-            animation: fadeInLeft 0.8s ease-out;
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .education-card:hover {
             transform: translateX(10px);
             box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
         }
-
-        .education-card h3 {
+        
+        .education-card h3, .timeline-item h3, .achievement-card h3 {
             color: white;
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-
-        .education-card .period {
+        
+        .education-card .period, .timeline-item .period, .achievement-card .period {
             color: white;
             font-weight: 600;
             margin-bottom: 1rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .education-card p {
+        .education-card p, .timeline-item p, .timeline-item strong {
             color: rgba(255, 255, 255, 0.9);
         }
-
+        
         .timeline {
             position: relative;
             padding-left: 50px;
@@ -448,26 +417,10 @@
         }
 
         .timeline-item {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
             position: relative;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
-            animation: fadeInRight 0.8s ease-out;
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .timeline-item::before {
@@ -482,38 +435,14 @@
             border: 3px solid white;
             box-shadow: 0 0 0 3px var(--primary);
         }
-
-        .timeline-item h3 {
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .timeline-item .period {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .timeline-item p,
-        .timeline-item strong {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .timeline-item ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
+        
+        .timeline-item ul { list-style: none; padding-left: 0; }
         .timeline-item li {
             padding: 0.5rem 0;
             padding-left: 2rem;
             position: relative;
             color: rgba(255, 255, 255, 0.85);
         }
-
         .timeline-item li::before {
             content: '✦';
             position: absolute;
@@ -528,35 +457,14 @@
         }
 
         .achievement-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
-            transition: all 0.3s;
-            animation: fadeInUp 0.8s ease-out;
+            transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
         }
-
-        .achievement-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 107, 157, 0.1), transparent);
-            transform: scale(0);
-            transition: transform 0.5s;
-        }
-
-        .achievement-card:hover::before {
-            transform: scale(1);
-        }
-
+        
         .achievement-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
@@ -566,7 +474,7 @@
             font-size: 3rem;
             margin-bottom: 1rem;
             display: inline-block;
-            animation: bounce 2s ease-in-out infinite;
+            animation: bounce 2.5s ease-in-out infinite;
         }
 
         @keyframes bounce {
@@ -576,51 +484,32 @@
 
         .achievement-card h3 {
             color: #ffff00;
-            margin-bottom: 1rem;
             font-size: 1.3rem;
-            text-shadow: 
-                0 0 5px #ffff00,
-                0 0 10px #ffff00,
-                0 0 20px #ffff00,
-                0 0 40px #ffff00,
-                0 0 80px #ffff00;
-            animation: neonPulse 2s ease-in-out infinite;
+            text-shadow:
+                0 0 5px #ffff00, 0 0 10px #ffff00, 0 0 20px #ffff00,
+                0 0 40px #ffff00;
+            animation: neonPulse 2.5s ease-in-out infinite;
+            will-change: text-shadow;
         }
 
         @keyframes neonPulse {
             0%, 100% {
-                text-shadow: 
-                    0 0 5px #ffff00,
-                    0 0 10px #ffff00,
-                    0 0 20px #ffff00,
-                    0 0 40px #ffff00,
-                    0 0 80px #ffff00;
+                text-shadow:
+                    0 0 5px #ffff00, 0 0 10px #ffff00, 0 0 20px #ffff00;
             }
             50% {
-                text-shadow: 
-                    0 0 2px #ffff00,
-                    0 0 5px #ffff00,
-                    0 0 10px #ffff00,
-                    0 0 20px #ffff00,
-                    0 0 40px #ffff00;
+                text-shadow:
+                    0 0 2px #ffff00, 0 0 5px #ffff00, 0 0 10px #ffff00;
             }
         }
 
         .achievement-card p {
             color: #00ffff;
-            text-shadow: 
-                0 0 3px #00ffff,
-                0 0 6px #00ffff,
-                0 0 10px #00ffff;
+            text-shadow: 0 0 3px #00ffff, 0 0 6px #00ffff;
         }
-
         .achievement-card .period {
             color: #ff00ff;
-            font-weight: 600;
-            text-shadow: 
-                0 0 3px #ff00ff,
-                0 0 6px #ff00ff,
-                0 0 10px #ff00ff;
+            text-shadow: 0 0 3px #ff00ff, 0 0 6px #ff00ff;
         }
 
         .skills-grid {
@@ -630,26 +519,16 @@
         }
 
         .skill-category {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
-            animation: fadeInUp 0.8s ease-out;
         }
-
         .skill-category h3 {
             color: var(--primary);
             margin-bottom: 1.5rem;
             font-size: 1.4rem;
             text-align: center;
         }
-
-        .skill-item {
-            margin-bottom: 1rem;
-        }
-
+        .skill-item { margin-bottom: 1rem; }
         .skill-name {
             display: flex;
             justify-content: space-between;
@@ -657,69 +536,43 @@
             font-weight: 600;
             color: rgba(255, 255, 255, 0.9);
         }
-
         .skill-bar {
             height: 10px;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
             overflow: hidden;
         }
-
         .skill-progress {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--purple));
             border-radius: 10px;
-            animation: fillBar 1.5s ease-out;
+            width: 0; /* Começa com 0 */
+            transition: width 1.5s ease-out; /* Transição suave */
         }
-
-        @keyframes fillBar {
-            from { width: 0; }
-        }
-
+        
         .contact-content {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 3rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3);
             max-width: 600px;
             margin: 0 auto;
-            animation: fadeInUp 0.8s ease-out;
         }
-
-        .contact-content > p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
+        .contact-content > p { color: rgba(255, 255, 255, 0.9); }
+        .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
         .contact-item {
             display: flex;
             align-items: center;
             gap: 1rem;
             padding: 1rem;
             background: rgba(255, 107, 157, 0.15);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 107, 157, 0.3);
             border-radius: 15px;
-            transition: all 0.3s;
+            transition: transform 0.3s, background 0.3s;
         }
-
         .contact-item:hover {
             transform: translateX(10px);
             background: rgba(255, 107, 157, 0.25);
         }
-
-        .contact-item strong,
-        .contact-item p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
+        .contact-item strong, .contact-item p { color: rgba(255, 255, 255, 0.9); }
         .contact-icon {
             width: 50px;
             height: 50px;
@@ -730,6 +583,7 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
         footer {
@@ -740,18 +594,8 @@
             position: relative;
             z-index: 10;
         }
-
-        footer p {
-            margin-bottom: 1rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
+        footer p { margin-bottom: 1rem; }
+        .social-links { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
         .social-link {
             width: 40px;
             height: 40px;
@@ -764,7 +608,6 @@
             color: white;
             transition: all 0.3s;
         }
-
         .social-link:hover {
             transform: translateY(-5px) scale(1.1);
             box-shadow: 0 10px 25px rgba(255, 107, 157, 0.5);
@@ -773,50 +616,15 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
         }
-
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .hero-content {
-                padding: 2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .achievements-grid,
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline {
-                padding-left: 30px;
-            }
-
-            .timeline-item::before {
-                left: -31px;
-            }
-        }
-
+        /* Loading */
         .loading {
             position: fixed;
             top: 0;
@@ -828,26 +636,57 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            animation: fadeOut 1s ease-out 2s forwards;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+            transition-delay: 2s;
         }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
         }
-
         .loading-heart {
             font-size: 5rem;
             color: white;
             animation: heartBeat 1s ease-in-out infinite;
         }
-
         @keyframes heartBeat {
             0%, 100% { transform: scale(1); }
             25% { transform: scale(1.2); }
             50% { transform: scale(1); }
+        }
+
+        /* Media Queries para Responsividade e Performance */
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            nav .container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+                padding-top: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); }
+            .hero .subtitle { font-size: 1.2rem; }
+            .hero-content { padding: 2rem; }
+            section { padding: 4rem 1rem; }
+            .section-title { font-size: 2rem; }
+            
+            .achievements-grid, .skills-grid { grid-template-columns: 1fr; }
+            
+            .timeline { padding-left: 30px; }
+            .timeline-item::before { left: -31px; }
+
+            /* Otimização de Performance: Remover backdrop-filter em mobile */
+            .about-content, .education-card, .timeline-item, .achievement-card, 
+            .skill-category, .contact-content, nav, .contact-item {
+                backdrop-filter: none;
+                background-color: rgba(44, 62, 80, 0.25);
+            }
+            nav { background-color: rgba(44, 62, 80, 0.5); }
         }
     </style>
 </head>
@@ -856,6 +695,8 @@
         <div class="loading-heart">♥</div>
     </div>
 
+    <!-- Conteúdo do seu site aqui (nav, section, etc.) -->
+    <!-- Cole o conteúdo do <body> da sua versão original aqui -->
     <nav>
         <div class="container">
             <div class="logo">Yasmim Nathalie</div>
@@ -870,7 +711,6 @@
             </ul>
         </div>
     </nav>
-
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-image">
@@ -879,8 +719,8 @@
             <h1>Yasmim Nathalie</h1>
             <p class="subtitle">Engenheira Civil</p>
             <p class="description">
-                Apaixonada por ferrovias e logística, com experiência em projetos de engenharia 
-                e múltiplas conquistas nacionais. Busco sempre inovar e gerar impacto positivo 
+                Apaixonada por ferrovias e logística, com experiência em projetos de engenharia
+                e múltiplas conquistas nacionais. Busco sempre inovar e gerar impacto positivo
                 através de soluções eficientes e sustentáveis.
             </p>
             <div>
@@ -889,32 +729,30 @@
             </div>
         </div>
     </section>
-
     <section id="sobre">
         <div class="container">
             <h2 class="section-title reveal">Sobre Mim</h2>
             <div class="about-content reveal">
                 <p>
-                    Sou engenheira civil formada pela PUC Minas, com uma trajetória marcada pela 
-                    excelência técnica e pelo compromisso com a inovação. Durante minha graduação, 
-                    desenvolvi um pensamento analítico e estratégico com foco em soluções eficientes 
+                    Sou engenheira civil formada pela PUC Minas, com uma trajetória marcada pela
+                    excelência técnica e pelo compromisso com a inovação. Durante minha graduação,
+                    desenvolvi um pensamento analítico e estratégico com foco em soluções eficientes
                     e seguras.
                 </p>
                 <p>
-                    Minha motivação está em enfrentar desafios complexos e propor inovações que 
-                    gerem valor real para o negócio, clientes e sociedade. Acredito que a engenharia 
+                    Minha motivação está em enfrentar desafios complexos e propor inovações que
+                    gerem valor real para o negócio, clientes e sociedade. Acredito que a engenharia
                     vai além dos cálculos e projetos - ela conecta pessoas, regiões e oportunidades.
                 </p>
                 <p>
-                    Atualmente, atuo em projetos de engenharia ferroviária, onde tive a oportunidade 
-                    de despertar um interesse genuíno por ferrovias e ampliar minha visão logística. 
-                    Essa experiência fortaleceu minha curiosidade, coragem e foco em gerar impacto 
+                    Atualmente, atuo em projetos de engenharia ferroviária, onde tive a oportunidade
+                    de despertar um interesse genuíno por ferrovias e ampliar minha visão logística.
+                    Essa experiência fortaleceu minha curiosidade, coragem e foco em gerar impacto
                     positivo em cada projeto que participo.
                 </p>
             </div>
         </div>
     </section>
-
     <section id="educacao">
         <div class="container">
             <h2 class="section-title reveal">Educação</h2>
@@ -923,15 +761,14 @@
                 <p class="period">2020 - 2025</p>
                 <p><strong>Instituição:</strong> Pontifícia Universidade Católica de Minas Gerais (PUC Minas)</p>
                 <p>
-                    Graduação que estimulou pensamento analítico e estratégico, com foco em 
-                    soluções eficientes e seguras. Desenvolvimento de competências técnicas 
-                    fundamentais para enfrentar desafios, lidar com cenários complexos e propor 
+                    Graduação que estimulou pensamento analítico e estratégico, com foco em
+                    soluções eficientes e seguras. Desenvolvimento de competências técnicas
+                    fundamentais para enfrentar desafios, lidar com cenários complexos e propor
                     inovações que gerem valor real.
                 </p>
             </div>
         </div>
     </section>
-
     <section id="experiencia">
         <div class="container">
             <h2 class="section-title reveal">Experiência Profissional</h2>
@@ -947,7 +784,6 @@
                         <li>Fortalecimento da curiosidade, coragem e foco em gerar impacto</li>
                     </ul>
                 </div>
-
                 <div class="timeline-item reveal">
                     <h3>Iniciativa de Resolução de Problema</h3>
                     <p class="period">2024</p>
@@ -959,7 +795,6 @@
                         <li>Experiência que fortaleceu capacidade de enfrentar desafios, propor soluções e atuar de forma proativa</li>
                     </ul>
                 </div>
-
                 <div class="timeline-item reveal">
                     <h3>Programa de Educação Tutorial (PET Civil)</h3>
                     <p class="period">2021 - 2023</p>
@@ -972,7 +807,6 @@
                         <li>Desenvolvimento de liderança e geração de impacto em colegas e na comunidade</li>
                     </ul>
                 </div>
-
                 <div class="timeline-item reveal">
                     <h3>Trabalho Voluntário</h3>
                     <p class="period">2021 - 2022</p>
@@ -987,7 +821,6 @@
             </div>
         </div>
     </section>
-
     <section id="conquistas">
         <div class="container">
             <h2 class="section-title reveal">Conquistas e Premiações</h2>
@@ -998,35 +831,30 @@
                     <p>Congresso IBRACON</p>
                     <p class="period">Instituto Brasileiro de Concreto</p>
                 </div>
-
                 <div class="achievement-card reveal">
                     <div class="achievement-icon">🥇</div>
                     <h3>1º Lugar</h3>
                     <p>Competição de Concreto Colorido</p>
                     <p class="period">IBRACON</p>
                 </div>
-
                 <div class="achievement-card reveal">
                     <div class="achievement-icon">🥇</div>
                     <h3>1º Lugar</h3>
                     <p>Competição de Concreto Armado</p>
                     <p class="period">IBRACON</p>
                 </div>
-
                 <div class="achievement-card reveal">
                     <div class="achievement-icon">🥈</div>
                     <h3>2º Lugar</h3>
                     <p>Competição de Projeto de Revitalização</p>
                     <p class="period">Área Comunitária em Brasília</p>
                 </div>
-
                 <div class="achievement-card reveal">
                     <div class="achievement-icon">📚</div>
                     <h3>Publicações Científicas</h3>
                     <p>Artigos apresentados em seminários</p>
                     <p class="period">PET Civil - PUC Minas</p>
                 </div>
-
                 <div class="achievement-card reveal">
                     <div class="achievement-icon">💡</div>
                     <h3>Inovação em Processos</h3>
@@ -1036,7 +864,6 @@
             </div>
         </div>
     </section>
-
     <section id="habilidades">
         <div class="container">
             <h2 class="section-title reveal">Habilidades e Competências</h2>
@@ -1044,172 +871,88 @@
                 <div class="skill-category reveal">
                     <h3>Técnicas</h3>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Projetos de Engenharia Civil</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
+                        <div class="skill-name"><span>Projetos de Engenharia Civil</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Engenharia Ferroviária</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 90%"></div>
-                        </div>
+                        <div class="skill-name"><span>Engenharia Ferroviária</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>AutoCAD</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
+                        <div class="skill-name"><span>AutoCAD</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Análise de Estruturas</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 90%"></div>
-                        </div>
+                        <div class="skill-name"><span>Análise de Estruturas</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
                     </div>
                 </div>
-
                 <div class="skill-category reveal">
                     <h3>Gestão e Liderança</h3>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Liderança de Equipes</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 92%"></div>
-                        </div>
+                        <div class="skill-name"><span>Liderança de Equipes</span><span>92%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="92%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Gestão de Projetos</span>
-                            <span>88%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 88%"></div>
-                        </div>
+                        <div class="skill-name"><span>Gestão de Projetos</span><span>88%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="88%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Trabalho em Equipe</span>
-                            <span>98%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 98%"></div>
-                        </div>
+                        <div class="skill-name"><span>Trabalho em Equipe</span><span>98%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="98%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Mentoria e Ensino</span>
-                            <span>93%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 93%"></div>
-                        </div>
+                        <div class="skill-name"><span>Mentoria e Ensino</span><span>93%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="93%"></div></div>
                     </div>
                 </div>
-
                 <div class="skill-category reveal">
                     <h3>Soft Skills</h3>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Resolução de Problemas</span>
-                            <span>96%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 96%"></div>
-                        </div>
+                        <div class="skill-name"><span>Resolução de Problemas</span><span>96%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="96%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Pensamento Estratégico</span>
-                            <span>94%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 94%"></div>
-                        </div>
+                        <div class="skill-name"><span>Pensamento Estratégico</span><span>94%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="94%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Comunicação</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
+                        <div class="skill-name"><span>Comunicação</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Proatividade</span>
-                            <span>97%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 97%"></div>
-                        </div>
+                        <div class="skill-name"><span>Proatividade</span><span>97%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="97%"></div></div>
                     </div>
                 </div>
-
                 <div class="skill-category reveal">
                     <h3>Inovação</h3>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Pensamento Criativo</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
+                        <div class="skill-name"><span>Pensamento Criativo</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Análise de Processos</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 92%"></div>
-                        </div>
+                        <div class="skill-name"><span>Análise de Processos</span><span>92%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="92%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Otimização de Soluções</span>
-                            <span>94%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 94%"></div>
-                        </div>
+                        <div class="skill-name"><span>Otimização de Soluções</span><span>94%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="94%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Visão Logística</span>
-                            <span>91%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 91%"></div>
-                        </div>
+                        <div class="skill-name"><span>Visão Logística</span><span>91%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="91%"></div></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section id="contato">
         <div class="container">
             <h2 class="section-title reveal">Entre em Contato</h2>
             <div class="contact-content reveal">
                 <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem;">
-                    Estou sempre aberta a novas oportunidades e conexões profissionais. 
+                    Estou sempre aberta a novas oportunidades e conexões profissionais.
                     Vamos conversar sobre projetos, inovação e o futuro da engenharia!
                 </p>
                 <div class="contact-info">
@@ -1245,10 +988,9 @@
             </div>
         </div>
     </section>
-
     <footer>
         <div class="container">
-            <p>© 2025 Yasmim Nathalie- Engenheira Civil</p>
+            <p>© 2025 Yasmim Nathalie - Engenheira Civil</p>
             <p>Apaixonada por ferrovias, logística e inovação</p>
             <div class="social-links">
                 <a href="#" class="social-link" title="LinkedIn">in</a>
@@ -1259,104 +1001,121 @@
     </footer>
 
     <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '♥';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 4 + 5 + 's';
-            heart.style.fontSize = Math.random() * 30 + 35 + 'px';
-            heart.style.color = `hsl(${Math.random() * 30 + 330}, 100%, ${Math.random() * 20 + 60}%)`;
-            document.body.appendChild(heart);
+        document.addEventListener('DOMContentLoaded', function() {
+          
+            const loadingScreen = document.querySelector('.loading');
+            window.addEventListener('load', () => {
+                loadingScreen.classList.add('hidden');
+            });
 
-            setTimeout(() => {
-                heart.remove();
-            }, 10000);
-        }
+            
+            const isMobile = window.innerWidth <= 768;
 
-        setInterval(createHeart, 300);
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '♥';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 4 + 6 + 's';
+                heart.style.fontSize = Math.random() * 20 + 25 + 'px';
+                heart.style.color = `hsl(${Math.random() * 30 + 330}, 100%, ${Math.random() * 20 + 70}%)`;
+                document.body.appendChild(heart);
 
-        function createParticles() {
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.top = Math.random() * 100 + 'vh';
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                document.body.appendChild(particle);
+                setTimeout(() => {
+                    heart.remove();
+                }, 11000);
             }
-        }
 
-        createParticles();
+            function createParticles() {
+                const particleCount = isMobile ? 10 : 25;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = Math.random() * 100 + 'vh';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    document.body.appendChild(particle);
+                }
+            }
 
-        function reveal() {
+            setInterval(createHeart, isMobile ? 1500 : 800);
+            createParticles();
+
+            
             const reveals = document.querySelectorAll('.reveal');
-            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
             reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
+                revealObserver.observe(element);
             });
-        }
 
-        window.addEventListener('scroll', reveal);
-        reveal();
+            
+            const skillObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const progressBars = entry.target.querySelectorAll('.skill-progress');
+                        progressBars.forEach(bar => {
+                            const width = bar.getAttribute('data-width');
+                            bar.style.width = width + '%';
+                        });
+                        skillObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progressBars = entry.target.querySelectorAll('.skill-progress');
-                    progressBars.forEach(bar => {
-                        bar.style.animation = 'fillBar 1.5s ease-out forwards';
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.skill-category').forEach(category => {
-            skillObserver.observe(category);
-        });
-
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-content');
-            if (hero && scrolled < window.innerHeight) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-                hero.style.opacity = 1 - (scrolled / window.innerHeight);
-            }
-        });
-
-        document.querySelectorAll('.achievement-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-15px) scale(1.05)';
+            document.querySelectorAll('.skill-category').forEach(category => {
+                skillObserver.observe(category);
             });
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
+           
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent && !isMobile) {
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const scrolled = window.scrollY;
+                            const windowHeight = window.innerHeight;
+                            if (scrolled < windowHeight) {
+                                const opacity = Math.max(0, 1 - (scrolled / windowHeight) * 1.2);
+                                heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+                                heroContent.style.opacity = opacity;
+                            }
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+            }
 
-        console.log('%c💖 Portfólio desenvolvido com amor e dedicação 💖', 
-            'color: #FF6B9D; font-size: 20px; font-weight: bold;');
-        console.log('%cYasmim Nathalie - Engenheira Civil', 
-            'color: #9B59B6; font-size: 16px;');
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+           
+            console.log('%c💖 Portfólio desenvolvido com amor e dedicação 💖',
+                'color: #FF6B9D; font-size: 20px; font-weight: bold;');
+            console.log('%cYasmim Nathalie - Engenheira Civil',
+                'color: #9B59B6; font-size: 16px;');
+        });
     </script>
 </body>
 </html>
