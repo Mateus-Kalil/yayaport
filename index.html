@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasmim Nathalie Carvalho Costa | Engenheira Civil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #C44569;
+            --accent: #FFA07A;
+            --purple: #9B59B6;
+            --light-pink: #FFE5EC;
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
+            color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Chuva de Corações 3D */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 45px;
+            color: var(--primary);
+            opacity: 0;
+            animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6)) 
+                    drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3),
+                -2px -2px 4px rgba(255, 255, 255, 0.3),
+                0 0 10px rgba(255, 107, 157, 0.5);
+        }
+
+        @keyframes fall3D {
+            0% {
+                top: -10vh;
+                opacity: 0;
+                transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                top: 110vh;
+                opacity: 0;
+                transform: translateX(100px) translateZ(100px) rotateY(360deg) scale(1.2);
+            }
+        }
+
+        @keyframes heartPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* Partículas Flutuantes */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(20px); }
+        }
+
+        /* Header/Navegação */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typingLogo 5s steps(20, end) infinite;
+        }
+
+        @keyframes typingLogo {
+            0% { 
+                width: 0;
+            }
+            40% { 
+                width: 100%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--purple));
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            padding: 4rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 5s steps(40, end) infinite;
+        }
+
+        @keyframes typing {
+            0% { 
+                width: 0;
+            }
+            60% { 
+                width: 100%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+            color: white;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, var(--purple) 100%);
+            transition: left 0.3s;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Seções */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Sobre */
+        .about-content {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Educação */
+        .education-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s;
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .education-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .education-card h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .education-card .period {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .education-card p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Experiência */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--purple));
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            animation: fadeInRight 0.8s ease-out;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -41px;
+            top: 2rem;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-item h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-item .period {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-item p,
+        .timeline-item strong {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-item li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .timeline-item li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Conquistas/Prêmios */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            transition: all 0.3s;
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.1), transparent);
+            transform: scale(0);
+            transition: transform 0.5s;
+        }
+
+        .achievement-card:hover::before {
+            transform: scale(1);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .achievement-card h3 {
+            color: #ffff00;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-shadow: 
+                0 0 5px #ffff00,
+                0 0 10px #ffff00,
+                0 0 20px #ffff00,
+                0 0 40px #ffff00,
+                0 0 80px #ffff00;
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                text-shadow: 
+                    0 0 5px #ffff00,
+                    0 0 10px #ffff00,
+                    0 0 20px #ffff00,
+                    0 0 40px #ffff00,
+                    0 0 80px #ffff00;
+            }
+            50% {
+                text-shadow: 
+                    0 0 2px #ffff00,
+                    0 0 5px #ffff00,
+                    0 0 10px #ffff00,
+                    0 0 20px #ffff00,
+                    0 0 40px #ffff00;
+            }
+        }
+
+        .achievement-card p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .achievement-card p {
+            color: #00ffff;
+            text-shadow: 
+                0 0 3px #00ffff,
+                0 0 6px #00ffff,
+                0 0 10px #00ffff;
+        }
+
+        .achievement-card .period {
+            color: #ff00ff;
+            font-weight: 600;
+            text-shadow: 
+                0 0 3px #ff00ff,
+                0 0 6px #ff00ff,
+                0 0 10px #ff00ff;
+        }
+
+        /* Habilidades */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .skill-category h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .skill-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--purple));
+            border-radius: 10px;
+            animation: fillBar 1.5s ease-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+        }
+
+        /* Contato */
+        .contact-content {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .contact-content > p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 107, 157, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 107, 157, 0.25);
+        }
+
+        .contact-item strong,
+        .contact-item p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-content {
+                padding: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .achievements-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline-item::before {
+                left: -31px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 1s ease-out 2s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loading-heart {
+            font-size: 5rem;
+            color: white;
+            animation: heartBeat 1s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-heart">♥</div>
+    </div>
+
+    <!-- Navegação -->
+    <nav>
+        <div class="container">
+            <div class="logo">Yasmim Nathalie</div>
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#educacao">Educação</a></li>
+                <li><a href="#experiencia">Experiência</a></li>
+                <li><a href="#conquistas">Conquistas</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="yyasmim.png" alt="Yasmim Nathalie" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            </div>
+            <h1>Yasmim Nathalie Carvalho Costa</h1>
+            <p class="subtitle">Engenheira Civil</p>
+            <p class="description">
+                Apaixonada por ferrovias e logística, com experiência em projetos de engenharia 
+                e múltiplas conquistas nacionais. Busco sempre inovar e gerar impacto positivo 
+                através de soluções eficientes e sustentáveis.
+            </p>
+            <div>
+                <a href="#contato" class="btn btn-primary"><span>Entre em Contato</span></a>
+                <a href="#sobre" class="btn btn-primary"><span>Conheça Mais</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre">
+        <div class="container">
+            <h2 class="section-title reveal">Sobre Mim</h2>
+            <div class="about-content reveal">
+                <p>
+                    Sou engenheira civil formada pela PUC Minas, com uma trajetória marcada pela 
+                    excelência técnica e pelo compromisso com a inovação. Durante minha graduação, 
+                    desenvolvi um pensamento analítico e estratégico com foco em soluções eficientes 
+                    e seguras.
+                </p>
+                <p>
+                    Minha motivação está em enfrentar desafios complexos e propor inovações que 
+                    gerem valor real para o negócio, clientes e sociedade. Acredito que a engenharia 
+                    vai além dos cálculos e projetos - ela conecta pessoas, regiões e oportunidades.
+                </p>
+                <p>
+                    Atualmente, atuo em projetos de engenharia ferroviária, onde tive a oportunidade 
+                    de despertar um interesse genuíno por ferrovias e ampliar minha visão logística. 
+                    Essa experiência fortaleceu minha curiosidade, coragem e foco em gerar impacto 
+                    positivo em cada projeto que participo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educação -->
+    <section id="educacao">
+        <div class="container">
+            <h2 class="section-title reveal">Educação</h2>
+            <div class="education-card reveal">
+                <h3>Engenharia Civil</h3>
+                <p class="period">2020 - 2025</p>
+                <p><strong>Instituição:</strong> Pontifícia Universidade Católica de Minas Gerais (PUC Minas)</p>
+                <p>
+                    Graduação que estimulou pensamento analítico e estratégico, com foco em 
+                    soluções eficientes e seguras. Desenvolvimento de competências técnicas 
+                    fundamentais para enfrentar desafios, lidar com cenários complexos e propor 
+                    inovações que gerem valor real.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiência -->
+    <section id="experiencia">
+        <div class="container">
+            <h2 class="section-title reveal">Experiência Profissional</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <h3>Estagiária em Projetos de Engenharia Ferroviária</h3>
+                    <p class="period">2024 - Atual</p>
+                    <p><strong>MRS Logística S.A.</strong></p>
+                    <ul>
+                        <li>Atuação em Projetos de Engenharia atendendo operação, comercial e demandas da renovação da concessão</li>
+                        <li>Experiência que despertou interesse genuíno por ferrovias</li>
+                        <li>Ampliação da visão logística e compreensão integrada da cadeia</li>
+                        <li>Fortalecimento da curiosidade, coragem e foco em gerar impacto</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <h3>Iniciativa de Resolução de Problema</h3>
+                    <p class="period">2024</p>
+                    <p><strong>Destaque:</strong> Projeto de Inovação</p>
+                    <ul>
+                        <li>Identificação de problema: ausência de histórico de topografia e sondagem causava gastos desnecessários</li>
+                        <li>Criação de banco de dados de topografia e sondagem de ferrovia, inexistente anteriormente</li>
+                        <li>Organização da informação evitou retrabalho e custos, aumentando eficiência</li>
+                        <li>Experiência que fortaleceu capacidade de enfrentar desafios, propor soluções e atuar de forma proativa</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <h3>Programa de Educação Tutorial (PET Civil)</h3>
+                    <p class="period">2021 - 2023</p>
+                    <p><strong>Projeto de Pesquisa, Ensino e Extensão</strong></p>
+                    <ul>
+                        <li>Ministrando cursos de AutoCAD para comunidade acadêmica</li>
+                        <li>Ofertando palestras para grandes públicos</li>
+                        <li>Orientação e apoio a colegas em projetos e atividades da graduação</li>
+                        <li>Apoio à coordenação em eventos e publicação de artigos em seminários</li>
+                        <li>Desenvolvimento de liderança e geração de impacto em colegas e na comunidade</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <h3>Trabalho Voluntário</h3>
+                    <p class="period">2021 - 2022</p>
+                    <p><strong>CREA Jr Minas & Concreto UAI</strong></p>
+                    <ul>
+                        <li>CREA Jr: Prospecção de clientes, organização de workshops e palestras, conexão entre áreas</li>
+                        <li>Concreto UAI: Desenvolvimento de projetos para competições estudantis</li>
+                        <li>Atuação prática em pesquisas, experimentos e apresentações técnicas</li>
+                        <li>Fortalecimento do trabalho em equipe e compromisso com a comunidade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conquistas -->
+    <section id="conquistas">
+        <div class="container">
+            <h2 class="section-title reveal">Conquistas e Premiações</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">🏆</div>
+                    <h3>Medalha Jubileu de Ouro</h3>
+                    <p>Congresso IBRACON</p>
+                    <p class="period">Instituto Brasileiro de Concreto</p>
+                </div>
+
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">🥇</div>
+                    <h3>1º Lugar</h3>
+                    <p>Competição de Concreto Colorido</p>
+                    <p class="period">IBRACON</p>
+                </div>
+
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">🥇</div>
+                    <h3>1º Lugar</h3>
+                    <p>Competição de Concreto Armado</p>
+                    <p class="period">IBRACON</p>
+                </div>
+
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">🥈</div>
+                    <h3>2º Lugar</h3>
+                    <p>Competição de Projeto de Revitalização</p>
+                    <p class="period">Área Comunitária em Brasília</p>
+                </div>
+
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">📚</div>
+                    <h3>Publicações Científicas</h3>
+                    <p>Artigos apresentados em seminários</p>
+                    <p class="period">PET Civil - PUC Minas</p>
+                </div>
+
+                <div class="achievement-card reveal">
+                    <div class="achievement-icon">💡</div>
+                    <h3>Inovação em Processos</h3>
+                    <p>Criação de banco de dados pioneiro</p>
+                    <p class="period">MRS Logística</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Habilidades -->
+    <section id="habilidades">
+        <div class="container">
+            <h2 class="section-title reveal">Habilidades e Competências</h2>
+            <div class="skills-grid">
+                <div class="skill-category reveal">
+                    <h3>Técnicas</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Projetos de Engenharia Civil</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Engenharia Ferroviária</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>AutoCAD</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Análise de Estruturas</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category reveal">
+                    <h3>Gestão e Liderança</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Liderança de Equipes</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Gestão de Projetos</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Trabalho em Equipe</span>
+                            <span>98%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 98%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Mentoria e Ensino</span>
+                            <span>93%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 93%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category reveal">
+                    <h3>Soft Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Resolução de Problemas</span>
+                            <span>96%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 96%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Pensamento Estratégico</span>
+                            <span>94%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 94%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Comunicação</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Proatividade</span>
+                            <span>97%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 97%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category reveal">
+                    <h3>Inovação</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Pensamento Criativo</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Análise de Processos</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Otimização de Soluções</span>
+                            <span>94%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 94%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Visão Logística</span>
+                            <span>91%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 91%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato">
+        <div class="container">
+            <h2 class="section-title reveal">Entre em Contato</h2>
+            <div class="contact-content reveal">
+                <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem;">
+                    Estou sempre aberta a novas oportunidades e conexões profissionais. 
+                    Vamos conversar sobre projetos, inovação e o futuro da engenharia!
+                </p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">✉</div>
+                        <div>
+                            <strong>E-mail</strong>
+                            <p>yasmim.carvalho@exemplo.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <strong>LinkedIn</strong>
+                            <p>linkedin.com/in/yasmimnathalie</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Localização</strong>
+                            <p>Belo Horizonte, MG</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🎓</div>
+                        <div>
+                            <strong>Instituição</strong>
+                            <p>PUC Minas - Engenharia Civil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2024 Yasmim Nathalie Carvalho Costa - Engenheira Civil</p>
+            <p>Apaixonada por ferrovias, logística e inovação</p>
+            <div class="social-links">
+                <a href="#" class="social-link" title="LinkedIn">in</a>
+                <a href="#" class="social-link" title="GitHub">git</a>
+                <a href="#" class="social-link" title="E-mail">@</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Chuva de Corações 3D
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 4 + 5 + 's';
+            heart.style.fontSize = Math.random() * 30 + 35 + 'px';
+            heart.style.color = `hsl(${Math.random() * 30 + 330}, 100%, ${Math.random() * 20 + 60}%)`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Criar Partículas
+        function createParticles() {
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Scroll Reveal Animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate skill bars on scroll
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        bar.style.animation = 'fillBar 1.5s ease-out forwards';
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.skill-category').forEach(category => {
+            skillObserver.observe(category);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
+            }
+        });
+
+        // Mobile menu toggle (if needed)
+        const createMobileMenu = () => {
+            if (window.innerWidth <= 768) {
+                const nav = document.querySelector('nav ul');
+                nav.style.display = 'none';
+                
+                const menuBtn = document.createElement('button');
+                menuBtn.innerHTML = '☰';
+                menuBtn.style.cssText = 'background: none; border: none; font-size: 2rem; color: var(--primary); cursor: pointer;';
+                
+                menuBtn.addEventListener('click', () => {
+                    nav.style.display = nav.style.display === 'none' ? 'flex' : 'none';
+                    nav.style.flexDirection = 'column';
+                    nav.style.position = 'absolute';
+                    nav.style.top = '100%';
+                    nav.style.left = '0';
+                    nav.style.right = '0';
+                    nav.style.background = 'white';
+                    nav.style.padding = '1rem';
+                });
+                
+                document.querySelector('nav .container').appendChild(menuBtn);
+            }
+        };
+
+        // Add hover effect to achievement cards
+        document.querySelectorAll('.achievement-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Console easter egg
+        console.log('%c💖 Portfólio desenvolvido com amor e dedicação 💖', 
+            'color: #FF6B9D; font-size: 20px; font-weight: bold;');
+        console.log('%cYasmim Nathalie Carvalho Costa - Engenheira Civil', 
+            'color: #9B59B6; font-size: 16px;');
+    </script>
+</body>
+</html>
