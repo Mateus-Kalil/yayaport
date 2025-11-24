@@ -513,7 +513,321 @@
         </div>
     </footer>
 <script>
-const questions=[{question:"Em uma análise de estabilidade de taludes pelo método de Bishop Simplificado, qual das afirmações sobre o fator de segurança é INCORRETA?",options:["O método satisfaz o equilíbrio de momentos mas não o equilíbrio de forças horizontais","O fator de segurança é obtido por processo iterativo até a convergência","O método considera forças normais e tangenciais nas laterais das fatias","A superfície de ruptura é assumida como circular"],correct:2},{question:"No dimensionamento de uma laje nervurada segundo a NBR 6118, qual o limite máximo para a relação entre a distância entre eixos de nervuras e a altura total da laje?",options:["65 cm ou 8 vezes a espessura da mesa","80 cm ou 10 vezes a espessura da mesa","75 cm ou 12 vezes a espessura da mesa","90 cm ou 15 vezes a espessura da mesa"],correct:0},{question:"Qual o valor aproximado da tensão característica de escoamento do aço CA-50 utilizado em estruturas de concreto armado?",options:["500 MPa","250 MPa","600 MPa","400 MPa"],correct:0},{question:"Considerando a NBR 6122 (Projeto e Execução de Fundações), qual o coeficiente de segurança global mínimo para estacas submetidas a esforços de compressão?",options:["1,5","2,0","2,5","3,0"],correct:1},{question:"Qual o critério de ruptura mais utilizado para análise de resistência de solos coesivos saturados em condições não drenadas?",options:["Critério de Mohr-Coulomb com φ = 0","Critério de Von Mises","Critério de Tresca","Critério de Drucker-Prager"],correct:0},{question:"Em terraplenagem, qual o valor típico do fator de empolamento para argila compacta?",options:["1,10 a 1,25","1,25 a 1,40","1,40 a 1,60","1,60 a 1,80"],correct:1},{question:"Qual tipo de cimento Portland é mais adequado para obras em ambientes com alta concentração de sulfatos?",options:["CP I - Cimento Portland Comum","CP II - Cimento Portland Composto","CP V - Cimento Portland de Alta Resistência Inicial","CP RS - Cimento Portland Resistente a Sulfatos"],correct:3},{question:"Qual ensaio de laboratório determina a máxima densidade e a umidade ótima de compactação de um solo?",options:["Ensaio de CBR","Ensaio triaxial","Ensaio de Proctor","Ensaio de cisalhamento direto"],correct:2},{question:"No projeto de estruturas metálicas, qual o fenômeno que pode ocorrer em perfis de alma esbelta submetidos a compressão ou flexão?",options:["Flambagem local","Escoamento dúctil","Fadiga estrutural","Corrosão sob tensão"],correct:0},{question:"Em obras de contenção, qual tipo de muro é caracterizado por trabalhar predominantemente por peso próprio?",options:["Muro de flexão","Cortina atirantada","Muro de gravidade","Solo grampeado"],correct:2},{question:"Qual o coeficiente de Manning (n) típico para concreto alisado em canais?",options:["0,010 a 0,013","0,013 a 0,017","0,017 a 0,020","0,020 a 0,025"],correct:0},{question:"No dimensionamento de sapatas, qual verificação está relacionada ao puncionamento?",options:["Tensões normais no concreto","Tensões de cisalhamento junto ao pilar","Momento fletor na seção crítica","Recalque diferencial"],correct:1},{question:"Qual a classe de agressividade ambiental (CAA) segundo NBR 6118 para ambientes marinhos?",options:["CAA I - Fraca","CAA II - Moderada","CAA III - Forte","CAA IV - Muito Forte"],correct:3},{question:"Em barragens de terra, qual o gradiente hidráulico crítico que pode causar piping?",options:["i ≈ 0,5","i ≈ 1,0","i ≈ 2,0","i ≈ 5,0"],correct:1},{question:"No projeto de ligações parafusadas em estruturas metálicas, qual o modo de ruptura mais desejável?",options:["Esmagamento da parede do furo","Cisalhamento do parafuso","Ruptura da seção líquida da chapa","Rasgamento entre furos"],correct:1},{question:"Qual teoria é utilizada para dimensionamento de pavimentos rígidos de concreto?",options:["Teoria elástica de Boussinesq","Teoria das camadas elásticas","Teoria de placas sobre base elástica (Westergaard)","Teoria do CBR"],correct:2},{question:"Qual o cobrimento mínimo para elementos estruturais de concreto em CAA III (forte)?",options:["20 mm","30 mm","40 mm","50 mm"],correct:2},{question:"Qual norma regulamenta o projeto de estruturas de concreto no Brasil?",options:["NBR 6118","NBR 6120","NBR 6122","NBR 8800"],correct:0},{question:"Em fundações profundas, qual o método de cravação de estacas pré-moldadas mais eficiente em solos arenosos?",options:["Bate-estacas a vapor","Bate-estacas diesel","Vibro-cravação","Macaco hidráulico"],correct:2},{question:"Em sondagens SPT, qual a correlação aproximada entre NSPT e consistência de argilas para NSPT = 15?",options:["Argila mole","Argila média","Argila rija","Argila dura"],correct:2},{question:"No projeto de reservatórios de água potável, qual o tempo mínimo de detenção recomendado?",options:["15 minutos","30 minutos","1 hora","2 horas"],correct:3},{question:"Em pré-dimensionamento de lajes maciças, qual a relação aproximada entre altura da laje (h) e menor vão (ℓ)?",options:["h = ℓ/15","h = ℓ/25","h = ℓ/35","h = ℓ/45"],correct:2},{question:"Qual o coeficiente de Poisson típico para concreto?",options:["0,10","0,20","0,30","0,40"],correct:1},{question:"Em estradas, qual a superelevação máxima recomendada pelo DNIT para vias urbanas?",options:["6%","8%","10%","12%"],correct:1},{question:"Na análise de ligações soldadas, qual tipo de solda é mais resistente a esforços de tração perpendicular ao cordão?",options:["Solda de filete","Solda de entalhe com penetração total","Solda de tampão","Solda por pontos"],correct:1},{question:"Qual o índice de vazios crítico que caracteriza estado de areia fofa susceptível à liquefação?",options:["e < 0,4","0,4 < e < 0,6","0,6 < e < 0,8","e > 0,8"],correct:3},{question:"No dimensionamento de vigas de concreto protendido, qual o critério de verificação no estado limite de serviço (ELS)?",options:["Resistência à ruptura","Controle de fissuras e flechas","Resistência ao cisalhamento","Ancoragem das armaduras"],correct:1},{question:"Em projetos ferroviários, qual a inclinação máxima típica de rampa para ferrovias de carga?",options:["0,5%","1,0%","2,0%","3,0%"],correct:2},{question:"Qual o módulo de elasticidade do aço estrutural (E)?",options:["150 GPa","190 GPa","210 GPa","250 GPa"],correct:2},{question:"Em hidráulica de canais, o número de Froude representa a relação entre:",options:["Forças gravitacionais e forças de viscosidade","Forças inerciais e forças gravitacionais","Forças de pressão e forças inerciais","Forças de tensão superficial e forças gravitacionais"],correct:1},{question:"Qual a principal diferença entre concreto auto-adensável (CAA) e concreto convencional vibrado?",options:["O CAA possui maior teor de agregado graúdo","O CAA possui maior teor de finos e aditivos superplastificantes","O CAA possui menor relação água/cimento","O CAA necessita de maior energia de adensamento"],correct:1},{question:"Na dosagem Marshall para misturas asfálticas, qual parâmetro indica a resistência ao cisalhamento?",options:["Fluência","Estabilidade","Densidade aparente","Vazios no agregado mineral (VAM)"],correct:1},{question:"Em instalações hidrossanitárias prediais, qual a pressão dinâmica mínima na saída de qualquer peça de utilização conforme NBR 5626?",options:["5 kPa","10 kPa","15 kPa","20 kPa"],correct:1},{question:"No método dos elementos finitos aplicado a análise estrutural, o que garante a convergência da solução?",options:["Apenas a continuidade das funções de forma","Apenas a compatibilidade dos elementos","Completude e compatibilidade das funções de forma","Apenas o refinamento da malha"],correct:2},{question:"Em geotecnia ferroviária, qual o módulo de via (K) típico para lastro de pedra britada?",options:["0,02 a 0,05 N/mm³","0,05 a 0,15 N/mm³","0,15 a 0,30 N/mm³","0,30 a 0,50 N/mm³"],correct:1},{question:"Em análise sísmica de estruturas, qual o período fundamental de vibração para um edifício de 10 pavimentos em concreto armado (aproximadamente)?",options:["0,5 segundos","1,0 segundo","1,5 segundos","2,0 segundos"],correct:1},{question:"Qual método de escavação de túneis utiliza um escudo mecânico com cabeça de corte rotativa (TBM)?",options:["NATM (New Austrian Tunneling Method)","Método Belga","Shield Method","Cut and Cover"],correct:2},{question:"Em concreto protendido, qual a perda imediata típica por atrito em cabos curvos?",options:["1% a 5%","5% a 15%","15% a 25%","25% a 35%"],correct:1},{question:"Na teoria de Terzaghi para capacidade de carga de fundações superficiais, qual fator de capacidade de carga NÃO depende do ângulo de atrito interno do solo?",options:["Nc (fator de capacidade de carga relacionado à coesão)","Nq (fator de capacidade de carga relacionado à sobrecarga)","Nγ (fator de capacidade de carga relacionado ao peso próprio)","Todos os fatores dependem do ângulo de atrito"],correct:3},{question:"Em um ensaio de adensamento unidimensional, o coeficiente de adensamento (cv) pode ser determinado por qual(is) método(s)?",options:["Apenas pelo método de Casagrande (raiz do tempo)","Apenas pelo método de Taylor (logaritmo do tempo)","Pelos métodos de Casagrande e Taylor","Apenas pelo método de Terzaghi"],correct:2},{question:"Na análise de tensões em barragens de gravidade, qual método é tradicionalmente usado para verificação da estabilidade ao tombamento?",options:["Método dos elementos finitos","Método das diferenças finitas","Método das tensões efetivas","Método das forças resultantes (critério do núcleo central)"],correct:3},{question:"Em pontes de concreto protendido, qual das seguintes afirmações sobre perdas de protensão é VERDADEIRA?",options:["As perdas por atrito ocorrem apenas em protensão pré-tracionada","A relaxação do aço é uma perda progressiva que ocorre ao longo do tempo","As perdas por encunhamento ocorrem apenas em protensão pós-tracionada","A fluência do concreto causa perda instantânea de protensão"],correct:1},{question:"No dimensionamento de pilares de concreto armado pelo método do pilar-padrão com curvatura aproximada, qual a esbeltez limite para dispensa da consideração de efeitos de segunda ordem?",options:["λ ≤ 35","λ ≤ 56","λ ≤ 90","λ ≤ 140"],correct:2},{question:"Segundo a teoria de placas de Kirchhoff, qual condição de contorno NÃO é válida?",options:["Deslocamento prescrito","Momento fletor prescrito","Força cortante prescrita","Deformação por cisalhamento transversal considerada"],correct:3},{question:"No projeto de pavimentos flexíveis pelo método do DNIT, qual camada tem a função principal de impedir a ascensão de finos e água por capilaridade?",options:["Sub-base","Base","Revestimento","Reforço do subleito"],correct:0},{question:"Em análise estrutural, qual o grau de hiperestaticidade de um pórtico plano com 5 nós, 6 barras e 2 apoios (1 fixo e 1 móvel)?",options:["Grau 3","Grau 6","Grau 9","Grau 12"],correct:2},{question:"Em ensaios triaxiais, qual condição representa o ensaio CU (consolidado não drenado)?",options:["Consolidação permitida, drenagem durante cisalhamento permitida","Consolidação não permitida, drenagem durante cisalhamento não permitida","Consolidação permitida, drenagem durante cisalhamento não permitida","Consolidação não permitida, drenagem durante cisalhamento permitida"],correct:2},{question:"Em pontes, qual o esforço característico que deve ser considerado na análise de aparelhos de apoio?",options:["Apenas carga vertical permanente","Carga vertical, deformações e rotações","Apenas momento fletor","Apenas esforço cortante"],correct:1},{question:"No cálculo de esforços em arcos, qual é o principal efeito da carga móvel?",options:["Aumento do empuxo horizontal","Variação do empuxo horizontal","Redução da linha de pressão","Aumento uniforme dos esforços"],correct:1},{question:"Na análise de estruturas hiperestáticas pelo método da distribuição de momentos (Hardy Cross), qual condição deve ser satisfeita?",options:["Equilíbrio de forças em cada nó","Equilíbrio de momentos em cada nó","Compatibilidade de deslocamentos","Soma dos momentos distribuídos igual a zero em cada nó"],correct:3}];let currentQuestions=[],currentQuestionIndex=0,score=0,selectedAnswer=null,timerInterval=null,timeLeft=1800,startTime=0;function showSection(e){document.querySelectorAll(".main-section").forEach(e=>{e.classList.add("hidden")}),document.getElementById(e+"-section").classList.remove("hidden"),document.querySelector(".nav-links").classList.remove("active")}function startQuiz(){currentQuestions=shuffleArray([...questions]).slice(0,30),currentQuestionIndex=0,score=0,selectedAnswer=null,timeLeft=1800,startTime=Date.now(),document.getElementById("quiz-start").classList.add("hidden"),document.getElementById("quiz-active").classList.remove("hidden"),startTimer(),displayQuestion()}function shuffleArray(e){for(let t=e.length-1;t>0;t--){const s=Math.floor(Math.random()*(t+1));[e[t],e[s]]=[e[s],e[t]]}return e}function startTimer(){updateTimerDisplay(),timerInterval=setInterval(()=>{timeLeft--,updateTimerDisplay(),timeLeft<=0&&endQuiz()},1e3)}function updateTimerDisplay(){const e=Math.floor(timeLeft/60),t=timeLeft%60;document.getElementById("timer").textContent=`${e.toString().padStart(2,"0")}:${t.toString().padStart(2,"0")}`}function displayQuestion(){const e=currentQuestions[currentQuestionIndex];document.getElementById("question-counter").textContent=`Questão ${currentQuestionIndex+1} de ${currentQuestions.length}`,document.getElementById("question-text").textContent=e.question;const t=document.getElementById("options");t.innerHTML="",e.options.forEach((e,s)=>{const n=document.createElement("div");n.className="option",n.textContent=e,n.onclick=()=>selectAnswer(s),t.appendChild(n)}),selectedAnswer=null}function selectAnswer(e){selectedAnswer=e,document.querySelectorAll(".option").forEach((t,s)=>{t.classList.remove("selected"),s===e&&t.classList.add("selected")})}function nextQuestion(){null!==selectedAnswer?(selectedAnswer===currentQuestions[currentQuestionIndex].correct&&score++,currentQuestionIndex++,currentQuestionIndex<currentQuestions.length?displayQuestion():endQuiz()):alert("Por favor, selecione uma resposta antes de continuar.")}function endQuiz(){clearInterval(timerInterval);const e=Math.floor((Date.now()-startTime)/1e3),t=Math.round(score/currentQuestions.length*100);saveToHistory(t,score,e),document.getElementById("quiz-active").classList.add("hidden"),document.getElementById("quiz-result").classList.remove("hidden"),document.getElementById("final-score").textContent=`${t}%`,document.getElementById("result-text").textContent=`Você acertou ${score} de ${currentQuestions.length} questões`;const s=Math.floor(e/60),n=e%60;document.getElementById("time-taken").textContent=`Tempo utilizado: ${s}min ${n}s`}function resetQuiz(){document.getElementById("quiz-result").classList.add("hidden"),document.getElementById("quiz-start").classList.remove("hidden")}function saveToHistory(e,t,s){const n=JSON.parse(localStorage.getItem("quizHistory")||"[]"),c=(new Date).toLocaleDateString("pt-BR"),r=Math.floor(s/60),i=s%60,o=`${r}min ${i}s`;n.unshift({date:c,score:e,correct:t,total:currentQuestions.length,time:o}),n.length>10&&n.pop(),localStorage.setItem("quizHistory",JSON.stringify(n))}function showHistory(){const e=JSON.parse(localStorage.getItem("quizHistory")||"[]"),t=document.getElementById("history-body");t.innerHTML="",0===e.length?t.innerHTML='<tr><td colspan="4" style="text-align: center;">Nenhum teste realizado ainda</td></tr>':e.forEach(e=>{const s=t.insertRow();s.innerHTML=`<td>${e.date}</td><td>${e.score}%</td><td>${e.correct}/${e.total}</td><td>${e.time}</td>`}),document.getElementById("quiz-start").classList.add("hidden"),document.getElementById("quiz-result").classList.add("hidden"),document.getElementById("history-section").classList.remove("hidden")}function hideHistory(){document.getElementById("history-section").classList.add("hidden"),document.getElementById("quiz-start").classList.remove("hidden")}function clearHistory(){confirm("Tem certeza que deseja limpar todo o histórico?")&&(localStorage.removeItem("quizHistory"),showHistory())}function calcMomentoFletor(){const e=parseFloat(document.getElementById("viga-carga").value),t=parseFloat(document.getElementById("viga-vao").value);if(e&&t){const s=e*t*t/8;document.getElementById("resultado-momento").textContent=`Momento Fletor Máximo: ${s.toFixed(2)} kN.m`,document.getElementById("resultado-momento").classList.remove("hidden")}}function calcFlambagem(){const e=1e3*parseFloat(document.getElementById("pilar-e").value),t=parseFloat(document.getElementById("pilar-i").value)/1e4,s=parseFloat(document.getElementById("pilar-l").value);if(e&&t&&s){const n=Math.PI*Math.PI*e*t/(s*s);document.getElementById("resultado-flambagem").textContent=`Carga Crítica de Euler: ${n.toFixed(2)} kN`,document.getElementById("resultado-flambagem").classList.remove("hidden")}}function calcTensaoNormal(){const e=parseFloat(document.getElementById("tensao-forca").value),t=parseFloat(document.getElementById("tensao-area").value);if(e&&t){const s=10*e/t;document.getElementById("resultado-tensao").textContent=`Tensão Normal: ${s.toFixed(2)} MPa`,document.getElementById("resultado-tensao").classList.remove("hidden")}}function calcTracoConcreto(){const e=parseFloat(document.getElementById("conc-fck").value),t=parseFloat(document.getElementById("conc-volume").value);if(e&&t){const s=350*t,n=700*t,c=1050*t,r=190*t;document.getElementById("resultado-traco").innerHTML=`Traço aproximado para ${e} MPa:<br>Cimento: ${s.toFixed(0)} kg<br>Areia: ${n.toFixed(0)} kg<br>Brita: ${c.toFixed(0)} kg<br>Água: ${r.toFixed(0)} L`,document.getElementById("resultado-traco").classList.remove("hidden")}}function calcAreaAco(){const e=parseFloat(document.getElementById("aco-momento").value),t=parseFloat(document.getElementById("aco-d").value),s=parseFloat(document.getElementById("aco-fck").value);if(e&&t&&s){const s=1e5*e/(43.5*.9*t);document.getElementById("resultado-aco").textContent=`Área de Aço necessária: ${s.toFixed(2)} cm²`,document.getElementById("resultado-aco").classList.remove("hidden")}}function calcCapacidadeCarga(){const e=parseFloat(document.getElementById("solo-coesao").value),t=parseFloat(document.getElementById("solo-angulo").value),s=parseFloat(document.getElementById("solo-largura").value);if(e&&t&&s){const n=t*Math.PI/180,c=5.14,r=e*c+.5*18*s*Math.tan(n);document.getElementById("resultado-capacidade").textContent=`Capacidade de Carga Última: ${r.toFixed(2)} kPa`,document.getElementById("resultado-capacidade").classList.remove("hidden")}}function calcRecalque(){const e=parseFloat(document.getElementById("rec-carga").value),t=parseFloat(document.getElementById("rec-area").value),s=parseFloat(document.getElementById("rec-modulo").value);if(e&&t&&s){const n=e/t/1e3/s;document.getElementById("resultado-recalque").textContent=`Recalque estimado: ${(1e3*n).toFixed(2)} mm`,document.getElementById("resultado-recalque").classList.remove("hidden")}}function calcVazao(){const e=parseFloat(document.getElementById("hid-diametro").value)/1e3,t=parseFloat(document.getElementById("hid-velocidade").value);if(e&&t){const s=Math.PI*e*e/4*t*1e3;document.getElementById("resultado-vazao").textContent=`Vazão: ${s.toFixed(2)} L/s`,document.getElementById("resultado-vazao").classList.remove("hidden")}}function calcPerdaCarga(){const e=parseFloat(document.getElementById("pc-comprimento").value),t=parseFloat(document.getElementById("pc-diametro").value)/1e3,s=parseFloat(document.getElementById("pc-velocidade").value);if(e&&t&&s){const n=.02*(e/t)*(s*s)/(2*9.81);document.getElementById("resultado-perda").textContent=`Perda de Carga: ${n.toFixed(2)} m`,document.getElementById("resultado-perda").classList.remove("hidden")}}function calcRumo(){const e=parseFloat(document.getElementById("az-angulo").value);if(null!==e&&!isNaN(e)){let t,s;e>=0&&e<=90?(t=e,s="NE"):e>90&&e<=180?(t=180-e,s="SE"):e>180&&e<=270?(t=e-180,s="SW"):(t=360-e,s="NW"),document.getElementById("resultado-rumo").textContent=`Rumo: ${t.toFixed(2)}° ${s}`,document.getElementById("resultado-rumo").classList.remove("hidden")}}function calcCoordenadas(){const e=parseFloat(document.getElementById("coord-distancia").value),t=parseFloat(document.getElementById("coord-azimute").value);if(e&&null!==t&&!isNaN(t)){const s=t*Math.PI/180,n=e*Math.sin(s),c=e*Math.cos(s);document.getElementById("resultado-coordenadas").innerHTML=`ΔX: ${n.toFixed(3)} m<br>ΔY: ${c.toFixed(3)} m`,document.getElementById("resultado-coordenadas").classList.remove("hidden")}}function showTab(e){document.querySelectorAll(".tab-content").forEach(e=>{e.classList.remove("active")}),document.querySelectorAll(".tab-btn").forEach(e=>{e.classList.remove("active")}),document.getElementById(`tab-${e}`).classList.add("active"),event.target.classList.add("active")}document.addEventListener("DOMContentLoaded",function(){const e=window.innerWidth<=768;function t(){const e=document.createElement("div");e.classList.add("heart"),e.innerHTML="♥",e.style.left=100*Math.random()+"vw",e.style.animationDuration=4*Math.random()+6+"s",e.style.fontSize=20*Math.random()+25+"px",e.style.color=`hsl(${30*Math.random()+330}, 100%, ${20*Math.random()+70}%)`,document.body.appendChild(e),setTimeout(()=>{e.remove()},11e3)}!function(){const t=e?10:25;for(let e=0;e<t;e++){const e=document.createElement("div");e.classList.add("particle"),e.style.left=100*Math.random()+"vw",e.style.top=100*Math.random()+"vh",e.style.animationDelay=5*Math.random()+"s",document.body.appendChild(e)}}(),setInterval(t,e?1500:800);const s=document.querySelector(".menu-toggle"),n=document.querySelector(".nav-links"),c=document.querySelector(".close-menu-btn");s.addEventListener("click",()=>{n.classList.toggle("active")}),c.addEventListener("click",()=>{n.classList.remove("active")})});
+const questions=[{question:"Em uma análise de estabilidade de taludes pelo método de Bishop Simplificado, qual das afirmações sobre o fator de segurança é INCORRETA?",options:["O método satisfaz o equilíbrio de momentos mas não o equilíbrio de forças horizontais","O fator de segurança é obtido por processo iterativo até a convergência","O método considera forças normais e tangenciais nas laterais das fatias","A superfície de ruptura é assumida como circular"],correct:2},{question:"Qual o valor aproximado da tensão característica de escoamento do aço CA-50?",options:["500 MPa","250 MPa","600 MPa","400 MPa"],correct:0},{question:"Considerando a NBR 6122, qual o coeficiente de segurança global mínimo para estacas?",options:["1,5","2,0","2,5","3,0"],correct:1},{question:"Qual o critério de ruptura mais utilizado para solos coesivos saturados não drenados?",options:["Critério de Mohr-Coulomb com φ = 0","Critério de Von Mises","Critério de Tresca","Critério de Drucker-Prager"],correct:0},{question:"Em terraplenagem, qual o valor típico do fator de empolamento para argila compacta?",options:["1,10 a 1,25","1,25 a 1,40","1,40 a 1,60","1,60 a 1,80"],correct:1},{question:"Qual tipo de cimento Portland é mais adequado para ambientes com sulfatos?",options:["CP I","CP II","CP V","CP RS"],correct:3},{question:"Qual ensaio determina a máxima densidade e umidade ótima de compactação?",options:["CBR","Triaxial","Proctor","Cisalhamento direto"],correct:2},{question:"No projeto de estruturas metálicas, qual fenômeno pode ocorrer em perfis esbeltos?",options:["Flambagem local","Escoamento dúctil","Fadiga estrutural","Corrosão"],correct:0},{question:"Em obras de contenção, qual muro trabalha por peso próprio?",options:["Flexão","Cortina atirantada","Gravidade","Solo grampeado"],correct:2},{question:"Qual o coeficiente de Manning típico para concreto alisado?",options:["0,010 a 0,013","0,013 a 0,017","0,017 a 0,020","0,020 a 0,025"],correct:0},{question:"No dimensionamento de sapatas, qual verificação relaciona-se ao puncionamento?",options:["Tensões normais","Tensões de cisalhamento junto ao pilar","Momento fletor","Recalque"],correct:1},{question:"Qual a classe de agressividade ambiental para ambientes marinhos?",options:["CAA I","CAA II","CAA III","CAA IV"],correct:3},{question:"Em barragens de terra, qual o gradiente hidráulico crítico para piping?",options:["0,5","1,0","2,0","5,0"],correct:1},{question:"Qual teoria é usada para dimensionar pavimentos rígidos?",options:["Boussinesq","Camadas elásticas","Westergaard","CBR"],correct:2},{question:"Qual o cobrimento mínimo para concreto em CAA III?",options:["20 mm","30 mm","40 mm","50 mm"],correct:2},{question:"Qual norma regulamenta projeto de estruturas de concreto no Brasil?",options:["NBR 6118","NBR 6120","NBR 6122","NBR 8800"],correct:0},{question:"Qual método de cravação é mais eficiente em solos arenosos?",options:["Bate-estacas vapor","Bate-estacas diesel","Vibro-cravação","Macaco hidráulico"],correct:2},{question:"Para NSPT = 15, qual a consistência da argila?",options:["Mole","Média","Rija","Dura"],correct:2},{question:"Qual o tempo mínimo de detenção em reservatórios de água potável?",options:["15 minutos","30 minutos","1 hora","2 horas"],correct:3},{question:"Em pré-dimensionamento de lajes, qual a relação h e vão?",options:["h = l/15","h = l/25","h = l/35","h = l/45"],correct:2},{question:"Qual o coeficiente de Poisson típico para concreto?",options:["0,10","0,20","0,30","0,40"],correct:1},{question:"Qual a superelevação máxima recomendada para vias urbanas?",options:["6%","8%","10%","12%"],correct:1},{question:"Qual tipo de solda é mais resistente a tração perpendicular?",options:["Filete","Entalhe penetração total","Tampão","Pontos"],correct:1},{question:"Qual o índice de vazios crítico para areia fofa susceptível à liquefação?",options:["e < 0,4","0,4 < e < 0,6","0,6 < e < 0,8","e > 0,8"],correct:3},{question:"Qual o critério de verificação ELS em vigas protendidas?",options:["Ruptura","Controle de fissuras e flechas","Cisalhamento","Ancoragem"],correct:1},{question:"Qual a inclinação máxima típica de rampa para ferrovias de carga?",options:["0,5%","1,0%","2,0%","3,0%"],correct:2},{question:"Qual o módulo de elasticidade do aço estrutural?",options:["150 GPa","190 GPa","210 GPa","250 GPa"],correct:2},{question:"O número de Froude representa a relação entre:",options:["Forças gravitacionais e viscosidade","Forças inerciais e gravitacionais","Forças de pressão e inerciais","Tensão superficial e gravitacionais"],correct:1},{question:"Principal diferença entre CAA e concreto convencional?",options:["Maior agregado graúdo","Maior teor de finos e superplastificantes","Menor relação água/cimento","Maior energia"],correct:1},{question:"Na dosagem Marshall, qual parâmetro indica resistência ao cisalhamento?",options:["Fluência","Estabilidade","Densidade","VAM"],correct:1}];
+
+let currentQuestions=[];let currentQuestionIndex=0;let score=0;let selectedAnswer=null;let timerInterval=null;let timeLeft=1800;let startTime=0;
+
+function showSection(sectionName){
+    document.querySelectorAll('.main-section').forEach(section=>{section.classList.add('hidden');});
+    document.getElementById(sectionName+'-section').classList.remove('hidden');
+    document.querySelector('.nav-links').classList.remove('active');
+}
+
+function startQuiz(){
+    currentQuestions=shuffleArray([...questions]).slice(0,30);
+    currentQuestionIndex=0;score=0;selectedAnswer=null;timeLeft=1800;startTime=Date.now();
+    document.getElementById('quiz-start').classList.add('hidden');
+    document.getElementById('quiz-active').classList.remove('hidden');
+    startTimer();displayQuestion();
+}
+
+function shuffleArray(array){
+    for(let i=array.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
+    }
+    return array;
+}
+
+function startTimer(){
+    updateTimerDisplay();
+    timerInterval=setInterval(()=>{
+        timeLeft--;updateTimerDisplay();
+        if(timeLeft<=0){endQuiz();}
+    },1000);
+}
+
+function updateTimerDisplay(){
+    const minutes=Math.floor(timeLeft/60);
+    const seconds=timeLeft%60;
+    document.getElementById('timer').textContent=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+}
+
+function displayQuestion(){
+    const question=currentQuestions[currentQuestionIndex];
+    document.getElementById('question-counter').textContent=`Questão ${currentQuestionIndex+1} de ${currentQuestions.length}`;
+    document.getElementById('question-text').textContent=question.question;
+    const optionsContainer=document.getElementById('options');
+    optionsContainer.innerHTML='';
+    question.options.forEach((option,index)=>{
+        const optionDiv=document.createElement('div');
+        optionDiv.className='option';
+        optionDiv.textContent=option;
+        optionDiv.onclick=()=>selectAnswer(index);
+        optionsContainer.appendChild(optionDiv);
+    });
+    selectedAnswer=null;
+}
+
+function selectAnswer(index){
+    selectedAnswer=index;
+    document.querySelectorAll('.option').forEach((opt,i)=>{
+        opt.classList.remove('selected');
+        if(i===index){opt.classList.add('selected');}
+    });
+}
+
+function nextQuestion(){
+    if(selectedAnswer!==null){
+        if(selectedAnswer===currentQuestions[currentQuestionIndex].correct){score++;}
+        currentQuestionIndex++;
+        if(currentQuestionIndex<currentQuestions.length){displayQuestion();}else{endQuiz();}
+    }else{alert('Por favor, selecione uma resposta antes de continuar.');}
+}
+
+function endQuiz(){
+    clearInterval(timerInterval);
+    const timeTaken=Math.floor((Date.now()-startTime)/1000);
+    const percentage=Math.round((score/currentQuestions.length)*100);
+    saveToHistory(percentage,score,timeTaken);
+    document.getElementById('quiz-active').classList.add('hidden');
+    document.getElementById('quiz-result').classList.remove('hidden');
+    document.getElementById('final-score').textContent=`${percentage}%`;
+    document.getElementById('result-text').textContent=`Você acertou ${score} de ${currentQuestions.length} questões`;
+    const minutes=Math.floor(timeTaken/60);
+    const seconds=timeTaken%60;
+    document.getElementById('time-taken').textContent=`Tempo utilizado: ${minutes}min ${seconds}s`;
+}
+
+function resetQuiz(){
+    document.getElementById('quiz-result').classList.add('hidden');
+    document.getElementById('quiz-start').classList.remove('hidden');
+}
+
+function saveToHistory(percentage,correct,time){
+    let history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('pt-BR');
+    const timeStr=now.toLocaleTimeString('pt-BR');
+    const minutes=Math.floor(time/60);
+    const seconds=time%60;
+    const timeDuration=`${minutes}min ${seconds}s`;
+    
+    history.unshift({
+        date:dateStr,
+        time:timeStr,
+        score:percentage,
+        correct:correct,
+        total:currentQuestions.length,
+        duration:timeDuration
+    });
+    
+    if(history.length>10){history.pop();}
+    localStorage.setItem('quizHistory',JSON.stringify(history));
+}
+
+function showHistory(){
+    const history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
+    const tbody=document.getElementById('history-body');
+    tbody.innerHTML='';
+    
+    if(history.length===0){
+        tbody.innerHTML='<tr><td colspan="4" style="text-align: center;">Nenhum teste realizado ainda</td></tr>';
+    }else{
+        history.forEach(item=>{
+            const row=tbody.insertRow();
+            row.innerHTML=`
+                <td>${item.date} ${item.time}</td>
+                <td>${item.score}%</td>
+                <td>${item.correct}/${item.total}</td>
+                <td>${item.duration}</td>
+            `;
+        });
+    }
+    
+    document.getElementById('quiz-start').style.display='none';
+    document.getElementById('history-section').classList.remove('hidden');
+}
+
+function hideHistory(){
+    document.getElementById('history-section').classList.add('hidden');
+    document.getElementById('quiz-start').style.display='block';
+}
+
+function clearHistory(){
+    if(confirm('Tem certeza que deseja limpar todo o histórico?')){
+        localStorage.removeItem('quizHistory');
+        showHistory();
+    }
+}
+
+function calcMomentoFletor(){
+    const carga=parseFloat(document.getElementById('viga-carga').value);
+    const vao=parseFloat(document.getElementById('viga-vao').value);
+    if(carga&&vao){
+        const momento=(carga*vao*vao)/8;
+        document.getElementById('resultado-momento').textContent=`Momento Fletor Máximo: ${momento.toFixed(2)} kN.m`;
+        document.getElementById('resultado-momento').classList.remove('hidden');
+    }
+}
+
+function calcFlambagem(){
+    const e=parseFloat(document.getElementById('pilar-e').value)*1000;
+    const i=parseFloat(document.getElementById('pilar-i').value)/10000;
+    const l=parseFloat(document.getElementById('pilar-l').value);
+    if(e&&i&&l){
+        const pcr=(Math.PI*Math.PI*e*i)/(l*l);
+        document.getElementById('resultado-flambagem').textContent=`Carga Crítica de Euler: ${pcr.toFixed(2)} kN`;
+        document.getElementById('resultado-flambagem').classList.remove('hidden');
+    }
+}
+
+function calcTensaoNormal(){
+    const forca=parseFloat(document.getElementById('tensao-forca').value);
+    const area=parseFloat(document.getElementById('tensao-area').value);
+    if(forca&&area){
+        const tensao=(forca*10)/area;
+        document.getElementById('resultado-tensao').textContent=`Tensão Normal: ${tensao.toFixed(2)} MPa`;
+        document.getElementById('resultado-tensao').classList.remove('hidden');
+    }
+}
+
+function calcTracoConcreto(){
+    const fck=parseFloat(document.getElementById('conc-fck').value);
+    const volume=parseFloat(document.getElementById('conc-volume').value);
+    if(fck&&volume){
+        const cimento=volume*350;
+        const areia=volume*700;
+        const brita=volume*1050;
+        const agua=volume*190;
+        document.getElementById('resultado-traco').innerHTML=`Traço aproximado para ${fck} MPa:<br>Cimento: ${cimento.toFixed(0)} kg<br>Areia: ${areia.toFixed(0)} kg<br>Brita: ${brita.toFixed(0)} kg<br>Água: ${agua.toFixed(0)} L`;
+        document.getElementById('resultado-traco').classList.remove('hidden');
+    }
+}
+
+function calcAreaAco(){
+    const momento=parseFloat(document.getElementById('aco-momento').value);
+    const d=parseFloat(document.getElementById('aco-d').value);
+    const fck=parseFloat(document.getElementById('aco-fck').value);
+    if(momento&&d&&fck){
+        const as=(momento*100000)/(43.5*0.9*d);
+        document.getElementById('resultado-aco').textContent=`Área de Aço necessária: ${as.toFixed(2)} cm²`;
+        document.getElementById('resultado-aco').classList.remove('hidden');
+    }
+}
+
+function calcCapacidadeCarga(){
+    const coesao=parseFloat(document.getElementById('solo-coesao').value);
+    const angulo=parseFloat(document.getElementById('solo-angulo').value);
+    const largura=parseFloat(document.getElementById('solo-largura').value);
+    if(coesao&&angulo&&largura){
+        const angleRad=angulo*Math.PI/180;
+        const Nc=5.14;
+        const qult=coesao*Nc+0.5*18*largura*Math.tan(angleRad);
+        document.getElementById('resultado-capacidade').textContent=`Capacidade de Carga Última: ${qult.toFixed(2)} kPa`;
+        document.getElementById('resultado-capacidade').classList.remove('hidden');
+    }
+}
+
+function calcRecalque(){
+    const carga=parseFloat(document.getElementById('rec-carga').value);
+    const area=parseFloat(document.getElementById('rec-area').value);
+    const modulo=parseFloat(document.getElementById('rec-modulo').value);
+    if(carga&&area&&modulo){
+        const tensao=carga/area;
+        const recalque=(tensao*1)/(modulo*1000);
+        document.getElementById('resultado-recalque').textContent=`Recalque estimado: ${(recalque*1000).toFixed(2)} mm`;
+        document.getElementById('resultado-recalque').classList.remove('hidden');
+    }
+}
+
+function calcVazao(){
+    const diametro=parseFloat(document.getElementById('hid-diametro').value)/1000;
+    const velocidade=parseFloat(document.getElementById('hid-velocidade').value);
+    if(diametro&&velocidade){
+        const area=Math.PI*diametro*diametro/4;
+        const vazao=area*velocidade*1000;
+        document.getElementById('resultado-vazao').textContent=`Vazão: ${vazao.toFixed(2)} L/s`;
+        document.getElementById('resultado-vazao').classList.remove('hidden');
+    }
+}
+
+function calcPerdaCarga(){
+    const comprimento=parseFloat(document.getElementById('pc-comprimento').value);
+    const diametro=parseFloat(document.getElementById('pc-diametro').value)/1000;
+    const velocidade=parseFloat(document.getElementById('pc-velocidade').value);
+    if(comprimento&&diametro&&velocidade){
+        const f=0.02;
+        const hf=f*(comprimento/diametro)*(velocidade*velocidade)/(2*9.81);
+        document.getElementById('resultado-perda').textContent=`Perda de Carga: ${hf.toFixed(2)} m`;
+        document.getElementById('resultado-perda').classList.remove('hidden');
+    }
+}
+
+function calcRumo(){
+    const azimute=parseFloat(document.getElementById('az-angulo').value);
+    if(azimute!==null&&!isNaN(azimute)){
+        let rumo,quadrante;
+        if(azimute>=0&&azimute<=90){rumo=azimute;quadrante='NE';}
+        else if(azimute>90&&azimute<=180){rumo=180-azimute;quadrante='SE';}
+        else if(azimute>180&&azimute<=270){rumo=azimute-180;quadrante='SW';}
+        else{rumo=360-azimute;quadrante='NW';}
+        document.getElementById('resultado-rumo').textContent=`Rumo: ${rumo.toFixed(2)}° ${quadrante}`;
+        document.getElementById('resultado-rumo').classList.remove('hidden');
+    }
+}
+
+function calcCoordenadas(){
+    const distancia=parseFloat(document.getElementById('coord-distancia').value);
+    const azimute=parseFloat(document.getElementById('coord-azimute').value);
+    if(distancia&&azimute!==null&&!isNaN(azimute)){
+        const azRad=azimute*Math.PI/180;
+        const deltaX=distancia*Math.sin(azRad);
+        const deltaY=distancia*Math.cos(azRad);
+        document.getElementById('resultado-coordenadas').innerHTML=`ΔX: ${deltaX.toFixed(3)} m<br>ΔY: ${deltaY.toFixed(3)} m`;
+        document.getElementById('resultado-coordenadas').classList.remove('hidden');
+    }
+}
+
+function showTab(tabName){
+    document.querySelectorAll('.tab-content').forEach(tab=>{tab.classList.remove('active');});
+    document.querySelectorAll('.tab-btn').forEach(btn=>{btn.classList.remove('active');});
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    event.target.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+    const isMobile=window.innerWidth<=768;
+    function createHeart(){
+        const heart=document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML='♥';
+        heart.style.left=Math.random()*100+'vw';
+        heart.style.animationDuration=Math.random()*4+6+'s';
+        heart.style.fontSize=Math.random()*20+25+'px';
+        heart.style.color=`hsl(${Math.random()*30+330}, 100%, ${Math.random()*20+70}%)`;
+        document.body.appendChild(heart);
+        setTimeout(()=>{heart.remove();},11000);
+    }
+    function createParticles(){
+        const particleCount=isMobile?10:25;
+        for(let i=0;i<particleCount;i++){
+            const particle=document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left=Math.random()*100+'vw';
+            particle.style.top=Math.random()*100+'vh';
+            particle.style.animationDelay=Math.random()*5+'s';
+            document.body.appendChild(particle);
+        }
+    }
+    setInterval(createHeart,isMobile?1500:800);
+    createParticles();
+    const menuToggle=document.querySelector('.menu-toggle');
+    const navLinks=document.querySelector('.nav-links');
+    const closeMenuBtn=document.querySelector('.close-menu-btn');
+    menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
+    closeMenuBtn.addEventListener('click',()=>{navLinks.classList.remove('active');});
+});
 </script>
 </body>
 </html>
