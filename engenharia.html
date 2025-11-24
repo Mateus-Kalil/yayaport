@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engenharia | Yasmim Nathalie</title>
+    <link rel="icon" href="yaya1.png" type="image/x-icon" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #FF6B9D; --secondary: #C44569; --accent: #FFA07A;
+            --purple: #9B59B6; --light-pink: #FFE5EC; --dark: #2C3E50; --light: #ECF0F1;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
+            color: var(--dark); overflow-x: hidden; position: relative;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+                radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+            pointer-events: none; z-index: 0;
+        }
+        .heart {
+            position: fixed; top: -10vh; font-size: 45px; color: var(--primary); opacity: 0;
+            animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
+            z-index: 1; pointer-events: none; will-change: transform, opacity;
+            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6)) drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 107, 157, 0.5);
+        }
+        @keyframes fall3D {
+            0% { top: -10vh; opacity: 0; transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5); }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { top: 110vh; opacity: 0; transform: translateX(100px) translateZ(100px) rotateY(360deg) scale(1.2); }
+        }
+        @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .particle {
+            position: fixed; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%; pointer-events: none; animation: float 6s ease-in-out infinite;
+            z-index: 1; will-change: transform;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-20px) translateX(20px); } }
+        nav {
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px); padding: 1rem 2rem; z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+            animation: slideDown 0.5s ease-out;
+        }
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo {
+            font-size: 1.5rem; font-weight: bold;
+            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; cursor: pointer;
+        }
+        .menu-toggle {
+            display: flex; flex-direction: column; justify-content: space-around;
+            width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 1002;
+        }
+        .menu-toggle .bar { width: 100%; height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease-in-out; }
+        .nav-links {
+            position: fixed; top: 0; right: -100%; width: 250px; height: 100%;
+            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+            align-items: center; justify-content: center; transition: right 0.4s ease-in-out; z-index: 1001;
+        }
+        .nav-links.active { right: 0; }
+        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 2rem; text-align: center; width: 100%; }
+        .nav-links a {
+            text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 500;
+            transition: color 0.3s; font-size: 1.2rem; padding: 0.5rem; cursor: pointer;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .close-menu-btn {
+            position: absolute; top: 2rem; right: 2rem; background: none; border: none;
+            color: white; font-size: 2rem; cursor: pointer; transition: transform 0.3s, color 0.3s;
+        }
+        .close-menu-btn:hover { color: var(--primary); transform: rotate(90deg); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .main-section {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding-top: 100px; padding-bottom: 50px; position: relative; z-index: 10;
+        }
+        .section-content { width: 100%; max-width: 1200px; }
+        .hero-content {
+            text-align: center; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+            padding: 3rem; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 157, 0.3); animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-content h1 {
+            font-size: 3rem; margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;
+        }
+        .hero-content .subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; }
+        .hero-content p { color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 2rem; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: white; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); }
+        .content-card {
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9);
+        }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .menu-card {
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 3rem 2rem;
+            text-align: center; cursor: pointer; transition: all 0.3s;
+        }
+        .menu-card:hover {
+            transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .menu-card h3 { color: white; font-size: 1.8rem; margin-bottom: 1rem; }
+        .menu-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+        .btn {
+            display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none;
+            font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; margin: 0.5rem;
+            position: relative; overflow: hidden; cursor: pointer; border: none; font-size: 1rem;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); color: white; }
+        .btn-primary::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #000000 0%, var(--purple) 100%); transition: left 0.3s; z-index: 0;
+        }
+        .btn-primary:hover::before { left: 0; }
+        .btn span { position: relative; z-index: 1; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4); }
+        .btn-success { background: linear-gradient(135deg, #27ae60 0%, #16a085 100%); color: white; }
+        .btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
+        .btn-info { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; }
+        .btn-back { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; margin-top: 2rem; }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .timer {
+            background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; padding: 1rem 2rem;
+            border-radius: 15px; font-size: 1.5rem; font-weight: bold; color: white;
+        }
+        .question-counter {
+            background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; padding: 1rem 2rem;
+            border-radius: 15px; font-size: 1.2rem; color: white;
+        }
+        .question-card { background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
+        .question-text { font-size: 1.3rem; color: white; margin-bottom: 2rem; line-height: 1.6; }
+        .options { display: flex; flex-direction: column; gap: 1rem; }
+        .option {
+            background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 107, 157, 0.3);
+            padding: 1.5rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;
+        }
+        .option:hover { background: rgba(255, 107, 157, 0.2); border-color: var(--primary); transform: translateX(10px); }
+        .option.selected { background: rgba(155, 89, 182, 0.3); border-color: var(--purple); }
+        .result-card { text-align: center; padding: 3rem; }
+        .result-card h2 { font-size: 2.5rem; color: white; margin-bottom: 2rem; }
+        .score-display {
+            font-size: 4rem; font-weight: bold;
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem;
+        }
+        .history-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        .history-table th, .history-table td {
+            padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .history-table th { background: rgba(155, 89, 182, 0.3); font-weight: bold; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+        }
+        .calculator-card h3 { color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .calc-input {
+            width: 100%; padding: 0.8rem; margin-bottom: 1rem; border-radius: 10px;
+            border: 2px solid rgba(255, 107, 157, 0.3); background: rgba(255, 255, 255, 0.05);
+            color: white; font-size: 1rem;
+        }
+        .calc-input:focus { outline: none; border-color: var(--primary); }
+        .calc-result {
+            background: rgba(155, 89, 182, 0.2); border: 2px solid var(--purple);
+            padding: 1rem; border-radius: 10px; margin-top: 1rem; color: white; font-weight: bold;
+        }
+        .formula-card {
+            background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 15px;
+            margin-bottom: 1.5rem; border-left: 4px solid var(--primary);
+        }
+        .formula-card h4 { color: white; margin-bottom: 0.5rem; }
+        .formula-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+        .topography-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .topo-card {
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+        }
+        .topo-card h3 { color: #f39c12; margin-bottom: 1rem; font-size: 1.4rem; }
+        .topo-card ul { list-style: none; padding-left: 0; }
+        .topo-card li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.85); }
+        .topo-card li::before { content: '▸'; position: absolute; left: 0; color: var(--primary); }
+        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 1rem 2rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 107, 157, 0.3);
+            border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s;
+        }
+        .tab-btn.active { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); border-color: var(--purple); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2rem; }
+            .hero-content .subtitle { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .quiz-header { flex-direction: column; }
+            .calculator-grid, .topography-grid { grid-template-columns: 1fr; }
+            .content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
+            nav { background-color: rgba(44, 62, 80, 0.5); }
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo" onclick="window.location.href='https://yasmim.pro/'">Yasmim Nathalie</div>
+            <div class="nav-links">
+                <button class="close-menu-btn">&times;</button>
+                <ul>
+                    <li><a onclick="showSection('home')">Início</a></li>
+                    <li><a onclick="showSection('teste')">Teste de Conhecimento</a></li>
+                    <li><a onclick="showSection('calculos')">Calculadoras</a></li>
+                    <li><a onclick="showSection('topografia')">Topografia</a></li>
+                    <li><a href="https://yasmim.pro/">Voltar ao Portfólio</a></li>
+                </ul>
+            </div>
+            <button class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home-section" class="main-section">
+        <div class="section-content">
+            <div class="hero-content">
+                <h1>Engenharia Profissional</h1>
+                <p class="subtitle">Ferramentas, Cálculos e Conhecimento Técnico</p>
+                <p>Plataforma completa com teste de conhecimento avançado, calculadoras profissionais e conteúdo técnico para engenheiros civis.</p>
+                <div class="menu-grid">
+                    <div class="menu-card" onclick="showSection('teste')">
+                        <h3>Teste de Conhecimento</h3>
+                        <p>Desafie-se com 30 questões difíceis de engenharia civil. Teste completo com timer de 30 minutos e histórico de resultados.</p>
+                    </div>
+                    <div class="menu-card" onclick="showSection('calculos')">
+                        <h3>Calculadoras</h3>
+                        <p>Ferramentas profissionais para cálculos de estruturas, concreto, solos e hidráulica com fórmulas e referências técnicas.</p>
+                    </div>
+                    <div class="menu-card" onclick="showSection('topografia')">
+                        <h3>Topografia</h3>
+                        <p>Conteúdo completo sobre topografia com calculadoras especializadas, fundamentos teóricos e aplicações práticas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="teste-section" class="main-section hidden">
+        <div class="section-content">
+            <div class="container">
+                <h2 class="section-title">Teste de Conhecimento</h2>
+                <div id="quiz-start">
+                    <div class="content-card" style="text-align: center;">
+                        <h3 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Desafio de Engenharia Civil</h3>
+                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Teste seus conhecimentos com 30 questões difíceis de engenharia civil. Você terá 30 minutos para completar o teste.</p>
+                        <div style="margin-bottom: 2rem;">
+                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 questões</p>
+                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 minutos</p>
+                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">Nível: Avançado</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="startQuiz()"><span>Iniciar Teste</span></button>
+                        <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
+                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                    </div>
+                    <div id="history-section" class="content-card hidden">
+                        <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1.5rem;">Histórico de Testes</h3>
+                        <table class="history-table" id="history-table">
+                            <thead><tr><th>Data</th><th>Pontuação</th><th>Acertos</th><th>Tempo</th></tr></thead>
+                            <tbody id="history-body"></tbody>
+                        </table>
+                        <button class="btn btn-danger" onclick="clearHistory()" style="margin-top: 1rem;"><span>Limpar Histórico</span></button>
+                        <button class="btn btn-primary" onclick="hideHistory()" style="margin-top: 1rem;"><span>Voltar</span></button>
+                    </div>
+                </div>
+                <div id="quiz-active" class="hidden">
+                    <div class="content-card">
+                        <div class="quiz-header">
+                            <div class="timer" id="timer">30:00</div>
+                            <div class="question-counter" id="question-counter">Questão 1 de 30</div>
+                        </div>
+                        <div class="question-card" id="question-card">
+                            <div class="question-text" id="question-text"></div>
+                            <div class="options" id="options"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button class="btn btn-primary" onclick="nextQuestion()"><span>Próxima</span></button>
+                            <button class="btn btn-danger" onclick="endQuiz()"><span>Finalizar Teste</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="quiz-result" class="hidden">
+                    <div class="content-card result-card">
+                        <h2>Teste Concluído!</h2>
+                        <div class="score-display" id="final-score">0</div>
+                        <p style="color: white; font-size: 1.3rem;" id="result-text"></p>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-top: 1rem;" id="time-taken"></p>
+                        <button class="btn btn-primary" onclick="resetQuiz()"><span>Fazer Novamente</span></button>
+                        <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
+                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculos-section" class="main-section hidden">
+        <div class="section-content"><div class="container">
+            <h2 class="section-title">Calculadoras Profissionais</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('estruturas')">Estruturas</button>
+                <button class="tab-btn" onclick="showTab('concreto')">Concreto</button>
+                <button class="tab-btn" onclick="showTab('solo')">Solos</button>
+                <button class="tab-btn" onclick="showTab('hidraulica')">Hidráulica</button>
+            </div>
+            <div id="tab-estruturas" class="tab-content active">
+                <div class="calculator-grid">
+                    <div class="calculator-card">
+                        <h3>Momento Fletor</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Calcula o momento fletor máximo em vigas</p>
+                        <input type="number" class="calc-input" id="viga-carga" placeholder="Carga (kN)">
+                        <input type="number" class="calc-input" id="viga-vao" placeholder="Vão (m)">
+                        <button class="btn btn-success" onclick="calcMomentoFletor()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-momento"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Flambagem de Pilares</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Cálculo da carga crítica de Euler</p>
+                        <input type="number" class="calc-input" id="pilar-e" placeholder="Módulo E (GPa)">
+                        <input type="number" class="calc-input" id="pilar-i" placeholder="Inércia I (cm⁴)">
+                        <input type="number" class="calc-input" id="pilar-l" placeholder="Comprimento L (m)">
+                        <button class="btn btn-success" onclick="calcFlambagem()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-flambagem"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Tensão Normal</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">σ = N / A</p>
+                        <input type="number" class="calc-input" id="tensao-forca" placeholder="Força Normal (kN)">
+                        <input type="number" class="calc-input" id="tensao-area" placeholder="Área (cm²)">
+                        <button class="btn btn-success" onclick="calcTensaoNormal()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-tensao"></div>
+                    </div>
+                </div>
+                <div class="content-card" style="margin-top: 2rem;">
+                    <h3 style="color: white; margin-bottom: 1.5rem;">Fórmulas Importantes</h3>
+                    <div class="formula-card">
+                        <h4>Momento Fletor Máximo (Viga Biapoiada)</h4>
+                        <p>M = (q × L²) / 8</p>
+                        <p>Onde: q = carga distribuída, L = vão da viga</p>
+                    </div>
+                    <div class="formula-card">
+                        <h4>Carga Crítica de Euler</h4>
+                        <p>Pcr = (π² × E × I) / L²</p>
+                        <p>Onde: E = módulo de elasticidade, I = momento de inércia, L = comprimento</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-concreto" class="tab-content">
+                <div class="calculator-grid">
+                    <div class="calculator-card">
+                        <h3>Traço de Concreto</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Dosagem de materiais para concreto</p>
+                        <input type="number" class="calc-input" id="conc-fck" placeholder="fck desejado (MPa)">
+                        <input type="number" class="calc-input" id="conc-volume" placeholder="Volume (m³)">
+                        <button class="btn btn-success" onclick="calcTracoConcreto()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-traco"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Área de Aço</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Armadura longitudinal</p>
+                        <input type="number" class="calc-input" id="aco-momento" placeholder="Momento (kN.m)">
+                        <input type="number" class="calc-input" id="aco-d" placeholder="Altura útil d (cm)">
+                        <input type="number" class="calc-input" id="aco-fck" placeholder="fck (MPa)">
+                        <button class="btn btn-success" onclick="calcAreaAco()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-aco"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-solo" class="tab-content">
+                <div class="calculator-grid">
+                    <div class="calculator-card">
+                        <h3>Capacidade de Carga</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Fórmula de Terzaghi</p>
+                        <input type="number" class="calc-input" id="solo-coesao" placeholder="Coesão (kPa)">
+                        <input type="number" class="calc-input" id="solo-angulo" placeholder="Ângulo de atrito (°)">
+                        <input type="number" class="calc-input" id="solo-largura" placeholder="Largura sapata (m)">
+                        <button class="btn btn-success" onclick="calcCapacidadeCarga()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-capacidade"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Recalque de Fundação</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Estimativa de recalque</p>
+                        <input type="number" class="calc-input" id="rec-carga" placeholder="Carga (kN)">
+                        <input type="number" class="calc-input" id="rec-area" placeholder="Área (m²)">
+                        <input type="number" class="calc-input" id="rec-modulo" placeholder="Módulo solo (MPa)">
+                        <button class="btn btn-success" onclick="calcRecalque()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-recalque"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-hidraulica" class="tab-content">
+                <div class="calculator-grid">
+                    <div class="calculator-card">
+                        <h3>Vazão em Tubulações</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Q = A × v</p>
+                        <input type="number" class="calc-input" id="hid-diametro" placeholder="Diâmetro (mm)">
+                        <input type="number" class="calc-input" id="hid-velocidade" placeholder="Velocidade (m/s)">
+                        <button class="btn btn-success" onclick="calcVazao()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-vazao"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Perda de Carga</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Equação de Darcy-Weisbach</p>
+                        <input type="number" class="calc-input" id="pc-comprimento" placeholder="Comprimento (m)">
+                        <input type="number" class="calc-input" id="pc-diametro" placeholder="Diâmetro (mm)">
+                        <input type="number" class="calc-input" id="pc-velocidade" placeholder="Velocidade (m/s)">
+                        <button class="btn btn-success" onclick="calcPerdaCarga()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-perda"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+        </div></div>
+    </section>
+
+    <section id="topografia-section" class="main-section hidden">
+        <div class="section-content"><div class="container">
+            <h2 class="section-title">Topografia</h2>
+            <div class="content-card" style="margin-bottom: 2rem;">
+                <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">Fundamentos de Topografia</h3>
+                <p style="line-height: 1.8; margin-bottom: 1rem;">A topografia é a ciência que estuda os métodos e procedimentos para realizar levantamentos e representações da superfície terrestre. É fundamental para projetos de engenharia civil, permitindo a elaboração de plantas, perfis e modelos digitais do terreno.</p>
+            </div>
+            <div class="topography-grid">
+                <div class="topo-card">
+                    <h3>Planimetria</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano horizontal</p>
+                    <ul>
+                        <li>Medição de distâncias horizontais</li>
+                        <li>Determinação de ângulos horizontais</li>
+                        <li>Métodos de levantamento planimétrico</li>
+                        <li>Coordenadas planas (X, Y)</li>
+                    </ul>
+                </div>
+                <div class="topo-card">
+                    <h3>Altimetria</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano vertical</p>
+                    <ul>
+                        <li>Determinação de diferenças de nível</li>
+                        <li>Nivelamento geométrico</li>
+                        <li>Nivelamento trigonométrico</li>
+                        <li>Curvas de nível</li>
+                    </ul>
+                </div>
+                <div class="topo-card">
+                    <h3>Equipamentos</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Instrumentos topográficos</p>
+                    <ul>
+                        <li>Estação Total</li>
+                        <li>Nível Ótico e Digital</li>
+                        <li>GPS/GNSS RTK</li>
+                        <li>Drone para fotogrametria</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content-card" style="margin-top: 2rem;">
+                <h3 style="color: white; margin-bottom: 1.5rem;">Cálculos Topográficos</h3>
+                <div class="calculator-grid">
+                    <div class="calculator-card">
+                        <h3>Azimute e Rumo</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Conversão de direções</p>
+                        <input type="number" class="calc-input" id="az-angulo" placeholder="Azimute (°)">
+                        <button class="btn btn-success" onclick="calcRumo()"><span>Converter</span></button>
+                        <div class="calc-result hidden" id="resultado-rumo"></div>
+                    </div>
+                    <div class="calculator-card">
+                        <h3>Coordenadas</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Cálculo de coordenadas</p>
+                        <input type="number" class="calc-input" id="coord-distancia" placeholder="Distância (m)">
+                        <input type="number" class="calc-input" id="coord-azimute" placeholder="Azimute (°)">
+                        <button class="btn btn-success" onclick="calcCoordenadas()"><span>Calcular</span></button>
+                        <div class="calc-result hidden" id="resultado-coordenadas"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+        </div></div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Yasmim Nathalie - Engenharia Civil</p>
+            <p>Plataforma de Conhecimento Técnico</p>
+        </div>
+    </footer>
+<script>
+const questions=[{question:"Em uma análise de estabilidade de taludes pelo método de Bishop Simplificado, qual das afirmações sobre o fator de segurança é INCORRETA?",options:["O método satisfaz o equilíbrio de momentos mas não o equilíbrio de forças horizontais","O fator de segurança é obtido por processo iterativo até a convergência","O método considera forças normais e tangenciais nas laterais das fatias","A superfície de ruptura é assumida como circular"],correct:2},{question:"No dimensionamento de uma laje nervurada segundo a NBR 6118, qual o limite máximo para a relação entre a distância entre eixos de nervuras e a altura total da laje?",options:["65 cm ou 8 vezes a espessura da mesa","80 cm ou 10 vezes a espessura da mesa","75 cm ou 12 vezes a espessura da mesa","90 cm ou 15 vezes a espessura da mesa"],correct:0},{question:"Qual o valor aproximado da tensão característica de escoamento do aço CA-50 utilizado em estruturas de concreto armado?",options:["500 MPa","250 MPa","600 MPa","400 MPa"],correct:0},{question:"Considerando a NBR 6122 (Projeto e Execução de Fundações), qual o coeficiente de segurança global mínimo para estacas submetidas a esforços de compressão?",options:["1,5","2,0","2,5","3,0"],correct:1},{question:"Qual o critério de ruptura mais utilizado para análise de resistência de solos coesivos saturados em condições não drenadas?",options:["Critério de Mohr-Coulomb com φ = 0","Critério de Von Mises","Critério de Tresca","Critério de Drucker-Prager"],correct:0},{question:"Em terraplenagem, qual o valor típico do fator de empolamento para argila compacta?",options:["1,10 a 1,25","1,25 a 1,40","1,40 a 1,60","1,60 a 1,80"],correct:1},{question:"Qual tipo de cimento Portland é mais adequado para obras em ambientes com alta concentração de sulfatos?",options:["CP I - Cimento Portland Comum","CP II - Cimento Portland Composto","CP V - Cimento Portland de Alta Resistência Inicial","CP RS - Cimento Portland Resistente a Sulfatos"],correct:3},{question:"Qual ensaio de laboratório determina a máxima densidade e a umidade ótima de compactação de um solo?",options:["Ensaio de CBR","Ensaio triaxial","Ensaio de Proctor","Ensaio de cisalhamento direto"],correct:2},{question:"No projeto de estruturas metálicas, qual o fenômeno que pode ocorrer em perfis de alma esbelta submetidos a compressão ou flexão?",options:["Flambagem local","Escoamento dúctil","Fadiga estrutural","Corrosão sob tensão"],correct:0},{question:"Em obras de contenção, qual tipo de muro é caracterizado por trabalhar predominantemente por peso próprio?",options:["Muro de flexão","Cortina atirantada","Muro de gravidade","Solo grampeado"],correct:2},{question:"Qual o coeficiente de Manning (n) típico para concreto alisado em canais?",options:["0,010 a 0,013","0,013 a 0,017","0,017 a 0,020","0,020 a 0,025"],correct:0},{question:"No dimensionamento de sapatas, qual verificação está relacionada ao puncionamento?",options:["Tensões normais no concreto","Tensões de cisalhamento junto ao pilar","Momento fletor na seção crítica","Recalque diferencial"],correct:1},{question:"Qual a classe de agressividade ambiental (CAA) segundo NBR 6118 para ambientes marinhos?",options:["CAA I - Fraca","CAA II - Moderada","CAA III - Forte","CAA IV - Muito Forte"],correct:3},{question:"Em barragens de terra, qual o gradiente hidráulico crítico que pode causar piping?",options:["i ≈ 0,5","i ≈ 1,0","i ≈ 2,0","i ≈ 5,0"],correct:1},{question:"No projeto de ligações parafusadas em estruturas metálicas, qual o modo de ruptura mais desejável?",options:["Esmagamento da parede do furo","Cisalhamento do parafuso","Ruptura da seção líquida da chapa","Rasgamento entre furos"],correct:1},{question:"Qual teoria é utilizada para dimensionamento de pavimentos rígidos de concreto?",options:["Teoria elástica de Boussinesq","Teoria das camadas elásticas","Teoria de placas sobre base elástica (Westergaard)","Teoria do CBR"],correct:2},{question:"Qual o cobrimento mínimo para elementos estruturais de concreto em CAA III (forte)?",options:["20 mm","30 mm","40 mm","50 mm"],correct:2},{question:"Qual norma regulamenta o projeto de estruturas de concreto no Brasil?",options:["NBR 6118","NBR 6120","NBR 6122","NBR 8800"],correct:0},{question:"Em fundações profundas, qual o método de cravação de estacas pré-moldadas mais eficiente em solos arenosos?",options:["Bate-estacas a vapor","Bate-estacas diesel","Vibro-cravação","Macaco hidráulico"],correct:2},{question:"Em sondagens SPT, qual a correlação aproximada entre NSPT e consistência de argilas para NSPT = 15?",options:["Argila mole","Argila média","Argila rija","Argila dura"],correct:2},{question:"No projeto de reservatórios de água potável, qual o tempo mínimo de detenção recomendado?",options:["15 minutos","30 minutos","1 hora","2 horas"],correct:3},{question:"Em pré-dimensionamento de lajes maciças, qual a relação aproximada entre altura da laje (h) e menor vão (ℓ)?",options:["h = ℓ/15","h = ℓ/25","h = ℓ/35","h = ℓ/45"],correct:2},{question:"Qual o coeficiente de Poisson típico para concreto?",options:["0,10","0,20","0,30","0,40"],correct:1},{question:"Em estradas, qual a superelevação máxima recomendada pelo DNIT para vias urbanas?",options:["6%","8%","10%","12%"],correct:1},{question:"Na análise de ligações soldadas, qual tipo de solda é mais resistente a esforços de tração perpendicular ao cordão?",options:["Solda de filete","Solda de entalhe com penetração total","Solda de tampão","Solda por pontos"],correct:1},{question:"Qual o índice de vazios crítico que caracteriza estado de areia fofa susceptível à liquefação?",options:["e < 0,4","0,4 < e < 0,6","0,6 < e < 0,8","e > 0,8"],correct:3},{question:"No dimensionamento de vigas de concreto protendido, qual o critério de verificação no estado limite de serviço (ELS)?",options:["Resistência à ruptura","Controle de fissuras e flechas","Resistência ao cisalhamento","Ancoragem das armaduras"],correct:1},{question:"Em projetos ferroviários, qual a inclinação máxima típica de rampa para ferrovias de carga?",options:["0,5%","1,0%","2,0%","3,0%"],correct:2},{question:"Qual o módulo de elasticidade do aço estrutural (E)?",options:["150 GPa","190 GPa","210 GPa","250 GPa"],correct:2},{question:"Em hidráulica de canais, o número de Froude representa a relação entre:",options:["Forças gravitacionais e forças de viscosidade","Forças inerciais e forças gravitacionais","Forças de pressão e forças inerciais","Forças de tensão superficial e forças gravitacionais"],correct:1},{question:"Qual a principal diferença entre concreto auto-adensável (CAA) e concreto convencional vibrado?",options:["O CAA possui maior teor de agregado graúdo","O CAA possui maior teor de finos e aditivos superplastificantes","O CAA possui menor relação água/cimento","O CAA necessita de maior energia de adensamento"],correct:1},{question:"Na dosagem Marshall para misturas asfálticas, qual parâmetro indica a resistência ao cisalhamento?",options:["Fluência","Estabilidade","Densidade aparente","Vazios no agregado mineral (VAM)"],correct:1},{question:"Em instalações hidrossanitárias prediais, qual a pressão dinâmica mínima na saída de qualquer peça de utilização conforme NBR 5626?",options:["5 kPa","10 kPa","15 kPa","20 kPa"],correct:1},{question:"No método dos elementos finitos aplicado a análise estrutural, o que garante a convergência da solução?",options:["Apenas a continuidade das funções de forma","Apenas a compatibilidade dos elementos","Completude e compatibilidade das funções de forma","Apenas o refinamento da malha"],correct:2},{question:"Em geotecnia ferroviária, qual o módulo de via (K) típico para lastro de pedra britada?",options:["0,02 a 0,05 N/mm³","0,05 a 0,15 N/mm³","0,15 a 0,30 N/mm³","0,30 a 0,50 N/mm³"],correct:1},{question:"Em análise sísmica de estruturas, qual o período fundamental de vibração para um edifício de 10 pavimentos em concreto armado (aproximadamente)?",options:["0,5 segundos","1,0 segundo","1,5 segundos","2,0 segundos"],correct:1},{question:"Qual método de escavação de túneis utiliza um escudo mecânico com cabeça de corte rotativa (TBM)?",options:["NATM (New Austrian Tunneling Method)","Método Belga","Shield Method","Cut and Cover"],correct:2},{question:"Em concreto protendido, qual a perda imediata típica por atrito em cabos curvos?",options:["1% a 5%","5% a 15%","15% a 25%","25% a 35%"],correct:1},{question:"Na teoria de Terzaghi para capacidade de carga de fundações superficiais, qual fator de capacidade de carga NÃO depende do ângulo de atrito interno do solo?",options:["Nc (fator de capacidade de carga relacionado à coesão)","Nq (fator de capacidade de carga relacionado à sobrecarga)","Nγ (fator de capacidade de carga relacionado ao peso próprio)","Todos os fatores dependem do ângulo de atrito"],correct:3},{question:"Em um ensaio de adensamento unidimensional, o coeficiente de adensamento (cv) pode ser determinado por qual(is) método(s)?",options:["Apenas pelo método de Casagrande (raiz do tempo)","Apenas pelo método de Taylor (logaritmo do tempo)","Pelos métodos de Casagrande e Taylor","Apenas pelo método de Terzaghi"],correct:2},{question:"Na análise de tensões em barragens de gravidade, qual método é tradicionalmente usado para verificação da estabilidade ao tombamento?",options:["Método dos elementos finitos","Método das diferenças finitas","Método das tensões efetivas","Método das forças resultantes (critério do núcleo central)"],correct:3},{question:"Em pontes de concreto protendido, qual das seguintes afirmações sobre perdas de protensão é VERDADEIRA?",options:["As perdas por atrito ocorrem apenas em protensão pré-tracionada","A relaxação do aço é uma perda progressiva que ocorre ao longo do tempo","As perdas por encunhamento ocorrem apenas em protensão pós-tracionada","A fluência do concreto causa perda instantânea de protensão"],correct:1},{question:"No dimensionamento de pilares de concreto armado pelo método do pilar-padrão com curvatura aproximada, qual a esbeltez limite para dispensa da consideração de efeitos de segunda ordem?",options:["λ ≤ 35","λ ≤ 56","λ ≤ 90","λ ≤ 140"],correct:2},{question:"Segundo a teoria de placas de Kirchhoff, qual condição de contorno NÃO é válida?",options:["Deslocamento prescrito","Momento fletor prescrito","Força cortante prescrita","Deformação por cisalhamento transversal considerada"],correct:3},{question:"No projeto de pavimentos flexíveis pelo método do DNIT, qual camada tem a função principal de impedir a ascensão de finos e água por capilaridade?",options:["Sub-base","Base","Revestimento","Reforço do subleito"],correct:0},{question:"Em análise estrutural, qual o grau de hiperestaticidade de um pórtico plano com 5 nós, 6 barras e 2 apoios (1 fixo e 1 móvel)?",options:["Grau 3","Grau 6","Grau 9","Grau 12"],correct:2},{question:"Em ensaios triaxiais, qual condição representa o ensaio CU (consolidado não drenado)?",options:["Consolidação permitida, drenagem durante cisalhamento permitida","Consolidação não permitida, drenagem durante cisalhamento não permitida","Consolidação permitida, drenagem durante cisalhamento não permitida","Consolidação não permitida, drenagem durante cisalhamento permitida"],correct:2},{question:"Em pontes, qual o esforço característico que deve ser considerado na análise de aparelhos de apoio?",options:["Apenas carga vertical permanente","Carga vertical, deformações e rotações","Apenas momento fletor","Apenas esforço cortante"],correct:1},{question:"No cálculo de esforços em arcos, qual é o principal efeito da carga móvel?",options:["Aumento do empuxo horizontal","Variação do empuxo horizontal","Redução da linha de pressão","Aumento uniforme dos esforços"],correct:1},{question:"Na análise de estruturas hiperestáticas pelo método da distribuição de momentos (Hardy Cross), qual condição deve ser satisfeita?",options:["Equilíbrio de forças em cada nó","Equilíbrio de momentos em cada nó","Compatibilidade de deslocamentos","Soma dos momentos distribuídos igual a zero em cada nó"],correct:3}];let currentQuestions=[],currentQuestionIndex=0,score=0,selectedAnswer=null,timerInterval=null,timeLeft=1800,startTime=0;function showSection(e){document.querySelectorAll(".main-section").forEach(e=>{e.classList.add("hidden")}),document.getElementById(e+"-section").classList.remove("hidden"),document.querySelector(".nav-links").classList.remove("active")}function startQuiz(){currentQuestions=shuffleArray([...questions]).slice(0,30),currentQuestionIndex=0,score=0,selectedAnswer=null,timeLeft=1800,startTime=Date.now(),document.getElementById("quiz-start").classList.add("hidden"),document.getElementById("quiz-active").classList.remove("hidden"),startTimer(),displayQuestion()}function shuffleArray(e){for(let t=e.length-1;t>0;t--){const s=Math.floor(Math.random()*(t+1));[e[t],e[s]]=[e[s],e[t]]}return e}function startTimer(){updateTimerDisplay(),timerInterval=setInterval(()=>{timeLeft--,updateTimerDisplay(),timeLeft<=0&&endQuiz()},1e3)}function updateTimerDisplay(){const e=Math.floor(timeLeft/60),t=timeLeft%60;document.getElementById("timer").textContent=`${e.toString().padStart(2,"0")}:${t.toString().padStart(2,"0")}`}function displayQuestion(){const e=currentQuestions[currentQuestionIndex];document.getElementById("question-counter").textContent=`Questão ${currentQuestionIndex+1} de ${currentQuestions.length}`,document.getElementById("question-text").textContent=e.question;const t=document.getElementById("options");t.innerHTML="",e.options.forEach((e,s)=>{const n=document.createElement("div");n.className="option",n.textContent=e,n.onclick=()=>selectAnswer(s),t.appendChild(n)}),selectedAnswer=null}function selectAnswer(e){selectedAnswer=e,document.querySelectorAll(".option").forEach((t,s)=>{t.classList.remove("selected"),s===e&&t.classList.add("selected")})}function nextQuestion(){null!==selectedAnswer?(selectedAnswer===currentQuestions[currentQuestionIndex].correct&&score++,currentQuestionIndex++,currentQuestionIndex<currentQuestions.length?displayQuestion():endQuiz()):alert("Por favor, selecione uma resposta antes de continuar.")}function endQuiz(){clearInterval(timerInterval);const e=Math.floor((Date.now()-startTime)/1e3),t=Math.round(score/currentQuestions.length*100);saveToHistory(t,score,e),document.getElementById("quiz-active").classList.add("hidden"),document.getElementById("quiz-result").classList.remove("hidden"),document.getElementById("final-score").textContent=`${t}%`,document.getElementById("result-text").textContent=`Você acertou ${score} de ${currentQuestions.length} questões`;const s=Math.floor(e/60),n=e%60;document.getElementById("time-taken").textContent=`Tempo utilizado: ${s}min ${n}s`}function resetQuiz(){document.getElementById("quiz-result").classList.add("hidden"),document.getElementById("quiz-start").classList.remove("hidden")}function saveToHistory(e,t,s){const n=JSON.parse(localStorage.getItem("quizHistory")||"[]"),c=(new Date).toLocaleDateString("pt-BR"),r=Math.floor(s/60),i=s%60,o=`${r}min ${i}s`;n.unshift({date:c,score:e,correct:t,total:currentQuestions.length,time:o}),n.length>10&&n.pop(),localStorage.setItem("quizHistory",JSON.stringify(n))}function showHistory(){const e=JSON.parse(localStorage.getItem("quizHistory")||"[]"),t=document.getElementById("history-body");t.innerHTML="",0===e.length?t.innerHTML='<tr><td colspan="4" style="text-align: center;">Nenhum teste realizado ainda</td></tr>':e.forEach(e=>{const s=t.insertRow();s.innerHTML=`<td>${e.date}</td><td>${e.score}%</td><td>${e.correct}/${e.total}</td><td>${e.time}</td>`}),document.getElementById("quiz-start").classList.add("hidden"),document.getElementById("quiz-result").classList.add("hidden"),document.getElementById("history-section").classList.remove("hidden")}function hideHistory(){document.getElementById("history-section").classList.add("hidden"),document.getElementById("quiz-start").classList.remove("hidden")}function clearHistory(){confirm("Tem certeza que deseja limpar todo o histórico?")&&(localStorage.removeItem("quizHistory"),showHistory())}function calcMomentoFletor(){const e=parseFloat(document.getElementById("viga-carga").value),t=parseFloat(document.getElementById("viga-vao").value);if(e&&t){const s=e*t*t/8;document.getElementById("resultado-momento").textContent=`Momento Fletor Máximo: ${s.toFixed(2)} kN.m`,document.getElementById("resultado-momento").classList.remove("hidden")}}function calcFlambagem(){const e=1e3*parseFloat(document.getElementById("pilar-e").value),t=parseFloat(document.getElementById("pilar-i").value)/1e4,s=parseFloat(document.getElementById("pilar-l").value);if(e&&t&&s){const n=Math.PI*Math.PI*e*t/(s*s);document.getElementById("resultado-flambagem").textContent=`Carga Crítica de Euler: ${n.toFixed(2)} kN`,document.getElementById("resultado-flambagem").classList.remove("hidden")}}function calcTensaoNormal(){const e=parseFloat(document.getElementById("tensao-forca").value),t=parseFloat(document.getElementById("tensao-area").value);if(e&&t){const s=10*e/t;document.getElementById("resultado-tensao").textContent=`Tensão Normal: ${s.toFixed(2)} MPa`,document.getElementById("resultado-tensao").classList.remove("hidden")}}function calcTracoConcreto(){const e=parseFloat(document.getElementById("conc-fck").value),t=parseFloat(document.getElementById("conc-volume").value);if(e&&t){const s=350*t,n=700*t,c=1050*t,r=190*t;document.getElementById("resultado-traco").innerHTML=`Traço aproximado para ${e} MPa:<br>Cimento: ${s.toFixed(0)} kg<br>Areia: ${n.toFixed(0)} kg<br>Brita: ${c.toFixed(0)} kg<br>Água: ${r.toFixed(0)} L`,document.getElementById("resultado-traco").classList.remove("hidden")}}function calcAreaAco(){const e=parseFloat(document.getElementById("aco-momento").value),t=parseFloat(document.getElementById("aco-d").value),s=parseFloat(document.getElementById("aco-fck").value);if(e&&t&&s){const s=1e5*e/(43.5*.9*t);document.getElementById("resultado-aco").textContent=`Área de Aço necessária: ${s.toFixed(2)} cm²`,document.getElementById("resultado-aco").classList.remove("hidden")}}function calcCapacidadeCarga(){const e=parseFloat(document.getElementById("solo-coesao").value),t=parseFloat(document.getElementById("solo-angulo").value),s=parseFloat(document.getElementById("solo-largura").value);if(e&&t&&s){const n=t*Math.PI/180,c=5.14,r=e*c+.5*18*s*Math.tan(n);document.getElementById("resultado-capacidade").textContent=`Capacidade de Carga Última: ${r.toFixed(2)} kPa`,document.getElementById("resultado-capacidade").classList.remove("hidden")}}function calcRecalque(){const e=parseFloat(document.getElementById("rec-carga").value),t=parseFloat(document.getElementById("rec-area").value),s=parseFloat(document.getElementById("rec-modulo").value);if(e&&t&&s){const n=e/t/1e3/s;document.getElementById("resultado-recalque").textContent=`Recalque estimado: ${(1e3*n).toFixed(2)} mm`,document.getElementById("resultado-recalque").classList.remove("hidden")}}function calcVazao(){const e=parseFloat(document.getElementById("hid-diametro").value)/1e3,t=parseFloat(document.getElementById("hid-velocidade").value);if(e&&t){const s=Math.PI*e*e/4*t*1e3;document.getElementById("resultado-vazao").textContent=`Vazão: ${s.toFixed(2)} L/s`,document.getElementById("resultado-vazao").classList.remove("hidden")}}function calcPerdaCarga(){const e=parseFloat(document.getElementById("pc-comprimento").value),t=parseFloat(document.getElementById("pc-diametro").value)/1e3,s=parseFloat(document.getElementById("pc-velocidade").value);if(e&&t&&s){const n=.02*(e/t)*(s*s)/(2*9.81);document.getElementById("resultado-perda").textContent=`Perda de Carga: ${n.toFixed(2)} m`,document.getElementById("resultado-perda").classList.remove("hidden")}}function calcRumo(){const e=parseFloat(document.getElementById("az-angulo").value);if(null!==e&&!isNaN(e)){let t,s;e>=0&&e<=90?(t=e,s="NE"):e>90&&e<=180?(t=180-e,s="SE"):e>180&&e<=270?(t=e-180,s="SW"):(t=360-e,s="NW"),document.getElementById("resultado-rumo").textContent=`Rumo: ${t.toFixed(2)}° ${s}`,document.getElementById("resultado-rumo").classList.remove("hidden")}}function calcCoordenadas(){const e=parseFloat(document.getElementById("coord-distancia").value),t=parseFloat(document.getElementById("coord-azimute").value);if(e&&null!==t&&!isNaN(t)){const s=t*Math.PI/180,n=e*Math.sin(s),c=e*Math.cos(s);document.getElementById("resultado-coordenadas").innerHTML=`ΔX: ${n.toFixed(3)} m<br>ΔY: ${c.toFixed(3)} m`,document.getElementById("resultado-coordenadas").classList.remove("hidden")}}function showTab(e){document.querySelectorAll(".tab-content").forEach(e=>{e.classList.remove("active")}),document.querySelectorAll(".tab-btn").forEach(e=>{e.classList.remove("active")}),document.getElementById(`tab-${e}`).classList.add("active"),event.target.classList.add("active")}document.addEventListener("DOMContentLoaded",function(){const e=window.innerWidth<=768;function t(){const e=document.createElement("div");e.classList.add("heart"),e.innerHTML="♥",e.style.left=100*Math.random()+"vw",e.style.animationDuration=4*Math.random()+6+"s",e.style.fontSize=20*Math.random()+25+"px",e.style.color=`hsl(${30*Math.random()+330}, 100%, ${20*Math.random()+70}%)`,document.body.appendChild(e),setTimeout(()=>{e.remove()},11e3)}!function(){const t=e?10:25;for(let e=0;e<t;e++){const e=document.createElement("div");e.classList.add("particle"),e.style.left=100*Math.random()+"vw",e.style.top=100*Math.random()+"vh",e.style.animationDelay=5*Math.random()+"s",document.body.appendChild(e)}}(),setInterval(t,e?1500:800);const s=document.querySelector(".menu-toggle"),n=document.querySelector(".nav-links"),c=document.querySelector(".close-menu-btn");s.addEventListener("click",()=>{n.classList.toggle("active")}),c.addEventListener("click",()=>{n.classList.remove("active")})});
+</script>
+</body>
+</html>
