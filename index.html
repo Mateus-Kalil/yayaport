@@ -27,6 +27,8 @@
 
         html {
             scroll-behavior: smooth;
+            height: 100%;
+            width: 100%;
         }
 
         body {
@@ -35,6 +37,8 @@
             color: var(--dark);
             overflow-x: hidden;
             position: relative;
+            min-height: 100%;
+            width: 100%;
         }
 
         body::before {
@@ -692,7 +696,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000000;
+            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -710,6 +714,11 @@
         }
 
         @media (max-width: 768px) {
+            html, body {
+                width: 100%;
+                overflow-x: hidden;
+            }
+
             .loading-video {
                 object-fit: contain;
                 object-position: center;
