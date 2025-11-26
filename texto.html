@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasmim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .theme-feminine {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd4eb 100%);
+        }
+
+        .theme-dark {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .theme-futuristic {
+            background: linear-gradient(135deg, #001a33 0%, #003d66 50%, #0059a3 100%);
+            color: #ffffff;
+        }
+
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(180, 180, 180, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100vw); }
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(transparent, currentColor);
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        .snowflake {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50%;
+            animation: snow linear infinite;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes snow {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .petal {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50% 0 50% 0;
+            animation: petal-fall linear infinite;
+            box-shadow: 0 0 15px currentColor;
+            opacity: 0.9;
+        }
+
+        @keyframes petal-fall {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        .leaf {
+            position: absolute;
+            background: currentColor;
+            border-radius: 0 50% 50% 0;
+            animation: leaf-fall linear infinite;
+            opacity: 0.85;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes leaf-fall {
+            to { transform: translateY(100vh) rotate(-360deg); }
+        }
+
+        .feather {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50% 0;
+            animation: feather-fall ease-in-out infinite;
+            opacity: 0.9;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        @keyframes feather-fall {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            50% { transform: translateY(50vh) translateX(30px) rotate(180deg); }
+            100% { transform: translateY(100vh) translateX(0) rotate(360deg); }
+        }
+
+        .rose {
+            position: absolute;
+            animation: rose-fall linear infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes rose-fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .heart {
+            position: absolute;
+            animation: heart-fall linear infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+            position: relative;
+        }
+
+        @keyframes heart-fall {
+            to { transform: translateY(100vh) rotate(180deg); }
+        }
+
+        .star {
+            position: absolute;
+            animation: star-fall linear infinite;
+            filter: drop-shadow(0 0 15px currentColor);
+            position: relative;
+        }
+
+        @keyframes star-fall {
+            to { transform: translateY(100vh) rotate(-360deg); }
+        }
+
+        .butterfly {
+            position: absolute;
+            animation: butterfly-fall ease-in-out infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes butterfly-fall {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(25vh) translateX(-20px) rotate(90deg); }
+            50% { transform: translateY(50vh) translateX(20px) rotate(180deg); }
+            75% { transform: translateY(75vh) translateX(-20px) rotate(270deg); }
+            100% { transform: translateY(100vh) translateX(0) rotate(360deg); }
+        }
+
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .welcome-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .welcome-content h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .welcome-content input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .theme-selector {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .theme-option {
+            padding: 20px;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-option.selected {
+            border-color: #e91e63;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .toolbar {
+            background: rgba(255, 255, 255, 0.76);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .theme-dark .toolbar {
+            background: rgba(30, 30, 30, 0.76);
+            color: white;
+        }
+
+        .theme-futuristic .toolbar {
+            background: rgba(0, 40, 80, 0.76);
+            color: white;
+        }
+
+        .toolbar-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #e91e63;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .toolbar-btn:hover {
+            background: #c2185b;
+            transform: translateY(-2px);
+        }
+
+        .toolbar-btn.active {
+            background: #9c27b0;
+            box-shadow: 0 0 10px rgba(156, 39, 176, 0.5);
+        }
+
+        .toolbar-select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .theme-dark .toolbar-select {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .toolbar-select {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .toolbar-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 150px;
+        }
+
+        .theme-dark .toolbar-input {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .toolbar-input {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 30px;
+            background: #ddd;
+            margin: 0 5px;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .editor-container {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.68);
+        }
+
+        .theme-dark .editor-container {
+            background: rgba(20, 20, 20, 0.68);
+        }
+
+        .theme-futuristic .editor-container {
+            background: rgba(0, 30, 60, 0.68);
+        }
+
+        .editor-page {
+            width: 21cm;
+            min-height: 29.7cm;
+            background: white;
+            padding: 2cm;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .theme-dark .editor-page {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .theme-futuristic .editor-page {
+            background: #002040;
+            color: white;
+        }
+
+        .editor-content {
+            min-height: 25.7cm;
+            outline: none;
+            font-size: 12pt;
+            line-height: 1.5;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .editor-content img {
+            max-width: 100%;
+            height: auto;
+            cursor: move;
+        }
+
+        .editor-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .editor-content table td,
+        .editor-content table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .status-bar {
+            background: rgba(250, 250, 250, 0.76);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 12px;
+        }
+
+        .theme-dark .status-bar {
+            background: rgba(30, 30, 30, 0.76);
+        }
+
+        .theme-futuristic .status-bar {
+            background: rgba(0, 40, 80, 0.76);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .theme-dark .modal-content {
+            background: #2a2a2a;
+            color: white;
+        }
+
+        .theme-futuristic .modal-content {
+            background: rgba(0, 50, 100, 0.95);
+            color: white;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e91e63;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #e91e63;
+        }
+
+        .settings-group {
+            margin: 20px 0;
+        }
+
+        .settings-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .settings-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .theme-dark .settings-select {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .settings-select {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-greeting {
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        .find-replace-container {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .find-replace-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .theme-dark .find-replace-input {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .find-replace-input {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .table-creator {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+            gap: 2px;
+            margin: 15px 0;
+        }
+
+        .table-cell-preview {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .table-cell-preview:hover,
+        .table-cell-preview.active {
+            background: #e91e63;
+        }
+
+        .image-upload-zone {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload-zone:hover {
+            border-color: #e91e63;
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .theme-dark .dropdown-content {
+            background: #333;
+        }
+
+        .theme-futuristic .dropdown-content {
+            background: rgba(0, 60, 120, 0.95);
+        }
+
+        .dropdown-content div {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dropdown-content div:hover {
+            background: #e91e63;
+            color: white;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        @media print {
+            .toolbar,
+            .status-bar,
+            .animation-container {
+                display: none !important;
+            }
+
+            .editor-container {
+                background: white;
+                padding: 0;
+            }
+
+            .editor-page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-container" id="animationContainer"></div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <h1>Bem-vindo ao YayaWord</h1>
+            <p>Por favor, digite seu nome:</p>
+            <input type="text" id="usernameInput" placeholder="Seu nome" />
+            
+            <p style="margin-top: 20px;">Escolha seu tema:</p>
+            <div class="theme-selector">
+                <div class="theme-option" data-theme="feminine" onclick="selectTheme('feminine')">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffeef8, #ffd4eb); border-radius: 10px;"></div>
+                    <p>Feminino</p>
+                </div>
+                <div class="theme-option" data-theme="dark" onclick="selectTheme('dark')">
+                    <div style="width: 80px; height: 80px; background: #0a0a0a; border-radius: 10px;"></div>
+                    <p>Dark</p>
+                </div>
+                <div class="theme-option" data-theme="futuristic" onclick="selectTheme('futuristic')">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #001a33, #0059a3); border-radius: 10px;"></div>
+                    <p>Futurista</p>
+                </div>
+            </div>
+            
+            <button class="btn-start" onclick="startApp()">Começar</button>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <div class="toolbar">
+            <div class="logo">Yasmim</div>
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="newDocument()" title="Novo (Ctrl+N)">Novo</button>
+            <button class="toolbar-btn" onclick="saveDocument()" title="Salvar (Ctrl+S)">Salvar</button>
+            <button class="toolbar-btn" onclick="openDocuments()" title="Abrir">Abrir</button>
+            <button class="toolbar-btn" onclick="printDocument()" title="Imprimir (Ctrl+P)">Imprimir</button>
+            
+            <div class="dropdown">
+                <button class="toolbar-btn" onclick="toggleDropdown('exportDropdown')">Exportar</button>
+                <div class="dropdown-content" id="exportDropdown">
+                    <div onclick="exportHTML()">Exportar como HTML</div>
+                    <div onclick="exportPDF()">Exportar como PDF</div>
+                    <div onclick="exportText()">Exportar como TXT</div>
+                </div>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="undo()" title="Desfazer (Ctrl+Z)">↶</button>
+            <button class="toolbar-btn" onclick="redo()" title="Refazer (Ctrl+Y)">↷</button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <select class="toolbar-select" onchange="changeFontFamily(this.value)">
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Arial">Arial</option>
+                <option value="Calibri">Calibri</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Comic Sans MS">Comic Sans MS</option>
+                <option value="Impact">Impact</option>
+            </select>
+            
+            <select class="toolbar-select" onchange="changeFontSize(this.value)">
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12" selected>12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="24">24</option>
+                <option value="28">28</option>
+                <option value="32">32</option>
+                <option value="36">36</option>
+                <option value="48">48</option>
+                <option value="72">72</option>
+            </select>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="formatBold()" title="Negrito (Ctrl+B)" id="boldBtn"><b>B</b></button>
+            <button class="toolbar-btn" onclick="formatItalic()" title="Itálico (Ctrl+I)" id="italicBtn"><i>I</i></button>
+            <button class="toolbar-btn" onclick="formatUnderline()" title="Sublinhado (Ctrl+U)" id="underlineBtn"><u>U</u></button>
+            <button class="toolbar-btn" onclick="formatStrikethrough()" title="Tachado">S̶</button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <input type="color" class="color-picker" id="textColorPicker" title="Cor do texto" onchange="changeTextColor(this.value)">
+            <input type="color" class="color-picker" id="bgColorPicker" title="Cor de fundo" onchange="changeBackgroundColor(this.value)">
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="alignLeft()" title="Alinhar à esquerda">Esquerda</button>
+            <button class="toolbar-btn" onclick="alignCenter()" title="Centralizar">Centro</button>
+            <button class="toolbar-btn" onclick="alignRight()" title="Alinhar à direita">Direita</button>
+            <button class="toolbar-btn" onclick="alignJustify()" title="Justificar">Justificar</button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="insertUnorderedList()" title="Lista não ordenada">Lista</button>
+            <button class="toolbar-btn" onclick="insertOrderedList()" title="Lista ordenada">Lista Num.</button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="insertLink()" title="Inserir link (Ctrl+K)">Link</button>
+            <button class="toolbar-btn" onclick="insertImage()" title="Inserir imagem">Imagem</button>
+            <button class="toolbar-btn" onclick="insertTable()" title="Inserir tabela">Tabela</button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <select class="toolbar-select" onchange="applyHeading(this.value)">
+                <option value="">Parágrafo</option>
+                <option value="h1">Título 1</option>
+                <option value="h2">Título 2</option>
+                <option value="h3">Título 3</option>
+                <option value="h4">Título 4</option>
+                <option value="h5">Título 5</option>
+                <option value="h6">Título 6</option>
+            </select>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="openFindReplace()" title="Localizar (Ctrl+F)">Localizar</button>
+            <button class="toolbar-btn" onclick="openSettings()" title="Configurações">Config</button>
+            
+            <div class="user-greeting" id="userGreeting"></div>
+        </div>
+
+        <div class="editor-container" id="editorContainer">
+            <div class="editor-page">
+                <div class="editor-content" id="editorContent" contenteditable="true"></div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div>
+                <span id="wordCount">Palavras: 0</span> | 
+                <span id="charCount">Caracteres: 0</span> | 
+                <span id="lineCount">Linhas: 1</span>
+            </div>
+            <div id="statusMessage">Pronto</div>
+        </div>
+    </div>
+
+    <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+    <input type="file" id="documentInput" accept=".html,.txt" onchange="handleDocumentImport(event)">
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('settingsModal')">×</span>
+            <div class="modal-header">Configurações</div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Nome de Usuário:</label>
+                <input type="text" id="settingsUsername" class="toolbar-input" style="width: 100%;" />
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Tema:</label>
+                <select id="settingsTheme" class="settings-select" onchange="changeTheme(this.value)">
+                    <option value="feminine">Feminino</option>
+                    <option value="dark">Dark</option>
+                    <option value="futuristic">Futurista</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Animação de Fundo:</label>
+                <select id="settingsAnimation" class="settings-select" onchange="changeAnimation(this.value)">
+                    <option value="none">Nenhuma</option>
+                    <option value="clouds">Nuvens</option>
+                    <option value="rain">Chuva</option>
+                    <option value="snow">Neve</option>
+                    <option value="petals">Pétalas</option>
+                    <option value="leaves">Folhas</option>
+                    <option value="feathers">Penas</option>
+                    <option value="roses">Rosas</option>
+                    <option value="hearts">Corações</option>
+                    <option value="stars">Estrelas</option>
+                    <option value="butterflies">Borboletas</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Cor da Animação:</label>
+                <div class="color-picker-group">
+                    <input type="color" id="animationColorPicker" class="color-picker" value="#ff69b4" onchange="updateAnimationColor(this.value)" />
+                    <button class="toolbar-btn" onclick="resetAnimationColor()">Resetar Cor</button>
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Cor dos Botões:</label>
+                <select id="settingsButtonColor" class="settings-select" onchange="changeButtonColor(this.value)">
+                    <option value="pink">Rosa/Roxo</option>
+                    <option value="blue">Azul</option>
+                </select>
+            </div>
+            
+            <button class="btn-start" onclick="saveSettings()">Salvar Configurações</button>
+        </div>
+    </div>
+
+    <div class="modal" id="findReplaceModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('findReplaceModal')">×</span>
+            <div class="modal-header">Localizar e Substituir</div>
+            
+            <div class="find-replace-container">
+                <input type="text" id="findInput" class="find-replace-input" placeholder="Localizar..." />
+                <button class="toolbar-btn" onclick="findText()">Localizar</button>
+                <button class="toolbar-btn" onclick="findNext()">Próximo</button>
+            </div>
+            
+            <div class="find-replace-container">
+                <input type="text" id="replaceInput" class="find-replace-input" placeholder="Substituir por..." />
+                <button class="toolbar-btn" onclick="replaceText()">Substituir</button>
+                <button class="toolbar-btn" onclick="replaceAll()">Substituir Tudo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="tableModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('tableModal')">×</span>
+            <div class="modal-header">Inserir Tabela</div>
+            
+            <p>Linhas: <input type="number" id="tableRows" value="3" min="1" max="20" style="width: 60px;" /></p>
+            <p>Colunas: <input type="number" id="tableCols" value="3" min="1" max="20" style="width: 60px;" /></p>
+            
+            <button class="btn-start" onclick="createTable()">Criar Tabela</button>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('imageModal')">×</span>
+            <div class="modal-header">Inserir Imagem</div>
+            
+            <div class="image-upload-zone" onclick="document.getElementById('imageInput').click()">
+                <p>Clique para selecionar uma imagem</p>
+                <p style="font-size: 12px; color: #999;">ou cole (Ctrl+V) diretamente no documento</p>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <label class="settings-label">URL da Imagem:</label>
+                <input type="text" id="imageUrlInput" class="toolbar-input" style="width: 100%;" placeholder="https://..." />
+                <button class="btn-start" onclick="insertImageFromUrl()" style="margin-top: 10px;">Inserir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="documentsModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('documentsModal')">×</span>
+            <div class="modal-header">Documentos Salvos</div>
+            
+            <div id="documentsList"></div>
+            
+            <button class="btn-start" onclick="closeModal('documentsModal')">Fechar</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let selectedTheme = 'feminine';
+        let selectedAnimation = 'petals';
+        let animationColor = '#ff69b4';
+        let buttonColor = 'pink';
+        let username = '';
+        let documents = [];
+        let currentDocId = null;
+        let searchResults = [];
+        let currentSearchIndex = -1;
+        let history = [];
+        let historyIndex = -1;
+
+        function selectTheme(theme) {
+            selectedTheme = theme;
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-theme="${theme}"]`).classList.add('selected');
+        }
+
+        function startApp() {
+            const usernameInput = document.getElementById('usernameInput').value.trim();
+            if (!usernameInput) {
+                alert('Por favor, digite seu nome!');
+                return;
+            }
+            
+            username = usernameInput;
+            
+            if (selectedTheme === 'feminine') {
+                selectedAnimation = 'petals';
+                animationColor = '#ff69b4';
+            } else if (selectedTheme === 'dark') {
+                selectedAnimation = 'rain';
+                animationColor = '#87ceeb';
+            } else {
+                selectedAnimation = 'snow';
+                animationColor = '#00d4ff';
+            }
+            
+            localStorage.setItem('yasmim_username', username);
+            localStorage.setItem('yasmim_theme', selectedTheme);
+            localStorage.setItem('yasmim_animation', selectedAnimation);
+            localStorage.setItem('yasmim_animation_color', animationColor);
+            localStorage.setItem('yasmim_button_color', buttonColor);
+            localStorage.setItem('yasmim_first_time', 'false');
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.body.className = `theme-${selectedTheme}`;
+            document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+            
+            applyButtonColor();
+            initializeApp();
+        }
+
+        function initializeApp() {
+            createAnimation();
+            loadDocuments();
+            setupEventListeners();
+            updateStatusBar();
+        }
+
+        function createAnimation() {
+            const container = document.getElementById('animationContainer');
+            container.innerHTML = '';
+            
+            if (selectedAnimation === 'none') return;
+            
+            const color = animationColor;
+            
+            if (selectedAnimation === 'clouds') {
+                for (let i = 0; i < 8; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'cloud particle';
+                    cloud.style.width = `${Math.random() * 120 + 120}px`;
+                    cloud.style.height = `${Math.random() * 60 + 60}px`;
+                    cloud.style.top = `${Math.random() * 80}%`;
+                    cloud.style.animationDelay = `${Math.random() * 10}s`;
+                    cloud.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                    container.appendChild(cloud);
+                }
+            }
+            
+            if (selectedAnimation === 'rain') {
+                for (let i = 0; i < 150; i++) {
+                    const drop = document.createElement('div');
+                    drop.className = 'rain-drop particle';
+                    drop.style.left = `${Math.random() * 100}%`;
+                    drop.style.color = color;
+                    drop.style.animationDuration = `${Math.random() * 0.3 + 0.4}s`;
+                    drop.style.animationDelay = `${Math.random() * 2}s`;
+                    container.appendChild(drop);
+                }
+            }
+            
+            if (selectedAnimation === 'snow') {
+                for (let i = 0; i < 80; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake particle';
+                    const size = Math.random() * 8 + 5;
+                    flake.style.width = `${size}px`;
+                    flake.style.height = `${size}px`;
+                    flake.style.left = `${Math.random() * 100}%`;
+                    flake.style.color = color;
+                    flake.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                    flake.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(flake);
+                }
+            }
+            
+            if (selectedAnimation === 'petals') {
+                for (let i = 0; i < 50; i++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal particle';
+                    const size = Math.random() * 20 + 12;
+                    petal.style.width = `${size}px`;
+                    petal.style.height = `${size}px`;
+                    petal.style.left = `${Math.random() * 100}%`;
+                    petal.style.color = color;
+                    petal.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                    petal.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(petal);
+                }
+            }
+            
+            if (selectedAnimation === 'leaves') {
+                for (let i = 0; i < 40; i++) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'leaf particle';
+                    leaf.style.width = `${Math.random() * 25 + 18}px`;
+                    leaf.style.height = `${Math.random() * 30 + 22}px`;
+                    leaf.style.left = `${Math.random() * 100}%`;
+                    leaf.style.color = color;
+                    leaf.style.animationDuration = `${Math.random() * 5 + 7}s`;
+                    leaf.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(leaf);
+                }
+            }
+            
+            if (selectedAnimation === 'feathers') {
+                for (let i = 0; i < 35; i++) {
+                    const feather = document.createElement('div');
+                    feather.className = 'feather particle';
+                    feather.style.width = `${Math.random() * 12 + 10}px`;
+                    feather.style.height = `${Math.random() * 35 + 30}px`;
+                    feather.style.left = `${Math.random() * 100}%`;
+                    feather.style.color = color;
+                    feather.style.animationDuration = `${Math.random() * 5 + 10}s`;
+                    feather.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(feather);
+                }
+            }
+            
+            if (selectedAnimation === 'roses') {
+                for (let i = 0; i < 25; i++) {
+                    const rose = document.createElement('div');
+                    rose.className = 'rose particle';
+                    rose.style.width = '20px';
+                    rose.style.height = '20px';
+                    rose.style.borderRadius = '50% 0';
+                    rose.style.background = color;
+                    rose.style.left = `${Math.random() * 100}%`;
+                    rose.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                    rose.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(rose);
+                }
+            }
+            
+            if (selectedAnimation === 'hearts') {
+                for (let i = 0; i < 30; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart particle';
+                    heart.style.width = '20px';
+                    heart.style.height = '20px';
+                    heart.style.background = color;
+                    heart.style.transform = 'rotate(45deg)';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.animationDuration = `${Math.random() * 5 + 10}s`;
+                    heart.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(heart);
+                    
+                    const before = document.createElement('div');
+                    before.style.position = 'absolute';
+                    before.style.width = '20px';
+                    before.style.height = '20px';
+                    before.style.background = color;
+                    before.style.borderRadius = '50%';
+                    before.style.top = '-10px';
+                    before.style.left = '0';
+                    heart.appendChild(before);
+                    
+                    const after = document.createElement('div');
+                    after.style.position = 'absolute';
+                    after.style.width = '20px';
+                    after.style.height = '20px';
+                    after.style.background = color;
+                    after.style.borderRadius = '50%';
+                    after.style.top = '0';
+                    after.style.left = '-10px';
+                    heart.appendChild(after);
+                }
+            }
+            
+            if (selectedAnimation === 'stars') {
+                for (let i = 0; i < 40; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star particle';
+                    star.style.width = '0';
+                    star.style.height = '0';
+                    star.style.borderLeft = '8px solid transparent';
+                    star.style.borderRight = '8px solid transparent';
+                    star.style.borderBottom = `16px solid ${color}`;
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.animationDuration = `${Math.random() * 4 + 7}s`;
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(star);
+                }
+            }
+            
+            if (selectedAnimation === 'butterflies') {
+                for (let i = 0; i < 20; i++) {
+                    const butterfly = document.createElement('div');
+                    butterfly.className = 'butterfly particle';
+                    butterfly.style.width = '25px';
+                    butterfly.style.height = '15px';
+                    butterfly.style.background = color;
+                    butterfly.style.borderRadius = '50% 50% 0 0';
+                    butterfly.style.left = `${Math.random() * 100}%`;
+                    butterfly.style.animationDuration = `${Math.random() * 8 + 12}s`;
+                    butterfly.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(butterfly);
+                }
+            }
+        }
+
+        function applyButtonColor() {
+            const style = document.getElementById('buttonColorStyle') || document.createElement('style');
+            style.id = 'buttonColorStyle';
+            
+            if (buttonColor === 'blue') {
+                style.innerHTML = `
+                    .toolbar-btn {
+                        background: #2196F3 !important;
+                    }
+                    .toolbar-btn:hover {
+                        background: #1976D2 !important;
+                    }
+                    .toolbar-btn.active {
+                        background: #0D47A1 !important;
+                    }
+                    .btn-start {
+                        background: linear-gradient(135deg, #2196F3, #1565C0) !important;
+                    }
+                    .logo {
+                        background: linear-gradient(135deg, #2196F3, #1565C0) !important;
+                        -webkit-background-clip: text !important;
+                        -webkit-text-fill-color: transparent !important;
+                        background-clip: text !important;
+                    }
+                    .modal-header, .modal-close, .welcome-content h1 {
+                        color: #2196F3 !important;
+                    }
+                    .theme-option.selected {
+                        border-color: #2196F3 !important;
+                        box-shadow: 0 5px 20px rgba(33, 150, 243, 0.5) !important;
+                    }
+                    .welcome-content input {
+                        border-color: #2196F3 !important;
+                    }
+                `;
+            } else {
+                style.innerHTML = `
+                    .toolbar-btn {
+                        background: #e91e63 !important;
+                    }
+                    .toolbar-btn:hover {
+                        background: #c2185b !important;
+                    }
+                    .toolbar-btn.active {
+                        background: #9c27b0 !important;
+                    }
+                    .btn-start {
+                        background: linear-gradient(135deg, #e91e63, #9c27b0) !important;
+                    }
+                    .logo {
+                        background: linear-gradient(135deg, #e91e63, #9c27b0) !important;
+                        -webkit-background-clip: text !important;
+                        -webkit-text-fill-color: transparent !important;
+                        background-clip: text !important;
+                    }
+                    .modal-header, .modal-close, .welcome-content h1 {
+                        color: #e91e63 !important;
+                    }
+                    .theme-option.selected {
+                        border-color: #e91e63 !important;
+                        box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5) !important;
+                    }
+                    .welcome-content input {
+                        border-color: #e91e63 !important;
+                    }
+                `;
+            }
+            
+            if (!document.getElementById('buttonColorStyle')) {
+                document.head.appendChild(style);
+            }
+        }
+
+        function changeButtonColor(color) {
+            buttonColor = color;
+            applyButtonColor();
+            localStorage.setItem('yasmim_button_color', color);
+        }
+
+        function setupEventListeners() {
+            const editor = document.getElementById('editorContent');
+            
+            editor.addEventListener('input', () => {
+                updateStatusBar();
+                saveHistory();
+            });
+            
+            editor.addEventListener('paste', handlePaste);
+            
+            editor.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 's') {
+                        e.preventDefault();
+                        saveDocument();
+                    } else if (e.key === 'n') {
+                        e.preventDefault();
+                        newDocument();
+                    } else if (e.key === 'p') {
+                        e.preventDefault();
+                        printDocument();
+                    } else if (e.key === 'f') {
+                        e.preventDefault();
+                        openFindReplace();
+                    } else if (e.key === 'k') {
+                        e.preventDefault();
+                        insertLink();
+                    } else if (e.key === 'z') {
+                        e.preventDefault();
+                        undo();
+                    } else if (e.key === 'y') {
+                        e.preventDefault();
+                        redo();
+                    } else if (e.key === 'b') {
+                        e.preventDefault();
+                        formatBold();
+                    } else if (e.key === 'i') {
+                        e.preventDefault();
+                        formatItalic();
+                    } else if (e.key === 'u') {
+                        e.preventDefault();
+                        formatUnderline();
+                    }
+                }
+            });
+
+            editor.addEventListener('selectionchange', updateToolbarState);
+            
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+                }
+            });
+
+            setInterval(autoSave, 30000);
+        }
+
+        function handlePaste(e) {
+            const items = e.clipboardData.items;
+            
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    e.preventDefault();
+                    const blob = items[i].getAsFile();
+                    const reader = new FileReader();
+                    
+                    reader.onload = (event) => {
+                        document.execCommand('insertImage', false, event.target.result);
+                    };
+                    
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        }
+
+        function updateStatusBar() {
+            const editor = document.getElementById('editorContent');
+            const text = editor.innerText;
+            
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const chars = text.length;
+            const lines = text.split('\n').length;
+            
+            document.getElementById('wordCount').textContent = `Palavras: ${words}`;
+            document.getElementById('charCount').textContent = `Caracteres: ${chars}`;
+            document.getElementById('lineCount').textContent = `Linhas: ${lines}`;
+        }
+
+        function updateToolbarState() {
+            document.getElementById('boldBtn').classList.toggle('active', document.queryCommandState('bold'));
+            document.getElementById('italicBtn').classList.toggle('active', document.queryCommandState('italic'));
+            document.getElementById('underlineBtn').classList.toggle('active', document.queryCommandState('underline'));
+        }
+
+        function formatBold() {
+            document.execCommand('bold');
+            updateToolbarState();
+        }
+
+        function formatItalic() {
+            document.execCommand('italic');
+            updateToolbarState();
+        }
+
+        function formatUnderline() {
+            document.execCommand('underline');
+            updateToolbarState();
+        }
+
+        function formatStrikethrough() {
+            document.execCommand('strikeThrough');
+        }
+
+        function changeTextColor(color) {
+            document.execCommand('foreColor', false, color);
+        }
+
+        function changeBackgroundColor(color) {
+            document.execCommand('backColor', false, color);
+        }
+
+        function changeFontFamily(font) {
+            document.execCommand('fontName', false, font);
+        }
+
+        function changeFontSize(size) {
+            document.execCommand('fontSize', false, '7');
+            const fontElements = document.getElementsByTagName('font');
+            for (let i = 0; i < fontElements.length; i++) {
+                if (fontElements[i].size === '7') {
+                    fontElements[i].removeAttribute('size');
+                    fontElements[i].style.fontSize = size + 'pt';
+                }
+            }
+        }
+
+        function alignLeft() {
+            document.execCommand('justifyLeft');
+        }
+
+        function alignCenter() {
+            document.execCommand('justifyCenter');
+        }
+
+        function alignRight() {
+            document.execCommand('justifyRight');
+        }
+
+        function alignJustify() {
+            document.execCommand('justifyFull');
+        }
+
+        function insertUnorderedList() {
+            document.execCommand('insertUnorderedList');
+        }
+
+        function insertOrderedList() {
+            document.execCommand('insertOrderedList');
+        }
+
+        function applyHeading(tag) {
+            if (tag) {
+                document.execCommand('formatBlock', false, tag);
+            } else {
+                document.execCommand('formatBlock', false, 'p');
+            }
+        }
+
+        function insertLink() {
+            const url = prompt('Digite a URL:');
+            if (url) {
+                document.execCommand('createLink', false, url);
+            }
+        }
+
+        function insertImage() {
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.execCommand('insertImage', false, e.target.result);
+                    closeModal('imageModal');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function insertImageFromUrl() {
+            const url = document.getElementById('imageUrlInput').value;
+            if (url) {
+                document.execCommand('insertImage', false, url);
+                closeModal('imageModal');
+            }
+        }
+
+        function insertTable() {
+            document.getElementById('tableModal').style.display = 'flex';
+        }
+
+        function createTable() {
+            const rows = parseInt(document.getElementById('tableRows').value);
+            const cols = parseInt(document.getElementById('tableCols').value);
+            
+            let table = '<table>';
+            for (let i = 0; i < rows; i++) {
+                table += '<tr>';
+                for (let j = 0; j < cols; j++) {
+                    table += '<td>&nbsp;</td>';
+                }
+                table += '</tr>';
+            }
+            table += '</table>';
+            
+            document.execCommand('insertHTML', false, table);
+            closeModal('tableModal');
+        }
+
+        function openFindReplace() {
+            document.getElementById('findReplaceModal').style.display = 'flex';
+        }
+
+        function findText() {
+            const searchTerm = document.getElementById('findInput').value;
+            if (!searchTerm) return;
+            
+            window.find(searchTerm);
+        }
+
+        function findNext() {
+            const searchTerm = document.getElementById('findInput').value;
+            if (!searchTerm) return;
+            
+            window.find(searchTerm, false, false, true);
+        }
+
+        function replaceText() {
+            const findTerm = document.getElementById('findInput').value;
+            const replaceTerm = document.getElementById('replaceInput').value;
+            
+            if (!findTerm) return;
+            
+            const editor = document.getElementById('editorContent');
+            const selection = window.getSelection();
+            
+            if (selection.toString().toLowerCase() === findTerm.toLowerCase()) {
+                document.execCommand('insertText', false, replaceTerm);
+            }
+            
+            window.find(findTerm);
+        }
+
+        function replaceAll() {
+            const findTerm = document.getElementById('findInput').value;
+            const replaceTerm = document.getElementById('replaceInput').value;
+            
+            if (!findTerm) return;
+            
+            const editor = document.getElementById('editorContent');
+            const content = editor.innerHTML;
+            const regex = new RegExp(findTerm, 'gi');
+            editor.innerHTML = content.replace(regex, replaceTerm);
+            
+            updateStatusBar();
+            setStatus('Substituições concluídas!');
+        }
+
+        function saveHistory() {
+            const editor = document.getElementById('editorContent');
+            const state = editor.innerHTML;
+            
+            history = history.slice(0, historyIndex + 1);
+            history.push(state);
+            historyIndex++;
+            
+            if (history.length > 50) {
+                history.shift();
+                historyIndex--;
+            }
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                document.getElementById('editorContent').innerHTML = history[historyIndex];
+                updateStatusBar();
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                document.getElementById('editorContent').innerHTML = history[historyIndex];
+                updateStatusBar();
+            }
+        }
+
+        function newDocument() {
+            if (confirm('Deseja criar um novo documento? As alterações não salvas serão perdidas.')) {
+                document.getElementById('editorContent').innerHTML = '';
+                currentDocId = null;
+                history = [];
+                historyIndex = -1;
+                updateStatusBar();
+                setStatus('Novo documento criado');
+            }
+        }
+
+        function saveDocument() {
+            const editor = document.getElementById('editorContent');
+            const content = editor.innerHTML;
+            const title = prompt('Título do documento:', currentDocId ? documents.find(d => d.id === currentDocId).title : 'Sem título');
+            
+            if (!title) return;
+            
+            const doc = {
+                id: currentDocId || Date.now().toString(),
+                title: title,
+                content: content,
+                lastModified: new Date().toISOString()
+            };
+            
+            if (currentDocId) {
+                const index = documents.findIndex(d => d.id === currentDocId);
+                if (index !== -1) {
+                    documents[index] = doc;
+                }
+            } else {
+                documents.push(doc);
+                currentDocId = doc.id;
+            }
+            
+            saveDocuments();
+            setStatus('Documento salvo!');
+        }
+
+        function autoSave() {
+            if (currentDocId) {
+                const editor = document.getElementById('editorContent');
+                const content = editor.innerHTML;
+                
+                const doc = documents.find(d => d.id === currentDocId);
+                if (doc) {
+                    doc.content = content;
+                    doc.lastModified = new Date().toISOString();
+                    saveDocuments();
+                    setStatus('Auto-salvo');
+                }
+            }
+        }
+
+        function saveDocuments() {
+            localStorage.setItem('yasmim_documents', JSON.stringify(documents));
+        }
+
+        function loadDocuments() {
+            const saved = localStorage.getItem('yasmim_documents');
+            if (saved) {
+                documents = JSON.parse(saved);
+            }
+        }
+
+        function openDocuments() {
+            const modal = document.getElementById('documentsModal');
+            const list = document.getElementById('documentsList');
+            
+            list.innerHTML = '';
+            
+            if (documents.length === 0) {
+                list.innerHTML = '<p>Nenhum documento salvo.</p>';
+            } else {
+                documents.forEach(doc => {
+                    const div = document.createElement('div');
+                    div.style.padding = '15px';
+                    div.style.border = '1px solid #ddd';
+                    div.style.borderRadius = '5px';
+                    div.style.marginBottom = '10px';
+                    div.style.cursor = 'pointer';
+                    div.innerHTML = `
+                        <strong>${doc.title}</strong><br>
+                        <small>Modificado: ${new Date(doc.lastModified).toLocaleString()}</small>
+                    `;
+                    div.onclick = () => loadDocument(doc.id);
+                    list.appendChild(div);
+                });
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function loadDocument(id) {
+            const doc = documents.find(d => d.id === id);
+            if (doc) {
+                document.getElementById('editorContent').innerHTML = doc.content;
+                currentDocId = id;
+                history = [doc.content];
+                historyIndex = 0;
+                updateStatusBar();
+                closeModal('documentsModal');
+                setStatus(`Documento "${doc.title}" carregado`);
+            }
+        }
+
+        function printDocument() {
+            window.print();
+        }
+
+        function exportHTML() {
+            const editor = document.getElementById('editorContent');
+            const content = editor.innerHTML;
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Documento Yasmim</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; padding: 2cm; }
+    </style>
+</head>
+<body>
+    ${content}
+</body>
+</html>`;
+            
+            downloadFile(html, 'documento.html', 'text/html');
+            setStatus('Exportado como HTML');
+        }
+
+        function exportText() {
+            const editor = document.getElementById('editorContent');
+            const text = editor.innerText;
+            downloadFile(text, 'documento.txt', 'text/plain');
+            setStatus('Exportado como TXT');
+        }
+
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const editor = document.getElementById('editorContent');
+            const text = editor.innerText;
+            
+            const lines = doc.splitTextToSize(text, 180);
+            doc.text(lines, 15, 15);
+            
+            doc.save('documento.pdf');
+            setStatus('Exportado como PDF');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type: type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function handleDocumentImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                if (file.name.endsWith('.html')) {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(content, 'text/html');
+                    const body = htmlDoc.body;
+                    document.getElementById('editorContent').innerHTML = body.innerHTML;
+                } else {
+                    document.getElementById('editorContent').innerText = content;
+                }
+                updateStatusBar();
+                setStatus('Documento importado');
+            };
+            reader.readAsText(file);
+        }
+
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id).parentElement;
+            const wasActive = dropdown.classList.contains('active');
+            
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            
+            if (!wasActive) {
+                dropdown.classList.add('active');
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsUsername').value = username;
+            document.getElementById('settingsTheme').value = selectedTheme;
+            document.getElementById('settingsAnimation').value = selectedAnimation;
+            document.getElementById('animationColorPicker').value = animationColor;
+            document.getElementById('settingsButtonColor').value = buttonColor;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function changeTheme(theme) {
+            selectedTheme = theme;
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('yasmim_theme', theme);
+        }
+
+        function changeAnimation(animation) {
+            selectedAnimation = animation;
+            createAnimation();
+            localStorage.setItem('yasmim_animation', animation);
+        }
+
+        function updateAnimationColor(color) {
+            animationColor = color;
+            createAnimation();
+            localStorage.setItem('yasmim_animation_color', color);
+        }
+
+        function resetAnimationColor() {
+            if (selectedTheme === 'feminine') {
+                animationColor = '#ff69b4';
+            } else if (selectedTheme === 'dark') {
+                animationColor = '#87ceeb';
+            } else {
+                animationColor = '#00d4ff';
+            }
+            document.getElementById('animationColorPicker').value = animationColor;
+            createAnimation();
+            localStorage.setItem('yasmim_animation_color', animationColor);
+        }
+
+        function saveSettings() {
+            username = document.getElementById('settingsUsername').value;
+            document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+            localStorage.setItem('yasmim_username', username);
+            closeModal('settingsModal');
+            setStatus('Configurações salvas!');
+        }
+
+        function setStatus(message) {
+            document.getElementById('statusMessage').textContent = message;
+            setTimeout(() => {
+                document.getElementById('statusMessage').textContent = 'Pronto';
+            }, 3000);
+        }
+
+        window.onload = () => {
+            const firstTime = localStorage.getItem('yasmim_first_time');
+            if (firstTime === 'false') {
+                username = localStorage.getItem('yasmim_username') || 'Usuário';
+                selectedTheme = localStorage.getItem('yasmim_theme') || 'feminine';
+                selectedAnimation = localStorage.getItem('yasmim_animation') || 'petals';
+                animationColor = localStorage.getItem('yasmim_animation_color') || '#ff69b4';
+                buttonColor = localStorage.getItem('yasmim_button_color') || 'pink';
+                
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                document.body.className = `theme-${selectedTheme}`;
+                document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+                
+                applyButtonColor();
+                initializeApp();
+            }
+        };
+    </script>
+</body>
+</html>
