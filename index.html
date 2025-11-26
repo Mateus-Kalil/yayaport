@@ -56,47 +56,6 @@
             z-index: 0;
         }
 
-        .heart {
-            position: fixed;
-            top: -10vh;
-            font-size: 45px;
-            color: var(--primary);
-            opacity: 0;
-            animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
-            z-index: 1;
-            pointer-events: none;
-            will-change: transform, opacity;
-            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6))
-                    drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
-            text-shadow:
-                2px 2px 4px rgba(0, 0, 0, 0.3),
-                -2px -2px 4px rgba(255, 255, 255, 0.3),
-                0 0 10px rgba(255, 107, 157, 0.5);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform: translate3d(0, 0, 0);
-        }
-
-        @keyframes fall3D {
-            0% {
-                top: -10vh;
-                opacity: 0;
-                transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5);
-            }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            100% {
-                top: 110vh;
-                opacity: 0;
-                transform: translateX(100px) translateZ(100px) rotateY(360deg) scale(1.2);
-            }
-        }
-
-        @keyframes heartPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
         .particle {
             position: fixed;
             width: 4px;
@@ -104,14 +63,14 @@
             background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             pointer-events: none;
-            animation: float 6s ease-in-out infinite;
+            animation: float 5s ease-in-out infinite;
             z-index: 1;
             will-change: transform;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px) translateX(0px); }
-            50% { transform: translateY(-20px) translateX(20px); }
+            50% { transform: translateY(-50px) translateX(50px); }
         }
 
         nav {
@@ -782,6 +741,8 @@
                     <li><a href="#contato">Contato</a></li>
                     <li><a href="https://yasmim.pro/engenharia">Engenharia</a></li>
                     <li><a href="https://yasmim.pro/jogos">Jogos</a></li>
+                    <li><a href="https://yasmim.pro/planilha">Planilha</a></li>
+                    <li><a href="https://yasmim.pro/texto">Texto</a></li>
                 </ul>
             </div>
             <button class="menu-toggle">
@@ -1103,23 +1064,8 @@
             
             const isMobile = window.innerWidth <= 768;
 
-            function createHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '♥';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = Math.random() * 4 + 6 + 's';
-                heart.style.fontSize = Math.random() * 20 + 25 + 'px';
-                heart.style.color = `hsl(${Math.random() * 30 + 330}, 100%, ${Math.random() * 20 + 70}%)`;
-                document.body.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 11000);
-            }
-
             function createParticles() {
-                const particleCount = isMobile ? 10 : 25;
+                const particleCount = isMobile ? 15 : 38;
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
@@ -1130,7 +1076,6 @@
                 }
             }
 
-            setInterval(createHeart, isMobile ? 1500 : 800);
             createParticles();
             
             const reveals = document.querySelectorAll('.reveal');
@@ -1216,11 +1161,6 @@
                     navLinks.classList.remove('active');
                 });
             });
-
-            console.log('%c💖 Portfólio desenvolvido com amor e dedicação 💖',
-                'color: #FF6B9D; font-size: 20px; font-weight: bold;');
-            console.log('%cYasmim Nathalie - Engenheira Civil',
-                'color: #9B59B6; font-size: 16px;');
         });
     </script>
 </body>
