@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YasGrid</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .theme-feminine {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd4eb 100%);
+        }
+
+        .theme-dark {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .theme-futuristic {
+            background: linear-gradient(135deg, #001a33 0%, #003d66 50%, #0059a3 100%);
+            color: #ffffff;
+        }
+
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(180, 180, 180, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100vw); }
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(transparent, currentColor);
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        .snowflake {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50%;
+            animation: snow linear infinite;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes snow {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .petal {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50% 0 50% 0;
+            animation: petal-fall linear infinite;
+            box-shadow: 0 0 15px currentColor;
+            opacity: 0.9;
+        }
+
+        @keyframes petal-fall {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        .leaf {
+            position: absolute;
+            background: currentColor;
+            border-radius: 0 50% 50% 0;
+            animation: leaf-fall linear infinite;
+            opacity: 0.85;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes leaf-fall {
+            to { transform: translateY(100vh) rotate(-360deg); }
+        }
+
+        .feather {
+            position: absolute;
+            background: currentColor;
+            border-radius: 50% 0;
+            animation: feather-fall ease-in-out infinite;
+            opacity: 0.9;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        @keyframes feather-fall {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            50% { transform: translateY(50vh) translateX(30px) rotate(180deg); }
+            100% { transform: translateY(100vh) translateX(0) rotate(360deg); }
+        }
+
+        .rose {
+            position: absolute;
+            font-size: 35px;
+            animation: rose-fall linear infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes rose-fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            animation: heart-fall linear infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes heart-fall {
+            to { transform: translateY(100vh) rotate(180deg); }
+        }
+
+        .star {
+            position: absolute;
+            font-size: 25px;
+            animation: star-fall linear infinite;
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+
+        @keyframes star-fall {
+            to { transform: translateY(100vh) rotate(-360deg); }
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 28px;
+            animation: butterfly-fall ease-in-out infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes butterfly-fall {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(25vh) translateX(-20px) rotate(90deg); }
+            50% { transform: translateY(50vh) translateX(20px) rotate(180deg); }
+            75% { transform: translateY(75vh) translateX(-20px) rotate(270deg); }
+            100% { transform: translateY(100vh) translateX(0) rotate(360deg); }
+        }
+
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .welcome-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .welcome-content h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .welcome-content input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .theme-selector {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .theme-option {
+            padding: 20px;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-option.selected {
+            border-color: #e91e63;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .theme-option img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .toolbar {
+            background: rgba(255, 255, 255, 0.76);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .theme-dark .toolbar {
+            background: rgba(30, 30, 30, 0.76);
+            color: white;
+        }
+
+        .theme-futuristic .toolbar {
+            background: rgba(0, 40, 80, 0.76);
+            color: white;
+        }
+
+        .toolbar-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #e91e63;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .toolbar-btn:hover {
+            background: #c2185b;
+            transform: translateY(-2px);
+        }
+
+        .toolbar-btn img {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .toolbar-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .theme-dark .toolbar-input {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .toolbar-input {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 30px;
+            background: #ddd;
+            margin: 0 5px;
+        }
+
+        .formula-bar {
+            background: rgba(255, 255, 255, 0.72);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-dark .formula-bar {
+            background: rgba(40, 40, 40, 0.72);
+        }
+
+        .theme-futuristic .formula-bar {
+            background: rgba(0, 50, 100, 0.72);
+        }
+
+        .formula-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .theme-dark .formula-input {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .formula-input {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .spreadsheet-container {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.68);
+        }
+
+        .theme-dark .spreadsheet-container {
+            background: rgba(20, 20, 20, 0.68);
+        }
+
+        .theme-futuristic .spreadsheet-container {
+            background: rgba(0, 30, 60, 0.68);
+        }
+
+        .spreadsheet-grid {
+            display: inline-block;
+            border-collapse: collapse;
+        }
+
+        .cell {
+            min-width: 100px;
+            height: 30px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.72);
+            cursor: cell;
+            transition: all 0.2s;
+        }
+
+        .theme-dark .cell {
+            background: rgba(40, 40, 40, 0.72);
+            border-color: #555;
+            color: white;
+        }
+
+        .theme-futuristic .cell {
+            background: rgba(0, 50, 100, 0.72);
+            border-color: #0080ff;
+            color: white;
+        }
+
+        .cell:hover {
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        .cell.selected {
+            outline: 2px solid #e91e63;
+            background: rgba(233, 30, 99, 0.2);
+        }
+
+        .cell.editing {
+            outline: 3px solid #2196F3;
+        }
+
+        .row-header, .col-header {
+            background: rgba(240, 240, 240, 0.76);
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .theme-dark .row-header,
+        .theme-dark .col-header {
+            background: rgba(60, 60, 60, 0.76);
+            border-color: #555;
+        }
+
+        .theme-futuristic .row-header,
+        .theme-futuristic .col-header {
+            background: rgba(0, 70, 140, 0.76);
+            border-color: #0080ff;
+        }
+
+        .sheet-tabs {
+            background: rgba(250, 250, 250, 0.76);
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .theme-dark .sheet-tabs {
+            background: rgba(30, 30, 30, 0.76);
+        }
+
+        .theme-futuristic .sheet-tabs {
+            background: rgba(0, 40, 80, 0.76);
+        }
+
+        .sheet-tab {
+            padding: 8px 20px;
+            border-radius: 5px 5px 0 0;
+            background: rgba(255, 255, 255, 0.64);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .theme-dark .sheet-tab {
+            background: rgba(50, 50, 50, 0.64);
+        }
+
+        .theme-futuristic .sheet-tab {
+            background: rgba(0, 60, 120, 0.64);
+        }
+
+        .sheet-tab:hover {
+            background: rgba(233, 30, 99, 0.3);
+        }
+
+        .sheet-tab.active {
+            background: #e91e63;
+            color: white;
+        }
+
+        .add-sheet-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-sheet-btn:hover {
+            background: #45a049;
+        }
+
+        .context-menu {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .theme-dark .context-menu {
+            background: #333;
+            border-color: #555;
+            color: white;
+        }
+
+        .theme-futuristic .context-menu {
+            background: rgba(0, 60, 120, 0.95);
+            border-color: #0080ff;
+            color: white;
+        }
+
+        .context-menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .context-menu-item:hover {
+            background: #e91e63;
+            color: white;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .theme-dark .modal-content {
+            background: #2a2a2a;
+            color: white;
+        }
+
+        .theme-futuristic .modal-content {
+            background: rgba(0, 50, 100, 0.95);
+            color: white;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e91e63;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #e91e63;
+        }
+
+        .settings-group {
+            margin: 20px 0;
+        }
+
+        .settings-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .settings-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .theme-dark .settings-select {
+            background: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .theme-futuristic .settings-select {
+            background: rgba(0, 60, 120, 0.8);
+            color: white;
+            border-color: #0080ff;
+        }
+
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-greeting {
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-container" id="animationContainer"></div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <h1>Bem-vindo ao YasGrid</h1>
+            <p>Por favor, digite seu nome:</p>
+            <input type="text" id="usernameInput" placeholder="Seu nome" />
+            
+            <p style="margin-top: 20px;">Escolha seu tema:</p>
+            <div class="theme-selector">
+                <div class="theme-option" data-theme="feminine" onclick="selectTheme('feminine')">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffeef8, #ffd4eb); border-radius: 10px;"></div>
+                    <p>Branco</p>
+                </div>
+                <div class="theme-option" data-theme="dark" onclick="selectTheme('dark')">
+                    <div style="width: 80px; height: 80px; background: #0a0a0a; border-radius: 10px;"></div>
+                    <p>Dark</p>
+                </div>
+                <div class="theme-option" data-theme="futuristic" onclick="selectTheme('futuristic')">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #001a33, #0059a3); border-radius: 10px;"></div>
+                    <p>Futurista</p>
+                </div>
+            </div>
+            
+            <button class="btn-start" onclick="startApp()">Começar</button>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <div class="toolbar">
+            <div class="logo">YasGrid</div>
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="newSpreadsheet()" title="Novo">
+                <span>➕ Novo</span>
+            </button>
+            <button class="toolbar-btn" onclick="saveSpreadsheet()" title="Salvar (Ctrl+S)">
+                <span>💾 Salvar</span>
+            </button>
+            <button class="toolbar-btn" onclick="exportSpreadsheet()" title="Exportar">
+                <span>📤 Exportar</span>
+            </button>
+            <button class="toolbar-btn" onclick="importSpreadsheet()" title="Importar">
+                <span>📥 Importar</span>
+            </button>
+            <input type="file" id="fileInput" style="display: none;" accept=".json" onchange="handleFileImport(event)">
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="undo()" title="Desfazer (Ctrl+Z)">
+                <span>↶ Desfazer</span>
+            </button>
+            <button class="toolbar-btn" onclick="redo()" title="Refazer (Ctrl+Y)">
+                <span>↷ Refazer</span>
+            </button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="formatBold()" title="Negrito (Ctrl+B)">
+                <span><b>B</b></span>
+            </button>
+            <button class="toolbar-btn" onclick="formatItalic()" title="Itálico (Ctrl+I)">
+                <span><i>I</i></span>
+            </button>
+            <button class="toolbar-btn" onclick="formatUnderline()" title="Sublinhado (Ctrl+U)">
+                <span><u>U</u></span>
+            </button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <input type="color" id="textColorPicker" class="color-picker" title="Cor do texto" onchange="changeTextColor(this.value)">
+            <input type="color" id="bgColorPicker" class="color-picker" title="Cor de fundo" onchange="changeBgColor(this.value)">
+            
+            <div class="toolbar-separator"></div>
+            
+            <select class="toolbar-input" onchange="changeFontSize(this.value)" title="Tamanho da fonte">
+                <option value="12">12</option>
+                <option value="14" selected>14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="24">24</option>
+            </select>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="alignLeft()" title="Alinhar à esquerda">
+                <span>⬅</span>
+            </button>
+            <button class="toolbar-btn" onclick="alignCenter()" title="Centralizar">
+                <span>↔</span>
+            </button>
+            <button class="toolbar-btn" onclick="alignRight()" title="Alinhar à direita">
+                <span>➡</span>
+            </button>
+            
+            <div class="toolbar-separator"></div>
+            
+            <button class="toolbar-btn" onclick="openSettings()" title="Configurações">
+                <span>⚙ Config</span>
+            </button>
+            
+            <div class="user-greeting" id="userGreeting"></div>
+        </div>
+
+        <div class="formula-bar">
+            <span id="cellReference">A1</span>
+            <input type="text" class="formula-input" id="formulaInput" placeholder="Digite ou fórmula (ex: =SOMA(A1:A10))" />
+        </div>
+
+        <div class="spreadsheet-container" id="spreadsheetContainer"></div>
+
+        <div class="sheet-tabs" id="sheetTabs">
+            <button class="add-sheet-btn" onclick="addNewSheet()">+ Nova Planilha</button>
+        </div>
+    </div>
+
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="contextCopy()">Copiar (Ctrl+C)</div>
+        <div class="context-menu-item" onclick="contextCut()">Recortar (Ctrl+X)</div>
+        <div class="context-menu-item" onclick="contextPaste()">Colar (Ctrl+V)</div>
+        <div class="context-menu-item" onclick="contextDelete()">Excluir (Delete)</div>
+        <div class="context-menu-item" onclick="insertRow()">Inserir Linha</div>
+        <div class="context-menu-item" onclick="insertColumn()">Inserir Coluna</div>
+        <div class="context-menu-item" onclick="deleteRow()">Excluir Linha</div>
+        <div class="context-menu-item" onclick="deleteColumn()">Excluir Coluna</div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeSettings()">×</span>
+            <div class="modal-header">Configurações</div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Nome de Usuário:</label>
+                <input type="text" id="settingsUsername" class="toolbar-input" style="width: 100%;" />
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Tema:</label>
+                <select id="settingsTheme" class="settings-select" onchange="changeTheme(this.value)">
+                    <option value="feminine">Feminino</option>
+                    <option value="dark">Dark</option>
+                    <option value="futuristic">Futurista</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Animação de Fundo:</label>
+                <select id="settingsAnimation" class="settings-select" onchange="changeAnimation(this.value)">
+                    <option value="none">Nenhuma</option>
+                    <option value="clouds">Nuvens</option>
+                    <option value="rain">Chuva</option>
+                    <option value="snow">Neve</option>
+                    <option value="petals">Pétalas</option>
+                    <option value="leaves">Folhas</option>
+                    <option value="feathers">Penas</option>
+                    <option value="roses">Rosas</option>
+                    <option value="hearts">Corações</option>
+                    <option value="stars">Estrelas</option>
+                    <option value="butterflies">Borboletas</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <label class="settings-label">Cor da Animação:</label>
+                <div class="color-picker-group">
+                    <input type="color" id="animationColorPicker" class="color-picker" value="#ff69b4" />
+                    <button class="toolbar-btn" onclick="resetAnimationColor()">Resetar Cor</button>
+                </div>
+            </div>
+            
+            <button class="btn-start" onclick="saveSettings()">Salvar Configurações</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedTheme = 'feminine';
+        let selectedAnimation = 'petals';
+        let animationColor = '#ff69b4';
+        let username = '';
+        let currentSheet = 0;
+        let sheets = [{ name: 'Planilha 1', data: {}, history: [], historyIndex: -1 }];
+        let selectedCell = null;
+        let clipboard = null;
+        let isEditing = false;
+
+        function selectTheme(theme) {
+            selectedTheme = theme;
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-theme="${theme}"]`).classList.add('selected');
+        }
+
+        function startApp() {
+            const usernameInput = document.getElementById('usernameInput').value.trim();
+            if (!usernameInput) {
+                alert('Por favor, digite seu nome!');
+                return;
+            }
+            
+            username = usernameInput;
+            
+            if (selectedTheme === 'feminine') {
+                selectedAnimation = 'petals';
+                animationColor = '#ff69b4';
+            } else if (selectedTheme === 'dark') {
+                selectedAnimation = 'rain';
+                animationColor = '#87ceeb';
+            } else {
+                selectedAnimation = 'snow';
+                animationColor = '#00d4ff';
+            }
+            
+            localStorage.setItem('yasgrid_username', username);
+            localStorage.setItem('yasgrid_theme', selectedTheme);
+            localStorage.setItem('yasgrid_animation', selectedAnimation);
+            localStorage.setItem('yasgrid_animation_color', animationColor);
+            localStorage.setItem('yasgrid_first_time', 'false');
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.body.className = `theme-${selectedTheme}`;
+            document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+            
+            initializeApp();
+        }
+
+        function initializeApp() {
+            createAnimation();
+            createSpreadsheet();
+            loadSavedData();
+            setupEventListeners();
+        }
+
+        function createAnimation() {
+            const container = document.getElementById('animationContainer');
+            container.innerHTML = '';
+            
+            if (selectedAnimation === 'none') return;
+            
+            const color = animationColor;
+            
+            if (selectedAnimation === 'clouds') {
+                for (let i = 0; i < 8; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'cloud particle';
+                    cloud.style.width = `${Math.random() * 120 + 120}px`;
+                    cloud.style.height = `${Math.random() * 60 + 60}px`;
+                    cloud.style.top = `${Math.random() * 80}%`;
+                    cloud.style.animationDelay = `${Math.random() * 10}s`;
+                    cloud.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                    container.appendChild(cloud);
+                }
+            }
+            
+            if (selectedAnimation === 'rain') {
+                for (let i = 0; i < 150; i++) {
+                    const drop = document.createElement('div');
+                    drop.className = 'rain-drop particle';
+                    drop.style.left = `${Math.random() * 100}%`;
+                    drop.style.color = color;
+                    drop.style.animationDuration = `${Math.random() * 0.3 + 0.4}s`;
+                    drop.style.animationDelay = `${Math.random() * 2}s`;
+                    container.appendChild(drop);
+                }
+            }
+            
+            if (selectedAnimation === 'snow') {
+                for (let i = 0; i < 80; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake particle';
+                    const size = Math.random() * 8 + 5;
+                    flake.style.width = `${size}px`;
+                    flake.style.height = `${size}px`;
+                    flake.style.left = `${Math.random() * 100}%`;
+                    flake.style.color = color;
+                    flake.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                    flake.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(flake);
+                }
+            }
+            
+            if (selectedAnimation === 'petals') {
+                for (let i = 0; i < 50; i++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal particle';
+                    const size = Math.random() * 20 + 12;
+                    petal.style.width = `${size}px`;
+                    petal.style.height = `${size}px`;
+                    petal.style.left = `${Math.random() * 100}%`;
+                    petal.style.color = color;
+                    petal.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                    petal.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(petal);
+                }
+            }
+            
+            if (selectedAnimation === 'leaves') {
+                for (let i = 0; i < 40; i++) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'leaf particle';
+                    leaf.style.width = `${Math.random() * 25 + 18}px`;
+                    leaf.style.height = `${Math.random() * 30 + 22}px`;
+                    leaf.style.left = `${Math.random() * 100}%`;
+                    leaf.style.color = color;
+                    leaf.style.animationDuration = `${Math.random() * 5 + 7}s`;
+                    leaf.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(leaf);
+                }
+            }
+            
+            if (selectedAnimation === 'feathers') {
+                for (let i = 0; i < 35; i++) {
+                    const feather = document.createElement('div');
+                    feather.className = 'feather particle';
+                    feather.style.width = `${Math.random() * 12 + 10}px`;
+                    feather.style.height = `${Math.random() * 35 + 30}px`;
+                    feather.style.left = `${Math.random() * 100}%`;
+                    feather.style.color = color;
+                    feather.style.animationDuration = `${Math.random() * 5 + 10}s`;
+                    feather.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(feather);
+                }
+            }
+            
+            if (selectedAnimation === 'roses') {
+                for (let i = 0; i < 25; i++) {
+                    const rose = document.createElement('div');
+                    rose.className = 'rose particle';
+                    rose.textContent = '🌹';
+                    rose.style.left = `${Math.random() * 100}%`;
+                    rose.style.color = color;
+                    rose.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                    rose.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(rose);
+                }
+            }
+            
+            if (selectedAnimation === 'hearts') {
+                for (let i = 0; i < 30; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart particle';
+                    heart.textContent = '💖';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.color = color;
+                    heart.style.animationDuration = `${Math.random() * 5 + 10}s`;
+                    heart.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(heart);
+                }
+            }
+            
+            if (selectedAnimation === 'stars') {
+                for (let i = 0; i < 40; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star particle';
+                    star.textContent = '⭐';
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.color = color;
+                    star.style.animationDuration = `${Math.random() * 4 + 7}s`;
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(star);
+                }
+            }
+            
+            if (selectedAnimation === 'butterflies') {
+                for (let i = 0; i < 20; i++) {
+                    const butterfly = document.createElement('div');
+                    butterfly.className = 'butterfly particle';
+                    butterfly.textContent = '🦋';
+                    butterfly.style.left = `${Math.random() * 100}%`;
+                    butterfly.style.color = color;
+                    butterfly.style.animationDuration = `${Math.random() * 8 + 12}s`;
+                    butterfly.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(butterfly);
+                }
+            }
+        }
+
+        function createSpreadsheet() {
+            const container = document.getElementById('spreadsheetContainer');
+            let html = '<table class="spreadsheet-grid"><tr><th class="row-header"></th>';
+            
+            for (let col = 0; col < 26; col++) {
+                html += `<th class="col-header">${String.fromCharCode(65 + col)}</th>`;
+            }
+            html += '</tr>';
+            
+            for (let row = 1; row <= 100; row++) {
+                html += `<tr><th class="row-header">${row}</th>`;
+                for (let col = 0; col < 26; col++) {
+                    const cellId = `${String.fromCharCode(65 + col)}${row}`;
+                    html += `<td class="cell" data-cell="${cellId}" contenteditable="false"></td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</table>';
+            container.innerHTML = html;
+            
+            updateSheetTabs();
+        }
+
+        function updateSheetTabs() {
+            const tabsContainer = document.getElementById('sheetTabs');
+            let html = '';
+            
+            sheets.forEach((sheet, index) => {
+                const activeClass = index === currentSheet ? 'active' : '';
+                html += `<div class="sheet-tab ${activeClass}" onclick="switchSheet(${index})">${sheet.name}</div>`;
+            });
+            
+            html += '<button class="add-sheet-btn" onclick="addNewSheet()">+ Nova Planilha</button>';
+            tabsContainer.innerHTML = html;
+        }
+
+        function setupEventListeners() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                cell.addEventListener('click', (e) => selectCellHandler(e.target));
+                cell.addEventListener('dblclick', (e) => editCellHandler(e.target));
+                cell.addEventListener('blur', () => stopEditing());
+                cell.addEventListener('input', (e) => updateFormulaBar(e.target));
+                cell.addEventListener('contextmenu', (e) => showContextMenu(e));
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.context-menu')) {
+                    hideContextMenu();
+                }
+            });
+            
+            document.addEventListener('keydown', handleKeyboard);
+            
+            const formulaInput = document.getElementById('formulaInput');
+            formulaInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    applyFormulaToCell();
+                }
+            });
+            formulaInput.addEventListener('input', (e) => {
+                if (selectedCell) {
+                    selectedCell.textContent = e.target.value;
+                }
+            });
+        }
+
+        function selectCellHandler(cell) {
+            if (!cell.classList.contains('cell')) return;
+            
+            if (selectedCell) {
+                selectedCell.classList.remove('selected');
+            }
+            
+            selectedCell = cell;
+            cell.classList.add('selected');
+            
+            const cellId = cell.getAttribute('data-cell');
+            document.getElementById('cellReference').textContent = cellId;
+            document.getElementById('formulaInput').value = cell.textContent;
+        }
+
+        function editCellHandler(cell) {
+            if (!cell.classList.contains('cell')) return;
+            
+            isEditing = true;
+            cell.contentEditable = 'true';
+            cell.classList.add('editing');
+            cell.focus();
+            
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(cell);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        function stopEditing() {
+            if (!isEditing) return;
+            
+            isEditing = false;
+            if (selectedCell) {
+                selectedCell.contentEditable = 'false';
+                selectedCell.classList.remove('editing');
+                saveCellData();
+                calculateCell(selectedCell);
+            }
+        }
+
+        function updateFormulaBar(cell) {
+            document.getElementById('formulaInput').value = cell.textContent;
+        }
+
+        function applyFormulaToCell() {
+            if (!selectedCell) return;
+            
+            const formula = document.getElementById('formulaInput').value;
+            selectedCell.textContent = formula;
+            saveCellData();
+            calculateCell(selectedCell);
+            stopEditing();
+        }
+
+        function calculateCell(cell) {
+            const content = cell.textContent.trim();
+            
+            if (content.startsWith('=')) {
+                try {
+                    const result = evaluateFormula(content);
+                    const cellId = cell.getAttribute('data-cell');
+                    if (!sheets[currentSheet].data[cellId]) {
+                        sheets[currentSheet].data[cellId] = {};
+                    }
+                    sheets[currentSheet].data[cellId].calculated = result;
+                    cell.setAttribute('data-calculated', result);
+                } catch (e) {
+                    cell.setAttribute('data-calculated', '#ERRO!');
+                }
+            }
+        }
+
+        function evaluateFormula(formula) {
+            formula = formula.substring(1).toUpperCase();
+            
+            const sumMatch = formula.match(/SOMA\(([A-Z]+\d+):([A-Z]+\d+)\)/);
+            if (sumMatch) {
+                return calculateRange(sumMatch[1], sumMatch[2], (values) => 
+                    values.reduce((a, b) => a + b, 0));
+            }
+            
+            const avgMatch = formula.match(/MEDIA\(([A-Z]+\d+):([A-Z]+\d+)\)/);
+            if (avgMatch) {
+                return calculateRange(avgMatch[1], avgMatch[2], (values) => 
+                    values.reduce((a, b) => a + b, 0) / values.length);
+            }
+            
+            const countMatch = formula.match(/CONT\.VALORES\(([A-Z]+\d+):([A-Z]+\d+)\)/);
+            if (countMatch) {
+                return calculateRange(countMatch[1], countMatch[2], (values) => values.length);
+            }
+            
+            const maxMatch = formula.match(/MAXIMO\(([A-Z]+\d+):([A-Z]+\d+)\)/);
+            if (maxMatch) {
+                return calculateRange(maxMatch[1], maxMatch[2], (values) => Math.max(...values));
+            }
+            
+            const minMatch = formula.match(/MINIMO\(([A-Z]+\d+):([A-Z]+\d+)\)/);
+            if (minMatch) {
+                return calculateRange(minMatch[1], minMatch[2], (values) => Math.min(...values));
+            }
+            
+            const ifMatch = formula.match(/SE\(([A-Z]+\d+)([><=!]+)(\d+),"([^"]+)","([^"]+)"\)/);
+            if (ifMatch) {
+                const cellValue = getCellValue(ifMatch[1]);
+                const operator = ifMatch[2];
+                const compareValue = parseFloat(ifMatch[3]);
+                const trueValue = ifMatch[4];
+                const falseValue = ifMatch[5];
+                
+                let condition = false;
+                if (operator === '>') condition = cellValue > compareValue;
+                else if (operator === '<') condition = cellValue < compareValue;
+                else if (operator === '>=') condition = cellValue >= compareValue;
+                else if (operator === '<=') condition = cellValue <= compareValue;
+                else if (operator === '=') condition = cellValue === compareValue;
+                else if (operator === '!=') condition = cellValue !== compareValue;
+                
+                return condition ? trueValue : falseValue;
+            }
+            
+            let processedFormula = formula;
+            const cellRefs = formula.match(/[A-Z]+\d+/g);
+            if (cellRefs) {
+                cellRefs.forEach(ref => {
+                    const value = getCellValue(ref);
+                    processedFormula = processedFormula.replace(ref, value);
+                });
+            }
+            
+            try {
+                return eval(processedFormula);
+            } catch (e) {
+                return '#ERRO!';
+            }
+        }
+
+        function calculateRange(start, end, operation) {
+            const values = [];
+            const startCol = start.charCodeAt(0);
+            const endCol = end.charCodeAt(0);
+            const startRow = parseInt(start.substring(1));
+            const endRow = parseInt(end.substring(1));
+            
+            for (let col = startCol; col <= endCol; col++) {
+                for (let row = startRow; row <= endRow; row++) {
+                    const cellId = `${String.fromCharCode(col)}${row}`;
+                    const value = getCellValue(cellId);
+                    if (!isNaN(value)) {
+                        values.push(value);
+                    }
+                }
+            }
+            
+            return operation(values);
+        }
+
+        function getCellValue(cellId) {
+            const cell = document.querySelector(`[data-cell="${cellId}"]`);
+            if (!cell) return 0;
+            
+            const calculated = cell.getAttribute('data-calculated');
+            if (calculated) {
+                return parseFloat(calculated) || 0;
+            }
+            
+            const content = cell.textContent.trim();
+            return parseFloat(content) || 0;
+        }
+
+        function saveCellData() {
+            if (!selectedCell) return;
+            
+            const cellId = selectedCell.getAttribute('data-cell');
+            const content = selectedCell.textContent;
+            const styles = selectedCell.style.cssText;
+            
+            if (!sheets[currentSheet].data[cellId]) {
+                sheets[currentSheet].data[cellId] = {};
+            }
+            
+            sheets[currentSheet].data[cellId].content = content;
+            sheets[currentSheet].data[cellId].styles = styles;
+            
+            addToHistory();
+            saveToLocalStorage();
+        }
+
+        function addToHistory() {
+            const state = JSON.parse(JSON.stringify(sheets[currentSheet].data));
+            sheets[currentSheet].history = sheets[currentSheet].history.slice(0, sheets[currentSheet].historyIndex + 1);
+            sheets[currentSheet].history.push(state);
+            sheets[currentSheet].historyIndex++;
+            
+            if (sheets[currentSheet].history.length > 50) {
+                sheets[currentSheet].history.shift();
+                sheets[currentSheet].historyIndex--;
+            }
+        }
+
+        function undo() {
+            if (sheets[currentSheet].historyIndex > 0) {
+                sheets[currentSheet].historyIndex--;
+                loadState(sheets[currentSheet].history[sheets[currentSheet].historyIndex]);
+            }
+        }
+
+        function redo() {
+            if (sheets[currentSheet].historyIndex < sheets[currentSheet].history.length - 1) {
+                sheets[currentSheet].historyIndex++;
+                loadState(sheets[currentSheet].history[sheets[currentSheet].historyIndex]);
+            }
+        }
+
+        function loadState(state) {
+            document.querySelectorAll('.cell').forEach(cell => {
+                const cellId = cell.getAttribute('data-cell');
+                if (state[cellId]) {
+                    cell.textContent = state[cellId].content || '';
+                    cell.style.cssText = state[cellId].styles || '';
+                } else {
+                    cell.textContent = '';
+                    cell.style.cssText = '';
+                }
+            });
+        }
+
+        function handleKeyboard(e) {
+            if (isEditing) return;
+            
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 's':
+                        e.preventDefault();
+                        saveSpreadsheet();
+                        break;
+                    case 'c':
+                        e.preventDefault();
+                        contextCopy();
+                        break;
+                    case 'x':
+                        e.preventDefault();
+                        contextCut();
+                        break;
+                    case 'v':
+                        e.preventDefault();
+                        contextPaste();
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        undo();
+                        break;
+                    case 'y':
+                        e.preventDefault();
+                        redo();
+                        break;
+                    case 'b':
+                        e.preventDefault();
+                        formatBold();
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        formatItalic();
+                        break;
+                    case 'u':
+                        e.preventDefault();
+                        formatUnderline();
+                        break;
+                }
+            } else if (e.key === 'Delete') {
+                contextDelete();
+            } else if (e.key === 'Enter') {
+                if (selectedCell) {
+                    editCellHandler(selectedCell);
+                }
+            } else if (e.key.startsWith('Arrow') && selectedCell) {
+                e.preventDefault();
+                navigateCell(e.key);
+            }
+        }
+
+        function navigateCell(direction) {
+            if (!selectedCell) return;
+            
+            const cellId = selectedCell.getAttribute('data-cell');
+            const col = cellId.charCodeAt(0);
+            const row = parseInt(cellId.substring(1));
+            
+            let newCol = col;
+            let newRow = row;
+            
+            if (direction === 'ArrowUp') newRow--;
+            else if (direction === 'ArrowDown') newRow++;
+            else if (direction === 'ArrowLeft') newCol--;
+            else if (direction === 'ArrowRight') newCol++;
+            
+            if (newCol >= 65 && newCol <= 90 && newRow >= 1 && newRow <= 100) {
+                const newCellId = `${String.fromCharCode(newCol)}${newRow}`;
+                const newCell = document.querySelector(`[data-cell="${newCellId}"]`);
+                if (newCell) {
+                    selectCellHandler(newCell);
+                    newCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function formatBold() {
+            if (!selectedCell) return;
+            const currentWeight = selectedCell.style.fontWeight;
+            selectedCell.style.fontWeight = currentWeight === 'bold' ? 'normal' : 'bold';
+            saveCellData();
+        }
+
+        function formatItalic() {
+            if (!selectedCell) return;
+            const currentStyle = selectedCell.style.fontStyle;
+            selectedCell.style.fontStyle = currentStyle === 'italic' ? 'normal' : 'italic';
+            saveCellData();
+        }
+
+        function formatUnderline() {
+            if (!selectedCell) return;
+            const currentDecoration = selectedCell.style.textDecoration;
+            selectedCell.style.textDecoration = currentDecoration === 'underline' ? 'none' : 'underline';
+            saveCellData();
+        }
+
+        function changeTextColor(color) {
+            if (!selectedCell) return;
+            selectedCell.style.color = color;
+            saveCellData();
+        }
+
+        function changeBgColor(color) {
+            if (!selectedCell) return;
+            selectedCell.style.backgroundColor = color;
+            saveCellData();
+        }
+
+        function changeFontSize(size) {
+            if (!selectedCell) return;
+            selectedCell.style.fontSize = size + 'px';
+            saveCellData();
+        }
+
+        function alignLeft() {
+            if (!selectedCell) return;
+            selectedCell.style.textAlign = 'left';
+            saveCellData();
+        }
+
+        function alignCenter() {
+            if (!selectedCell) return;
+            selectedCell.style.textAlign = 'center';
+            saveCellData();
+        }
+
+        function alignRight() {
+            if (!selectedCell) return;
+            selectedCell.style.textAlign = 'right';
+            saveCellData();
+        }
+
+        function showContextMenu(e) {
+            e.preventDefault();
+            const menu = document.getElementById('contextMenu');
+            menu.style.display = 'block';
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+        }
+
+        function hideContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        function contextCopy() {
+            if (!selectedCell) return;
+            clipboard = {
+                content: selectedCell.textContent,
+                styles: selectedCell.style.cssText
+            };
+            hideContextMenu();
+        }
+
+        function contextCut() {
+            contextCopy();
+            contextDelete();
+        }
+
+        function contextPaste() {
+            if (!selectedCell || !clipboard) return;
+            selectedCell.textContent = clipboard.content;
+            selectedCell.style.cssText = clipboard.styles;
+            saveCellData();
+            hideContextMenu();
+        }
+
+        function contextDelete() {
+            if (!selectedCell) return;
+            selectedCell.textContent = '';
+            selectedCell.style.cssText = '';
+            saveCellData();
+            hideContextMenu();
+        }
+
+        function insertRow() {
+            hideContextMenu();
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function insertColumn() {
+            hideContextMenu();
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function deleteRow() {
+            hideContextMenu();
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function deleteColumn() {
+            hideContextMenu();
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function newSpreadsheet() {
+            if (confirm('Deseja criar uma nova planilha? Os dados não salvos serão perdidos.')) {
+                sheets = [{ name: 'Planilha 1', data: {}, history: [], historyIndex: -1 }];
+                currentSheet = 0;
+                createSpreadsheet();
+                saveToLocalStorage();
+            }
+        }
+
+        function saveSpreadsheet() {
+            saveToLocalStorage();
+            alert('Planilha salva com sucesso!');
+        }
+
+        function exportSpreadsheet() {
+            const data = {
+                version: '1.0',
+                username: username,
+                sheets: sheets,
+                theme: selectedTheme,
+                animation: selectedAnimation
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `yasgrid_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importSpreadsheet() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    sheets = data.sheets || sheets;
+                    currentSheet = 0;
+                    createSpreadsheet();
+                    loadSheetData();
+                    alert('Planilha importada com sucesso!');
+                } catch (error) {
+                    alert('Erro ao importar planilha!');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function addNewSheet() {
+            const sheetName = prompt('Nome da nova planilha:', `Planilha ${sheets.length + 1}`);
+            if (sheetName) {
+                sheets.push({ name: sheetName, data: {}, history: [], historyIndex: -1 });
+                currentSheet = sheets.length - 1;
+                updateSheetTabs();
+                createSpreadsheet();
+                saveToLocalStorage();
+            }
+        }
+
+        function switchSheet(index) {
+            currentSheet = index;
+            updateSheetTabs();
+            loadSheetData();
+        }
+
+        function loadSheetData() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                const cellId = cell.getAttribute('data-cell');
+                if (sheets[currentSheet].data[cellId]) {
+                    cell.textContent = sheets[currentSheet].data[cellId].content || '';
+                    cell.style.cssText = sheets[currentSheet].data[cellId].styles || '';
+                    if (sheets[currentSheet].data[cellId].calculated) {
+                        cell.setAttribute('data-calculated', sheets[currentSheet].data[cellId].calculated);
+                    }
+                } else {
+                    cell.textContent = '';
+                    cell.style.cssText = '';
+                    cell.removeAttribute('data-calculated');
+                }
+            });
+        }
+
+        function saveToLocalStorage() {
+            const data = {
+                sheets: sheets,
+                currentSheet: currentSheet
+            };
+            localStorage.setItem('yasgrid_data', JSON.stringify(data));
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('yasgrid_data');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    sheets = data.sheets || sheets;
+                    currentSheet = data.currentSheet || 0;
+                    updateSheetTabs();
+                    loadSheetData();
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos');
+                }
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsUsername').value = username;
+            document.getElementById('settingsTheme').value = selectedTheme;
+            document.getElementById('settingsAnimation').value = selectedAnimation;
+            document.getElementById('animationColorPicker').value = animationColor;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function changeTheme(theme) {
+            selectedTheme = theme;
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('yasgrid_theme', theme);
+        }
+
+        function changeAnimation(animation) {
+            selectedAnimation = animation;
+            createAnimation();
+            localStorage.setItem('yasgrid_animation', animation);
+        }
+        
+        function resetAnimationColor() {
+            if (selectedTheme === 'feminine') {
+                animationColor = '#ff69b4';
+            } else if (selectedTheme === 'dark') {
+                animationColor = '#87ceeb';
+            } else {
+                animationColor = '#00d4ff';
+            }
+            document.getElementById('animationColorPicker').value = animationColor;
+            createAnimation();
+            localStorage.setItem('yasgrid_animation_color', animationColor);
+        }
+
+        function saveSettings() {
+            username = document.getElementById('settingsUsername').value;
+            animationColor = document.getElementById('animationColorPicker').value;
+            document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+            localStorage.setItem('yasgrid_username', username);
+            localStorage.setItem('yasgrid_animation_color', animationColor);
+            createAnimation();
+            closeSettings();
+            alert('Configurações salvas!');
+        }
+
+        window.onload = () => {
+            const firstTime = localStorage.getItem('yasgrid_first_time');
+            if (firstTime === 'false') {
+                username = localStorage.getItem('yasgrid_username') || 'Usuário';
+                selectedTheme = localStorage.getItem('yasgrid_theme') || 'feminine';
+                selectedAnimation = localStorage.getItem('yasgrid_animation') || 'petals';
+                animationColor = localStorage.getItem('yasgrid_animation_color') || '#ff69b4';
+                
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                document.body.className = `theme-${selectedTheme}`;
+                document.getElementById('userGreeting').textContent = `Olá, ${username}!`;
+                
+                initializeApp();
+            }
+        };
+    </script>
+</body>
+</html>
