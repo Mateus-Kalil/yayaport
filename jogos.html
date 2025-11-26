@@ -1,551 +1,676 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogos | Yasmim Nathalie</title>
-    <link rel="icon" href="yaya1.png" type="image/x-icon" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #FF6B9D; --secondary: #C44569; --accent: #FFA07A;
-            --purple: #9B59B6; --light-pink: #FFE5EC; --dark: #2C3E50; --light: #ECF0F1;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
-            color: var(--dark); overflow-x: hidden; position: relative; min-height: 100vh;
-        }
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
-            pointer-events: none; z-index: 0;
-        }
-        .heart {
-            position: fixed; top: -10vh; font-size: 45px; color: var(--primary); opacity: 0;
-            animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
-            z-index: 1; pointer-events: none; will-change: transform, opacity;
-            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6)) drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 107, 157, 0.5);
-        }
-        @keyframes fall3D {
-            0% { top: -10vh; opacity: 0; transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5); }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            100% { top: 110vh; opacity: 0; transform: translateX(100px) translateZ(100px) rotateY(360deg) scale(1.2); }
-        }
-        @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        .particle {
-            position: fixed; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%; pointer-events: none; animation: float 6s ease-in-out infinite;
-            z-index: 1; will-change: transform;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-20px) translateX(20px); } }
-        nav {
-            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px); padding: 1rem 2rem; z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 107, 157, 0.3);
-            animation: slideDown 0.5s ease-out;
-        }
-        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        nav .logo {
-            font-size: 1.5rem; font-weight: bold;
-            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; cursor: pointer;
-        }
-        .menu-toggle {
-            display: flex; flex-direction: column; justify-content: space-around;
-            width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 1002;
-        }
-        .menu-toggle .bar { width: 100%; height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease-in-out; }
-        .nav-links {
-            position: fixed; top: 0; right: -100%; width: 250px; height: 100%;
-            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
-            box-shadow: -5px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; transition: right 0.4s ease-in-out; z-index: 1001;
-        }
-        .nav-links.active { right: 0; }
-        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 2rem; text-align: center; width: 100%; }
-        .nav-links a {
-            text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 500;
-            transition: color 0.3s; font-size: 1.2rem; padding: 0.5rem; cursor: pointer;
-        }
-        .nav-links a:hover { color: var(--primary); }
-        .close-menu-btn {
-            position: absolute; top: 2rem; right: 2rem; background: none; border: none;
-            color: white; font-size: 2rem; cursor: pointer; transition: transform 0.3s, color 0.3s;
-        }
-        .close-menu-btn:hover { color: var(--primary); transform: rotate(90deg); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .main-section {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            padding-top: 100px; padding-bottom: 50px; position: relative; z-index: 10;
-        }
-        .section-content { width: 100%; max-width: 1200px; }
-        .hero-content {
-            text-align: center; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            padding: 3rem; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3); animation: fadeInUp 1s ease-out;
-        }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero-content h1 {
-            font-size: 3rem; margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;
-        }
-        .hero-content .subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; }
-        .hero-content p { color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 2rem; }
-        .content-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9);
-        }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .menu-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
-            text-align: center; cursor: pointer; transition: all 0.3s;
-        }
-        .menu-card:hover {
-            transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .menu-card h3 { color: white; font-size: 1.5rem; margin-bottom: 1rem; }
-        .menu-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem; }
-        .btn {
-            display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none;
-            font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; margin: 0.5rem;
-            position: relative; overflow: hidden; cursor: pointer; border: none; font-size: 1rem;
-        }
-        .btn-primary { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); color: white; }
-        .btn-primary::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #000000 0%, var(--purple) 100%); transition: left 0.3s; z-index: 0;
-        }
-        .btn-primary:hover::before { left: 0; }
-        .btn span { position: relative; z-index: 1; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4); }
-        .btn-success { background: linear-gradient(135deg, #27ae60 0%, #16a085 100%); color: white; }
-        .btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
-        .btn-back { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; margin-top: 2rem; }
-        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-        .timer {
-            background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; padding: 1rem 2rem;
-            border-radius: 15px; font-size: 1.5rem; font-weight: bold; color: white;
-        }
-        .question-counter {
-            background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; padding: 1rem 2rem;
-            border-radius: 15px; font-size: 1.2rem; color: white;
-        }
-        .question-card { background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
-        .question-text { font-size: 1.3rem; color: white; margin-bottom: 2rem; line-height: 1.6; }
-        .options { display: flex; flex-direction: column; gap: 1rem; }
-        .option {
-            background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 107, 157, 0.3);
-            padding: 1.5rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;
-            color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;
-        }
-        .option:hover { background: rgba(255, 107, 157, 0.2); border-color: var(--primary); transform: translateX(10px); }
-        .option.selected { background: rgba(155, 89, 182, 0.3); border-color: var(--purple); }
-        .result-card { text-align: center; padding: 3rem; }
-        .result-card h2 { font-size: 2.5rem; color: white; margin-bottom: 2rem; }
-        .score-display {
-            font-size: 4rem; font-weight: bold;
-            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem;
-        }
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 1rem;
-            max-width: 600px;
-            margin: 2rem auto;
-        }
-        .memory-cell {
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 107, 157, 0.3);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-        .memory-cell:hover { background: rgba(255, 107, 157, 0.2); }
-        .memory-cell.flash {
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            animation: flashPulse 0.5s ease-in-out;
-        }
-        @keyframes flashPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .level-display {
-            background: rgba(155, 89, 182, 0.2);
-            border: 2px solid var(--purple);
-            padding: 1rem 2rem;
-            border-radius: 15px;
-            font-size: 1.5rem;
-            color: white;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; }
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2rem; }
-            .hero-content .subtitle { font-size: 1.1rem; }
-            .quiz-header { flex-direction: column; }
-            .menu-grid { grid-template-columns: 1fr; }
-            .memory-grid { grid-template-columns: repeat(4, 1fr); }
-            .content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
-            nav { background-color: rgba(44, 62, 80, 0.5); }
-        }
-        .hidden { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogos | Yasmim Nathalie</title>
+<link rel="icon" href="yaya1.png" type="image/x-icon" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--primary: #FF6B9D; --secondary: #C44569; --accent: #FFA07A;
+--purple: #9B59B6; --light-pink: #FFE5EC; --dark: #2C3E50; --light: #ECF0F1;
+}
+html { scroll-behavior: smooth; }
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
+color: var(--dark); overflow-x: hidden; position: relative; min-height: 100vh;
+}
+body::before {
+content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background:
+radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+pointer-events: none; z-index: 0;
+}
+.particle {
+position: fixed; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5);
+border-radius: 50%; pointer-events: none; animation: float 6s ease-in-out infinite;
+z-index: 1; will-change: transform;
+}
+@keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-20px) translateX(20px); } }
+nav {
+position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(15px); padding: 1rem 2rem; z-index: 1000;
+box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+animation: slideDown 0.5s ease-out;
+}
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+nav .logo {
+font-size: 1.5rem; font-weight: bold;
+background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; cursor: pointer;
+}
+.menu-toggle {
+display: flex; flex-direction: column; justify-content: space-around;
+width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 1002;
+}
+.menu-toggle .bar { width: 100%; height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease-in-out; }
+.nav-links {
+position: fixed; top: 0; right: -100%; width: 250px; height: 100%;
+background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
+box-shadow: -5px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+align-items: center; justify-content: center; transition: right 0.4s ease-in-out; z-index: 1001;
+}
+.nav-links.active { right: 0; }
+.nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 2rem; text-align: center; width: 100%; }
+.nav-links a {
+text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 500;
+transition: color 0.3s; font-size: 1.2rem; padding: 0.5rem; cursor: pointer;
+}
+.nav-links a:hover { color: var(--primary); }
+.close-menu-btn {
+position: absolute; top: 2rem; right: 2rem; background: none; border: none;
+color: white; font-size: 2rem; cursor: pointer; transition: transform 0.3s, color 0.3s;
+}
+.close-menu-btn:hover { color: var(--primary); transform: rotate(90deg); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.main-section {
+min-height: 100vh; display: flex; align-items: center; justify-content: center;
+padding-top: 100px; padding-bottom: 50px; position: relative; z-index: 10;
+}
+.section-content { width: 100%; max-width: 1200px; }
+.hero-content {
+text-align: center; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+padding: 3rem; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+border: 1px solid rgba(255, 107, 157, 0.3); animation: fadeInUp 1s ease-out;
+}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content h1 {
+font-size: 3rem; margin-bottom: 1rem;
+background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;
+}
+.hero-content .subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; }
+.hero-content p { color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 2rem; }
+.content-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9);
+}
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+.menu-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+text-align: center; cursor: pointer; transition: all 0.3s;
+}
+.menu-card:hover {
+transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+background: rgba(255, 255, 255, 0.12);
+}
+.menu-card h3 { color: white; font-size: 1.5rem; margin-bottom: 1rem; }
+.menu-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem; }
+.btn {
+display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none;
+font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; margin: 0.5rem;
+position: relative; overflow: hidden; cursor: pointer; border: none; font-size: 1rem;
+}
+.btn-primary { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); color: white; }
+.btn-primary::before {
+content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+background: linear-gradient(135deg, #000000 0%, var(--purple) 100%); transition: left 0.3s; z-index: 0;
+}
+.btn-primary:hover::before { left: 0; }
+.btn span { position: relative; z-index: 1; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4); }
+.btn-success { background: linear-gradient(135deg, #27ae60 0%, #16a085 100%); color: white; }
+.btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
+.btn-back { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; margin-top: 2rem; }
+.quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.timer {
+background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; padding: 1rem 2rem;
+border-radius: 15px; font-size: 1.5rem; font-weight: bold; color: white;
+}
+.question-counter {
+background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; padding: 1rem 2rem;
+border-radius: 15px; font-size: 1.2rem; color: white;
+}
+.question-card { background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
+.question-text { font-size: 1.3rem; color: white; margin-bottom: 2rem; line-height: 1.6; }
+.options { display: flex; flex-direction: column; gap: 1rem; }
+.option {
+background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 107, 157, 0.3);
+padding: 1.5rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;
+color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;
+}
+.option:hover { background: rgba(255, 107, 157, 0.2); border-color: var(--primary); transform: translateX(10px); }
+.option.selected { background: rgba(155, 89, 182, 0.3); border-color: var(--purple); }
+.result-card { text-align: center; padding: 3rem; }
+.result-card h2 { font-size: 2.5rem; color: white; margin-bottom: 2rem; }
+.score-display {
+font-size: 4rem; font-weight: bold;
+background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem;
+}
+.memory-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+gap: 1rem;
+max-width: 600px;
+margin: 2rem auto;
+}
+.memory-cell {
+aspect-ratio: 1;
+background: rgba(255, 255, 255, 0.1);
+border: 2px solid rgba(255, 107, 157, 0.3);
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+color: white;
+}
+.memory-cell:hover { background: rgba(255, 107, 157, 0.2); }
+.memory-cell.flash {
+background: linear-gradient(135deg, var(--primary), var(--purple));
+animation: flashPulse 0.5s ease-in-out;
+}
+@keyframes flashPulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.1); }
+}
+.level-display {
+background: rgba(155, 89, 182, 0.2);
+border: 2px solid var(--purple);
+padding: 1rem 2rem;
+border-radius: 15px;
+font-size: 1.5rem;
+color: white;
+text-align: center;
+margin-bottom: 2rem;
+}
+.review-section { text-align: left; margin-top: 2rem; }
+.review-item {
+background: rgba(0,0,0,0.2); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;
+border-left: 5px solid #ccc;
+}
+.review-item.correct { border-left-color: #27ae60; }
+.review-item.wrong { border-left-color: #e74c3c; }
+.review-q { font-weight: bold; margin-bottom: 0.5rem; color: #fff; }
+.review-a { margin-bottom: 0.25rem; font-size: 0.9rem; }
+.review-correct-a { color: #2ecc71; font-weight: bold; }
+.review-wrong-a { color: #e74c3c; text-decoration: line-through; }
+.history-table { width: 100%; border-collapse: collapse; margin-top: 1rem; color: white; }
+.history-table th, .history-table td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.history-table th { background: rgba(255,255,255,0.1); }
+footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; }
+@media (max-width: 768px) {
+.hero-content h1 { font-size: 2rem; }
+.hero-content .subtitle { font-size: 1.1rem; }
+.quiz-header { flex-direction: column; }
+.menu-grid { grid-template-columns: 1fr; }
+.memory-grid { grid-template-columns: repeat(4, 1fr); }
+.content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
+nav { background-color: rgba(44, 62, 80, 0.5); }
+}
+.hidden { display: none !important; }
+</style>
 </head>
 <body>
-    <nav>
+<nav>
+<div class="container">
+<div class="logo" onclick="window.location.href='https://yasmim.pro/'">Yasmim Nathalie</div>
+<div class="nav-links">
+<button class="close-menu-btn">&times;</button>
+<ul>
+<li><a onclick="showSection('home')">Início</a></li>
+<li><a onclick="showSection('history')">Meu Histórico</a></li>
+<li><a href="https://yasmim.pro/">Voltar ao Portfólio</a></li>
+</ul>
+</div>
+<button class="menu-toggle">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</button>
+</div>
+</nav>
+<section id="home-section" class="main-section">
+    <div class="section-content">
+        <div class="hero-content">
+            <h1>Jogos Interativos</h1>
+            <p class="subtitle">Divirta-se e descubra mais sobre você</p>
+            <p>Escolha um dos jogos abaixo e teste suas habilidades, personalidade e conhecimentos.</p>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="showSection('bem-cruel')">
+                    <h3>Pessoa do Bem ou Cruel</h3>
+                    <p>Descubra se você é uma pessoa do bem ou cruel através de 10 perguntas sobre suas atitudes.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('qi')">
+                    <h3>Teste de QI 1</h3>
+                    <p>Teste sua inteligência com 20 questões de lógica. Você tem 20 minutos!</p>
+                </div>
+                <div class="menu-card" onclick="showSection('qi2')">
+                    <h3>Teste de QI 2 (Difícil)</h3>
+                    <p>20 perguntas, Nível Difícil.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('memoria')">
+                    <h3>Jogo da Memória</h3>
+                    <p>Desafie sua memória! Memorize e repita a sequência correta até o nível 30.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('namorado')">
+                    <h3>Bom Namorado(a)</h3>
+                    <p>Será que você é um bom namorado ou namorada? Descubra com 20 perguntas sinceras.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('cantores')">
+                    <h3>Cantores Famosos</h3>
+                    <p>Teste seus conhecimentos sobre os cantores mais famosos de cada ano!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="history-section" class="main-section hidden">
+    <div class="section-content">
         <div class="container">
-            <div class="logo" onclick="window.location.href='https://yasmim.pro/'">Yasmim Nathalie</div>
-            <div class="nav-links">
-                <button class="close-menu-btn">&times;</button>
-                <ul>
-                    <li><a onclick="showSection('home')">Início</a></li>
-                    <li><a href="https://yasmim.pro/">Voltar ao Portfólio</a></li>
-                </ul>
-            </div>
-            <button class="menu-toggle">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </button>
-        </div>
-    </nav>
-
-    <section id="home-section" class="main-section">
-        <div class="section-content">
-            <div class="hero-content">
-                <h1>Jogos Interativos</h1>
-                <p class="subtitle">Divirta-se e descubra mais sobre você</p>
-                <p>Escolha um dos jogos abaixo e teste suas habilidades, personalidade e conhecimentos.</p>
-                <div class="menu-grid">
-                    <div class="menu-card" onclick="showSection('bem-cruel')">
-                        <h3>Pessoa do Bem ou Cruel</h3>
-                        <p>Descubra se você é uma pessoa do bem ou cruel através de 10 perguntas sobre suas atitudes.</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('qi')">
-                        <h3>Teste de QI</h3>
-                        <p>Teste sua inteligência com 20 questões de lógica difíceis. Você tem 20 minutos!</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('memoria')">
-                        <h3>Jogo da Memória</h3>
-                        <p>Desafie sua memória! Memorize e repita a sequência correta até o nível 30.</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('namorado')">
-                        <h3>Bom Namorado(a)</h3>
-                        <p>Será que você é um bom namorado ou namorada? Descubra com 20 perguntas sinceras.</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('cantores')">
-                        <h3>Cantores Famosos</h3>
-                        <p>Teste seus conhecimentos sobre os cantores mais famosos de cada ano!</p>
-                    </div>
+            <div class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Histórico de Jogos</h2>
+                <div id="history-content">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Jogo</th>
+                                <th>Pontuação</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="bem-cruel-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
-                <div id="bem-cruel-quiz" class="content-card">
-                    <h2 style="color: white; font-size: 2rem; margin-bottom: 2rem; text-align: center;">Você é uma Pessoa do Bem ou Cruel?</h2>
-                    <div id="bem-cruel-questions"></div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="calculateBemCruel()"><span>Ver Resultado</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
-                    </div>
-                </div>
-                <div id="bem-cruel-result" class="content-card hidden">
-                    <div class="result-card">
-                        <h2 id="bem-cruel-title"></h2>
-                        <div class="score-display" id="bem-cruel-score"></div>
-                        <p style="color: white; font-size: 1.3rem;" id="bem-cruel-desc"></p>
-                        <button class="btn btn-primary" onclick="resetBemCruel()"><span>Jogar Novamente</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="qi-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
-                <div id="qi-start" class="content-card" style="text-align: center;">
-                    <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Teste de QI</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">20 questões de lógica difíceis. Tempo máximo: 20 minutos.</p>
-                    <button class="btn btn-primary" onclick="startQI()"><span>Iniciar Teste</span></button>
+<section id="bem-cruel-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="bem-cruel-quiz" class="content-card">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 2rem; text-align: center;">Você é uma Pessoa do Bem ou Cruel?</h2>
+                <div id="bem-cruel-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateBemCruel()"><span>Ver Resultado</span></button>
                     <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
                 </div>
-                <div id="qi-active" class="hidden">
-                    <div class="content-card">
-                        <div class="quiz-header">
-                            <div class="timer" id="qi-timer">20:00</div>
-                            <div class="question-counter" id="qi-counter">Questão 1 de 20</div>
-                        </div>
-                        <div class="question-card">
-                            <div class="question-text" id="qi-question"></div>
-                            <div class="options" id="qi-options"></div>
-                        </div>
-                        <div style="text-align: center;">
-                            <button class="btn btn-primary" onclick="nextQI()"><span>Próxima</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div id="qi-result" class="content-card hidden">
-                    <div class="result-card">
-                        <h2>Resultado do Teste</h2>
-                        <div class="score-display" id="qi-score"></div>
-                        <p style="color: white; font-size: 1.3rem;" id="qi-desc"></p>
-                        <button class="btn btn-primary" onclick="showSection('qi'); resetQI();"><span>Fazer Novamente</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
-                    </div>
+            </div>
+            <div id="bem-cruel-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2 id="bem-cruel-title"></h2>
+                    <div class="score-display" id="bem-cruel-score"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="bem-cruel-desc"></p>
+                    <button class="btn btn-primary" onclick="resetBemCruel()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="memoria-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
+<section id="qi-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="qi-start" class="content-card" style="text-align: center;">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Teste de QI 1</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">20 questões de lógica. Tempo máximo: 20 minutos.</p>
+                <button class="btn btn-primary" onclick="startQI()"><span>Iniciar Teste</span></button>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+            <div id="qi-active" class="hidden">
                 <div class="content-card">
-                    <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem; text-align: center;">Jogo da Memória</h2>
-                    <div class="level-display" id="memory-level">Nível: 1</div>
-                    <div id="memory-message" style="text-align: center; color: white; margin-bottom: 1rem; font-size: 1.2rem;">Memorize a sequência!</div>
-                    <div class="memory-grid" id="memory-grid"></div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="startMemory()" id="memory-start"><span>Iniciar</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                    <div class="quiz-header">
+                        <div class="timer" id="qi-timer">20:00</div>
+                        <div class="question-counter" id="qi-counter">Questão 1 de 20</div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-text" id="qi-question"></div>
+                        <div class="options" id="qi-options"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="nextQI()"><span>Próxima</span></button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="namorado-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
-                <div id="namorado-quiz" class="content-card">
-                    <h2 style="color: white; font-size: 2rem; margin-bottom: 2rem; text-align: center;">Você é um Bom Namorado(a)?</h2>
-                    <div id="namorado-questions"></div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="calculateNamorado()"><span>Ver Resultado</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
-                    </div>
-                </div>
-                <div id="namorado-result" class="content-card hidden">
-                    <div class="result-card">
-                        <h2 id="namorado-title"></h2>
-                        <div class="score-display" id="namorado-score"></div>
-                        <p style="color: white; font-size: 1.3rem;" id="namorado-desc"></p>
-                        <button class="btn btn-primary" onclick="resetNamorado()"><span>Jogar Novamente</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="cantores-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
-                <div id="cantores-start" class="content-card" style="text-align: center;">
-                    <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Cantores Mais Famosos</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Descubra qual foi o cantor ou cantora mais famoso de cada ano!</p>
-                    <button class="btn btn-primary" onclick="startCantores()"><span>Iniciar Quiz</span></button>
+            <div id="qi-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Resultado do Teste</h2>
+                    <div class="score-display" id="qi-score"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="qi-desc"></p>
+                    <div id="qi-review" class="review-section"></div>
+                    <button class="btn btn-primary" onclick="showSection('qi'); resetQI();"><span>Fazer Novamente</span></button>
                     <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
                 </div>
-                <div id="cantores-active" class="hidden">
-                    <div class="content-card">
-                        <div class="question-counter" id="cantores-counter" style="text-align: center; margin-bottom: 2rem;">Questão 1 de 10</div>
-                        <div class="question-card">
-                            <div class="question-text" id="cantores-question"></div>
-                            <div class="options" id="cantores-options"></div>
-                        </div>
-                        <div style="text-align: center;">
-                            <button class="btn btn-primary" onclick="nextCantores()"><span>Próxima</span></button>
-                        </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="qi2-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="qi2-start" class="content-card" style="text-align: center;">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Teste de QI 2 (Nível Extremo)</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">20 questões aleatórias. Pegadinhas visuais e lógicas. Tempo: 20 minutos.</p>
+                <button class="btn btn-primary" onclick="startQI2()"><span>Iniciar Desafio</span></button>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+            <div id="qi2-active" class="hidden">
+                <div class="content-card">
+                    <div class="quiz-header">
+                        <div class="timer" id="qi2-timer">20:00</div>
+                        <div class="question-counter" id="qi2-counter">Questão 1 de 20</div>
                     </div>
-                </div>
-                <div id="cantores-result" class="content-card hidden">
-                    <div class="result-card">
-                        <h2>Resultado Final</h2>
-                        <div class="score-display" id="cantores-score"></div>
-                        <p style="color: white; font-size: 1.3rem;" id="cantores-desc"></p>
-                        <button class="btn btn-primary" onclick="resetCantores()"><span>Jogar Novamente</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                    <div class="question-card">
+                        <div class="question-text" id="qi2-question"></div>
+                        <div class="options" id="qi2-options"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="nextQI2()"><span>Próxima</span></button>
                     </div>
                 </div>
             </div>
+            <div id="qi2-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Resultado Extremo</h2>
+                    <div class="score-display" id="qi2-score"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="qi2-desc"></p>
+                    <div id="qi2-review" class="review-section"></div>
+                    <button class="btn btn-primary" onclick="showSection('qi2'); resetQI2();"><span>Tentar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer>
+<section id="memoria-section" class="main-section hidden">
+    <div class="section-content">
         <div class="container">
-            <p>© 2025 Yasmim Nathalie</p>
-            <p>Jogos Interativos</p>
+            <div class="content-card">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem; text-align: center;">Jogo da Memória</h2>
+                <div class="level-display" id="memory-level">Nível: 1</div>
+                <div id="memory-message" style="text-align: center; color: white; margin-bottom: 1rem; font-size: 1.2rem;">Memorize a sequência!</div>
+                <div class="memory-grid" id="memory-grid"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="startMemory()" id="memory-start"><span>Iniciar</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+</section>
+
+<section id="namorado-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="namorado-quiz" class="content-card">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 2rem; text-align: center;">Você é um Bom Namorado(a)?</h2>
+                <div id="namorado-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateNamorado()"><span>Ver Resultado</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="namorado-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2 id="namorado-title"></h2>
+                    <div class="score-display" id="namorado-score"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="namorado-desc"></p>
+                    <button class="btn btn-primary" onclick="resetNamorado()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="cantores-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="cantores-start" class="content-card" style="text-align: center;">
+                <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Cantores Mais Famosos</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Descubra qual foi o cantor ou cantora mais famoso de cada ano!</p>
+                <button class="btn btn-primary" onclick="startCantores()"><span>Iniciar Quiz</span></button>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+            <div id="cantores-active" class="hidden">
+                <div class="content-card">
+                    <div class="question-counter" id="cantores-counter" style="text-align: center; margin-bottom: 2rem;">Questão 1 de 10</div>
+                    <div class="question-card">
+                        <div class="question-text" id="cantores-question"></div>
+                        <div class="options" id="cantores-options"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="nextCantores()"><span>Próxima</span></button>
+                    </div>
+                </div>
+            </div>
+            <div id="cantores-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Resultado Final</h2>
+                    <div class="score-display" id="cantores-score"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="cantores-desc"></p>
+                    <button class="btn btn-primary" onclick="resetCantores()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2025 Yasmim Nathalie</p>
+        <p>Jogos Interativos</p>
+    </div>
+</footer>
+
 <script>
 const bemCruelQuestions=[
-    {q:"Você encontra uma carteira com dinheiro na rua. O que faz?",o:["Pego o dinheiro e jogo a carteira fora","Procuro devolver ao dono","Deixo onde está","Pego só uma parte do dinheiro"],good:[1]},
-    {q:"Um colega seu está sendo criticado injustamente. Você:",o:["Defendo ele publicamente","Fico quieto para não me envolver","Aproveito para criticar também","Finjo que não vi nada"],good:[0]},
-    {q:"Você vê um animal abandonado e machucado. O que faz?",o:["Ignoro e sigo meu caminho","Tento ajudar de alguma forma","Chamo alguém para resolver","Tiro foto para as redes sociais"],good:[1]},
-    {q:"Um vendedor te dá troco errado a mais. Você:",o:["Guardo o dinheiro extra","Aviso sobre o erro","Só aviso se for muito dinheiro","Não falo nada"],good:[1]},
-    {q:"Alguém te conta um segredo pessoal. Você:",o:["Conto para meus amigos mais próximos","Guardo para mim","Uso contra a pessoa se precisar","Espalho na internet anônimo"],good:[1]},
-    {q:"Você pode ajudar alguém mas vai te custar tempo. Você:",o:["Ajudo sem pensar duas vezes","Só ajudo se for conveniente","Finjo que estou ocupado","Peço algo em troca"],good:[0]},
-    {q:"Vê alguém sendo assaltado na rua. O que faz?",o:["Chamo a polícia ou ajudo","Finjo que não vi","Gravo um vídeo","Atravesso a rua"],good:[0]},
-    {q:"Um amigo te pede dinheiro emprestado. Você:",o:["Empresto sem cobrar de volta","Empresto mas cobro juros","Invento desculpa","Empresto e fico cobrando sempre"],good:[0]},
-    {q:"Recebe nota errada a mais no restaurante. Você:",o:["Aproveito e não falo nada","Aviso o garçom","Só aviso se alguém perceber","Reclamo que falta mais ainda"],good:[1]},
-    {q:"Pode prejudicar alguém para conseguir uma promoção. Você:",o:["Faço o que for necessário","Nunca prejudicaria ninguém","Depende da pessoa","Espalho boatos sutis"],good:[1]},
-    {q:"Encontra um celular caro perdido. O que faz?",o:["Fico com ele","Tento devolver ao dono","Vendo online","Dou para alguém"],good:[1]},
-    {q:"Vê um idoso caindo na rua. Você:",o:["Corro para ajudar","Observo se alguém vai ajudar","Passo reto","Tiro foto"],good:[0]},
-    {q:"Pode mentir para não prejudicar alguém. Você:",o:["Minto para proteger","Sempre falo a verdade","Depende da situação","Falo a verdade querendo prejudicar"],good:[0,2]},
-    {q:"Um amigo erra feio em público. Você:",o:["Rio dele junto com todos","Defendo e ajudo discretamente","Finjo que não conheço","Uso isso depois"],good:[1]},
-    {q:"Alguém precisa de ajuda urgente mas você está cansado:",o:["Ignoro e vou descansar","Ajudo mesmo cansado","Finjo que não vi","Mando mensagem só"],good:[1]},
-    {q:"Vê alguém chorando sozinho. Você:",o:["Pergunto se posso ajudar","Deixo a pessoa sozinha","Julgo mentalmente","Tiro foto escondido"],good:[0]},
-    {q:"Pode pegar crédito pelo trabalho de outro:",o:["Pego sem pensar","Nunca faria isso","Divido o crédito","Pego mas compenso depois"],good:[1,2]},
-    {q:"Um desconhecido te pede ajuda na rua:",o:["Ajudo no que puder","Ignoro completamente","Só ajudo se parecer confiável","Mando procurar autoridades"],good:[0,2]},
-    {q:"Descobre que um amigo te traiu. Você:",o:["Planejo vingança cruel","Converso para entender","Corto relações calmamente","Exponho publicamente"],good:[1,2]},
-    {q:"Pode mentir para ganhar algo importante:",o:["Minto sem culpa","Nunca mentiria","Depende do prêmio","Minto e depois compenso"],good:[1]}
+{q:"Você encontra uma carteira com dinheiro na rua. O que faz?",o:["Pego o dinheiro e jogo a carteira fora","Procuro devolver ao dono","Deixo onde está","Pego só uma parte do dinheiro"],good:[1]},
+{q:"Um colega seu está sendo criticado injustamente. Você:",o:["Defendo ele publicamente","Fico quieto para não me envolver","Aproveito para criticar também","Finjo que não vi nada"],good:[0]},
+{q:"Você vê um animal abandonado e machucado. O que faz?",o:["Ignoro e sigo meu caminho","Tento ajudar de alguma forma","Chamo alguém para resolver","Tiro foto para as redes sociais"],good:[1]},
+{q:"Um vendedor te dá troco errado a mais. Você:",o:["Guardo o dinheiro extra","Aviso sobre o erro","Só aviso se for muito dinheiro","Não falo nada"],good:[1]},
+{q:"Alguém te conta um segredo pessoal. Você:",o:["Conto para meus amigos mais próximos","Guardo para mim","Uso contra a pessoa se precisar","Espalho na internet anônimo"],good:[1]},
+{q:"Você pode ajudar alguém mas vai te custar tempo. Você:",o:["Ajudo sem pensar duas vezes","Só ajudo se for conveniente","Finjo que estou ocupado","Peço algo em troca"],good:[0]},
+{q:"Vê alguém sendo assaltado na rua. O que faz?",o:["Chamo a polícia ou ajudo","Finjo que não vi","Gravo um vídeo","Atravesso a rua"],good:[0]},
+{q:"Um amigo te pede dinheiro emprestado. Você:",o:["Empresto sem cobrar de volta","Empresto mas cobro juros","Invento desculpa","Empresto e fico cobrando sempre"],good:[0]},
+{q:"Recebe nota errada a mais no restaurante. Você:",o:["Aproveito e não falo nada","Aviso o garçom","Só aviso se alguém perceber","Reclamo que falta mais ainda"],good:[1]},
+{q:"Pode prejudicar alguém para conseguir uma promoção. Você:",o:["Faço o que for necessário","Nunca prejudicaria ninguém","Depende da pessoa","Espalho boatos sutis"],good:[1]},
+{q:"Encontra um celular caro perdido. O que faz?",o:["Fico com ele","Tento devolver ao dono","Vendo online","Dou para alguém"],good:[1]},
+{q:"Vê um idoso caindo na rua. Você:",o:["Corro para ajudar","Observo se alguém vai ajudar","Passo reto","Tiro foto"],good:[0]},
+{q:"Pode mentir para não prejudicar alguém. Você:",o:["Minto para proteger","Sempre falo a verdade","Depende da situação","Falo a verdade querendo prejudicar"],good:[0,2]},
+{q:"Um amigo erra feio em público. Você:",o:["Rio dele junto com todos","Defendo e ajudo discretamente","Finjo que não conheço","Uso isso depois"],good:[1]},
+{q:"Alguém precisa de ajuda urgente mas você está cansado:",o:["Ignoro e vou descansar","Ajudo mesmo cansado","Finjo que não vi","Mando mensagem só"],good:[1]},
+{q:"Vê alguém chorando sozinho. Você:",o:["Pergunto se posso ajudar","Deixo a pessoa sozinha","Julgo mentalmente","Tiro foto escondido"],good:[0]},
+{q:"Pode pegar crédito pelo trabalho de outro:",o:["Pego sem pensar","Nunca faria isso","Divido o crédito","Pego mas compenso depois"],good:[1,2]},
+{q:"Um desconhecido te pede ajuda na rua:",o:["Ajudo no que puder","Ignoro completamente","Só ajudo se parecer confiável","Mando procurar autoridades"],good:[0,2]},
+{q:"Descobre que um amigo te traiu. Você:",o:["Planejo vingança cruel","Converso para entender","Corto relações calmamente","Exponho publicamente"],good:[1,2]},
+{q:"Pode mentir para ganhar algo importante:",o:["Minto sem culpa","Nunca mentiria","Depende do prêmio","Minto e depois compenso"],good:[1]}
 ];
 
 const qiQuestions=[
-    {q:"Se 5 máquinas fazem 5 produtos em 5 minutos, quanto tempo 100 máquinas levam para fazer 100 produtos?",o:["100 minutos","50 minutos","5 minutos","10 minutos"],c:2},
-    {q:"Em uma corrida, você ultrapassa o segundo colocado. Em que posição você está?",o:["Primeiro","Segundo","Terceiro","Quarto"],c:1},
-    {q:"Qual número completa a sequência: 2, 6, 12, 20, 30, ?",o:["40","42","38","44"],c:1},
-    {q:"Se alguns meses têm 30 dias e outros 31, quantos têm 28 dias?",o:["1","2","12","11"],c:2},
-    {q:"O pai de Maria tem 5 filhas: Nana, Nene, Nini, Nono. Qual o nome da quinta?",o:["Nunu","Maria","Nina","Nana"],c:1},
-    {q:"Um trem elétrico vai do sul para o norte. Para que lado vai a fumaça?",o:["Norte","Sul","Não tem fumaça","Leste"],c:2},
-    {q:"Quantas vezes você pode subtrair 10 de 100?",o:["10","9","1","100"],c:2},
-    {q:"Se há 3 maçãs e você pega 2, quantas você tem?",o:["2","3","1","5"],c:0},
-    {q:"Um fazendeiro tem 17 ovelhas. Todas morrem menos 9. Quantas sobram?",o:["8","9","17","0"],c:1},
-    {q:"Qual é o próximo: 1, 1, 2, 3, 5, 8, ?",o:["10","11","13","12"],c:2},
-    {q:"Se você tem uma caixa de fósforos e entra num quarto com vela, lareira e lampião, o que acende primeiro?",o:["Vela","Fósforo","Lareira","Lampião"],c:1},
-    {q:"Quanto é metade de 2 + 2?",o:["2","3","4","1"],c:1},
-    {q:"Divida 30 por 1/2 e some 10. Quanto é?",o:["25","70","35","45"],c:1},
-    {q:"Um livro custa R$10 mais metade do seu preço. Quanto custa?",o:["15","20","25","30"],c:1},
-    {q:"Você tem 2 moedas que somam R$1,10. Uma não é de R$1,00. Quais são?",o:["50c e 60c","1,00 e 10c","55c e 55c","Impossível"],c:1},
-    {q:"Se 2 é companhia e 3 é multidão, o que são 4 e 5?",o:["Grupo","9","Multidão","Festa"],c:1},
-    {q:"Quantos animais de cada Moisés colocou na arca?",o:["2","1","7","Nenhum, foi Noé"],c:3},
-    {q:"Se um avião cai na fronteira entre Brasil e Argentina, onde enterram os sobreviventes?",o:["Brasil","Argentina","Não enterram sobreviventes","Fronteira"],c:2},
-    {q:"Qual número vem a seguir: 1, 4, 9, 16, 25, ?",o:["30","36","35","49"],c:1},
-    {q:"Você entra num quarto com 34 pessoas. Um assassino entra e mata 30. Quantas pessoas há no quarto?",o:["5","4","35","31"],c:2},
-    {q:"Complete: 2, 3, 5, 7, 11, 13, ?",o:["15","17","19","16"],c:1},
-    {q:"Se ontem era 21 de dezembro, que dia será daqui a 3 dias depois de amanhã?",o:["26","27","25","24"],c:0},
-    {q:"Um pai e um filho sofrem acidente. O pai morre e o filho vai pro hospital. O cirurgião diz 'não posso operar, é meu filho'. Como?",o:["Padrasto","Cirurgião é a mãe","Adotivo","Erro"],c:1},
-    {q:"Se há 12 peixes e 2 se afogam, quantos restam?",o:["10","12","14","Peixes não se afogam"],c:1},
-    {q:"Qual o próximo: O, D, T, Q, C, S, S, ?",o:["N","O","D","T"],c:1},
-    {q:"Uma escada de 10m está encostada num prédio. A base está a 6m da parede. Qual a altura que alcança?",o:["6m","8m","10m","4m"],c:1},
-    {q:"Se A=1, B=2, C=3... Quanto vale VIDA?",o:["22","45","37","48"],c:2},
-    {q:"Quantas letras tem no alfabeto?",o:["26","23","8","11"],c:3},
-    {q:"Qual número é 4 vezes maior que sua metade?",o:["2","4","8","16"],c:1},
-    {q:"Se 1=3, 2=3, 3=5, 4=4, 5=4, então 6=?",o:["3","4","5","6"],c:0},
-    {q:"Quatro pessoas atravessam uma ponte à noite. Só podem ir 2 por vez. Têm 1 lanterna. A=1min, B=2min, C=5min, D=10min. Tempo mínimo?",o:["17","19","15","18"],c:0},
-    {q:"Um caracol sobe 3m por dia e desce 2m à noite numa parede de 10m. Em quantos dias chega ao topo?",o:["8","10","7","9"],c:0},
-    {q:"Você tem 3 interruptores fora de uma sala e 1 lâmpada dentro. Pode entrar só 1 vez. Como descobre qual interruptor?",o:["Liga 1 e espera","Liga 2 por tempo diferente","Liga 1, espera, desliga, liga 2","Impossível"],c:2},
-    {q:"Qual o menor número divisível por 1,2,3,4,5,6,7,8,9,10?",o:["3628800","2520","5040","1260"],c:1},
-    {q:"Se hoje é terça, que dia será em 100 dias?",o:["Quinta","Terça","Quarta","Sexta"],c:0},
-    {q:"João tem irmãs e irmãos. Cada irmã tem 2x mais irmãos que irmãs. Quantos filhos são?",o:["7","5","6","8"],c:0},
-    {q:"Qual o próximo: 1, 11, 21, 1211, 111221, ?",o:["312211","211221","121221","311221"],c:0},
-    {q:"Um barco tem 26 ovelhas e 10 cabras. Qual a idade do capitão?",o:["36","Impossível saber","26","18"],c:1},
-    {q:"Quantas vezes a letra 'F' aparece em: 'FINISHED FILES ARE THE RESULT OF YEARS OF SCIENTIFIC STUDY'",o:["3","6","7","4"],c:1},
-    {q:"Se 3 gatos pegam 3 ratos em 3 minutos, quantos gatos pegam 100 ratos em 100 minutos?",o:["3","100","33","10"],c:0}
+{q:"Se 5 máquinas fazem 5 produtos em 5 minutos, quanto tempo 100 máquinas levam para fazer 100 produtos?",o:["100 minutos","50 minutos","5 minutos","10 minutos"],c:2},
+{q:"Em uma corrida, você ultrapassa o segundo colocado. Em que posição você está?",o:["Primeiro","Segundo","Terceiro","Quarto"],c:1},
+{q:"Qual número completa a sequência: 2, 6, 12, 20, 30, ?",o:["40","42","38","44"],c:1},
+{q:"Se alguns meses têm 30 dias e outros 31, quantos têm 28 dias?",o:["1","2","12","11"],c:2},
+{q:"O pai de Maria tem 5 filhas: Nana, Nene, Nini, Nono. Qual o nome da quinta?",o:["Nunu","Maria","Nina","Nana"],c:1},
+{q:"Um trem elétrico vai do sul para o norte. Para que lado vai a fumaça?",o:["Norte","Sul","Não tem fumaça","Leste"],c:2},
+{q:"Quantas vezes você pode subtrair 10 de 100?",o:["10","9","1","100"],c:2},
+{q:"Se há 3 maçãs e você pega 2, quantas você tem?",o:["2","3","1","5"],c:0},
+{q:"Um fazendeiro tem 17 ovelhas. Todas morrem menos 9. Quantas sobram?",o:["8","9","17","0"],c:1},
+{q:"Qual é o próximo: 1, 1, 2, 3, 5, 8, ?",o:["10","11","13","12"],c:2},
+{q:"Se você tem uma caixa de fósforos e entra num quarto com vela, lareira e lampião, o que acende primeiro?",o:["Vela","Fósforo","Lareira","Lampião"],c:1},
+{q:"Quanto é metade de 2 + 2?",o:["2","3","4","1"],c:1},
+{q:"Divida 30 por 1/2 e some 10. Quanto é?",o:["25","70","35","45"],c:1},
+{q:"Um livro custa R$10 mais metade do seu preço. Quanto custa?",o:["15","20","25","30"],c:1},
+{q:"Você tem 2 moedas que somam R$1,10. Uma não é de R$1,00. Quais são?",o:["50c e 60c","1,00 e 10c","55c e 55c","Impossível"],c:1},
+{q:"Se 2 é companhia e 3 é multidão, o que são 4 e 5?",o:["Grupo","9","Multidão","Festa"],c:1},
+{q:"Quantos animais de cada Moisés colocou na arca?",o:["2","1","7","Nenhum, foi Noé"],c:3},
+{q:"Se um avião cai na fronteira entre Brasil e Argentina, onde enterram os sobreviventes?",o:["Brasil","Argentina","Não enterram sobreviventes","Fronteira"],c:2},
+{q:"Qual número vem a seguir: 1, 4, 9, 16, 25, ?",o:["30","36","35","49"],c:1},
+{q:"Você entra num quarto com 34 pessoas. Um assassino entra e mata 30. Quantas pessoas há no quarto?",o:["5","4","35","31"],c:2},
+{q:"Complete: 2, 3, 5, 7, 11, 13, ?",o:["15","17","19","16"],c:1},
+{q:"Se ontem era 21 de dezembro, que dia será daqui a 3 dias depois de amanhã?",o:["26","27","25","24"],c:0},
+{q:"Um pai e um filho sofrem acidente. O pai morre e o filho vai pro hospital. O cirurgião diz 'não posso operar, é meu filho'. Como?",o:["Padrasto","Cirurgião é a mãe","Adotivo","Erro"],c:1},
+{q:"Se há 12 peixes e 2 se afogam, quantos restam?",o:["10","12","14","Peixes não se afogam"],c:1},
+{q:"Qual o próximo: O, D, T, Q, C, S, S, ?",o:["N","O","D","T"],c:1},
+{q:"Uma escada de 10m está encostada num prédio. A base está a 6m da parede. Qual a altura que alcança?",o:["6m","8m","10m","4m"],c:1},
+{q:"Se A=1, B=2, C=3... Quanto vale VIDA?",o:["22","45","37","48"],c:2},
+{q:"Quantas letras tem no alfabeto?",o:["26","23","8","11"],c:3},
+{q:"Qual número é 4 vezes maior que sua metade?",o:["2","4","8","16"],c:1},
+{q:"Se 1=3, 2=3, 3=5, 4=4, 5=4, então 6=?",o:["3","4","5","6"],c:0},
+{q:"Quatro pessoas atravessam uma ponte à noite. Só podem ir 2 por vez. Têm 1 lanterna. A=1min, B=2min, C=5min, D=10min. Tempo mínimo?",o:["17","19","15","18"],c:0},
+{q:"Um caracol sobe 3m por dia e desce 2m à noite numa parede de 10m. Em quantos dias chega ao topo?",o:["8","10","7","9"],c:0},
+{q:"Você tem 3 interruptores fora de uma sala e 1 lâmpada dentro. Pode entrar só 1 vez. Como descobre qual interruptor?",o:["Liga 1 e espera","Liga 2 por tempo diferente","Liga 1, espera, desliga, liga 2","Impossível"],c:2},
+{q:"Qual o menor número divisível por 1,2,3,4,5,6,7,8,9,10?",o:["3628800","2520","5040","1260"],c:1},
+{q:"Se hoje é terça, que dia será em 100 dias?",o:["Quinta","Terça","Quarta","Sexta"],c:0},
+{q:"João tem irmãs e irmãos. Cada irmã tem 2x mais irmãos que irmãs. Quantos filhos são?",o:["7","5","6","8"],c:0},
+{q:"Qual o próximo: 1, 11, 21, 1211, 111221, ?",o:["312211","211221","121221","311221"],c:0},
+{q:"Um barco tem 26 ovelhas e 10 cabras. Qual a idade do capitão?",o:["36","Impossível saber","26","18"],c:1},
+{q:"Quantas vezes a letra 'F' aparece em: 'FINISHED FILES ARE THE RESULT OF YEARS OF SCIENTIFIC STUDY'",o:["3","6","7","4"],c:1},
+{q:"Se 3 gatos pegam 3 ratos em 3 minutos, quantos gatos pegam 100 ratos em 100 minutos?",o:["3","100","33","10"],c:0}
+];
+
+const qi2Questions=[
+{q:"Qual a cor da palavra <span style='color:green; font-weight:bold'>AZUL</span>?",o:["Azul","Verde","Preto","Branco"],c:1},
+{q:"Você está numa sala escura com uma vela, um fogão a lenha e um lampião. Você tem apenas um fósforo. O que você acende primeiro?",o:["A vela","O fogão","O lampião","O fósforo"],c:3},
+{q:"Qual a cor da palavra <span style='color:red; font-weight:bold'>AMARELO</span>?",o:["Amarelo","Laranja","Vermelho","Azul"],c:2},
+{q:"Responda rápido: Quanto é a metade de 2 mais 2?",o:["3","2","4","1"],c:0},
+{q:"Se você está correndo e ultrapassa o último colocado, em que posição você fica?",o:["Último","Penúltimo","Primeiro","Impossível"],c:3},
+{q:"O pai do padre é filho único do meu pai. Quem sou eu?",o:["O padre","O pai","O filho","O avô"],c:1},
+{q:"Qual palavra está escrita errada no dicionário?",o:["Paralelepípedo","Errada","Inconstitucionalissimamente","Dicionário"],c:1},
+{q:"Qual a cor da palavra <span style='color:blue; font-weight:bold'>PRETO</span>?",o:["Preto","Roxo","Azul","Branco"],c:2},
+{q:"Um avião cheio de brasileiros cai na fronteira entre Argentina e Chile. Onde enterram os sobreviventes?",o:["Brasil","Argentina","Chile","Não se enterram sobreviventes"],c:3},
+{q:"O que é que sobe quando a chuva desce?",o:["O guarda-chuva","O nível do rio","A temperatura","O sol"],c:0},
+{q:"Se 1=5, 2=10, 3=15, 4=20, então 5=?",o:["25","30","1","5"],c:2},
+{q:"Qual mês tem 28 dias?",o:["Fevereiro","Todos","Nenhum","Dezembro"],c:1},
+{q:"O que pesa mais: 1kg de algodão ou 1kg de chumbo?",o:["Chumbo","Algodão","Mesmo peso","Depende da gravidade"],c:2},
+{q:"Quantos 9 existem entre 0 e 100?",o:["10","11","19","20"],c:3},
+{q:"Qual a cor da palavra <span style='color:orange; font-weight:bold'>ROXO</span>?",o:["Roxo","Laranja","Verde","Amarelo"],c:1},
+{q:"A mãe de Maria tem cinco filhas: Lalá, Lelé, Lili, Loló e...?",o:["Lulu","Maria","Joana","Ana"],c:1},
+{q:"O que você coloca numa torradeira?",o:["Torrada","Pão","Manteiga","Queijo"],c:1},
+{q:"Diga 'seda' 5 vezes. O que a vaca bebe?",o:["Seda","Leite","Água","Grama"],c:2},
+{q:"Um trem elétrico segue para o norte a 100km/h. O vento sopra para o leste. Para onde vai a fumaça?",o:["Sul","Sudeste","Leste","Não há fumaça"],c:3},
+{q:"Qual a cor da palavra <span style='color:yellow; font-weight:bold'>VERDE</span>?",o:["Verde","Azul","Amarelo","Branco"],c:2},
+{q:"Se eu tenho 4 laranjas e você me tira 3, com quantas eu fico?",o:["1","3","4","0"],c:0},
+{q:"O que tem cidades, mas não tem casas; montanhas, mas não tem árvores; e água, mas não tem peixes?",o:["Um sonho","Um mapa","Um filme","Uma maquete"],c:1},
+{q:"Em uma gaveta há 10 meias pretas e 10 meias brancas. Quantas meias você precisa tirar para ter certeza de ter um par?",o:["2","3","10","11"],c:1},
+{q:"Se ontem fosse amanhã, hoje seria sexta-feira. Que dia é hoje?",o:["Sábado","Domingo","Quarta","Quinta"],c:1},
+{q:"Quantos animais de cada espécie Moisés levou na arca?",o:["0","1","2","Nenhum, foi Noé"],c:3},
+{q:"Qual a cor da palavra <span style='color:black; font-weight:bold'>BRANCO</span>?",o:["Branco","Cinza","Preto","Transparente"],c:2},
+{q:"O que pertence a você, mas as outras pessoas usam mais do que você?",o:["Seu dinheiro","Seu nome","Seu carro","Sua casa"],c:1},
+{q:"Se cinco gatos pegam cinco ratos em cinco minutos, quantos gatos são necessários para pegar cem ratos em cem minutos?",o:["100","20","5","1"],c:2},
+{q:"Você está dirigindo um ônibus com 43 pessoas. Param e descem 7, sobem 5. Na próxima descem 8 e sobem 4. Qual a cor dos olhos do motorista?",o:["Castanhos","Azuis","Verdes","A sua cor"],c:3},
+{q:"Um fazendeiro tinha 15 vacas, todas morreram, menos 9. Quantas sobraram?",o:["6","9","15","0"],c:1},
+{q:"Quanto é 10 dividido por meio mais 20?",o:["25","30","40","70"],c:2},
+{q:"Qual a cor da palavra <span style='color:purple; font-weight:bold'>LARANJA</span>?",o:["Laranja","Roxo","Vermelho","Rosa"],c:1},
+{q:"É legal que um homem se case com a irmã de sua viúva?",o:["Sim","Não, ele está morto","Depende do país","Talvez"],c:1},
+{q:"O que é, o que é: Feito para andar e não anda?",o:["Rua","Bota","Carro","Perna"],c:0},
+{q:"Quantos lados tem um círculo?",o:["0","1","2","Infinitos"],c:2},
+{q:"Se um médico te dá 3 pílulas e manda tomar uma a cada meia hora, quanto tempo dura o tratamento?",o:["1h 30min","1 hora","2 horas","3 horas"],c:1},
+{q:"Qual a cor da palavra <span style='color:pink; font-weight:bold'>CINZA</span>?",o:["Cinza","Rosa","Branco","Preto"],c:1},
+{q:"Joãozinho tem o dobro da idade que Maria tinha quando Joãozinho tinha a idade que Maria tem. A soma das idades é 63. Qual a idade de João?",o:["28","35","21","42"],c:0},
+{q:"O que aparece uma vez no minuto, duas vezes no momento e nenhuma vez no ano?",o:["A letra M","O tempo","O relógio","O segundo"],c:0},
+{q:"Um homem olha para um retrato e diz: 'Não tenho irmãos nem irmãs, mas o pai desse homem é filho do meu pai'. De quem é a foto?",o:["Dele mesmo","Do filho dele","Do pai dele","Do avô dele"],c:1}
 ];
 
 const namoradoQuestions=[
-    {q:"Com que frequência você fala 'eu te amo' para seu parceiro(a)?",o:["Todo dia","Algumas vezes por semana","Raramente","Nunca"],good:[0,1]},
-    {q:"Seu parceiro(a) está triste. Você:",o:["Pergunto o que houve e ajudo","Dou espaço","Tento animar","Não percebo"],good:[0,2]},
-    {q:"Você costuma fazer surpresas românticas?",o:["Sempre que posso","De vez em quando","Raramente","Nunca"],good:[0,1]},
-    {q:"Como você reage quando seu parceiro(a) erra?",o:["Brigo muito","Converso com calma","Ignoro","Perdoo fácil"],good:[1,3]},
-    {q:"Você demonstra carinho em público?",o:["Sim, sempre","Às vezes","Raramente","Nunca"],good:[0,1]},
-    {q:"Com que frequência você planeja encontros especiais?",o:["Toda semana","Todo mês","Raramente","Nunca"],good:[0,1]},
-    {q:"Você escuta atentamente quando seu parceiro(a) fala?",o:["Sempre","Quase sempre","Às vezes","Raramente"],good:[0,1]},
-    {q:"Como você lida com ciúmes?",o:["Não sinto","Sinto mas controlo","Fico muito ciumento","Faço cenas"],good:[0,1]},
-    {q:"Você respeita o espaço pessoal do seu parceiro(a)?",o:["Sempre","Quase sempre","Às vezes","Nunca"],good:[0,1]},
-    {q:"Com que frequência vocês brigam?",o:["Nunca","Raramente","Frequentemente","Todo dia"],good:[0,1]},
-    {q:"Você apoia os sonhos do seu parceiro(a)?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
-    {q:"Como você trata a família dele(a)?",o:["Com muito respeito","Bem","Normal","Evito"],good:[0,1]},
-    {q:"Você admite quando está errado(a)?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
-    {q:"Com que frequência vocês conversam profundamente?",o:["Todo dia","Várias vezes por semana","Raramente","Nunca"],good:[0,1]},
-    {q:"Você faz elogios ao seu parceiro(a)?",o:["Todo dia","Várias vezes por semana","Raramente","Nunca"],good:[0,1]},
-    {q:"Como você reage a críticas construtivas?",o:["Aceito e melhoro","Aceito mal","Ignoro","Brigo"],good:[0]},
-    {q:"Você prioriza tempo de qualidade juntos?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
-    {q:"Como você lida com problemas no relacionamento?",o:["Converso para resolver","Guardo para mim","Brigo","Ignoro"],good:[0]},
-    {q:"Você confia no seu parceiro(a)?",o:["Totalmente","Na maioria das vezes","Às vezes","Pouco"],good:[0,1]},
-    {q:"Com que frequência você faz algo especial sem motivo?",o:["Sempre","Às vezes","Raramente","Nunca"],good:[0,1]},
-    {q:"Você valoriza as pequenas coisas que seu parceiro(a) faz?",o:["Sempre","Na maioria das vezes","Às vezes","Não percebo"],good:[0,1]},
-    {q:"Como você age quando está com raiva?",o:["Respiro e converso depois","Falo na hora com calma","Brigo na hora","Ignoro por dias"],good:[0,1]},
-    {q:"Você compartilha suas emoções abertamente?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
-    {q:"Com que frequência você pede desculpas quando erra?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
-    {q:"Você se esforça para manter o relacionamento interessante?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
-    {q:"Como você reage quando seu parceiro(a) precisa de espaço?",o:["Respeito completamente","Fico triste mas respeito","Insisto em ficar junto","Fico com raiva"],good:[0,1]},
-    {q:"Você comemora as conquistas do seu parceiro(a)?",o:["Sempre com entusiasmo","Sim","Às vezes","Raramente"],good:[0,1]},
-    {q:"Com que frequência você se dedica à aparência para agradar?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
-    {q:"Você é fiel nos pensamentos e atitudes?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
-    {q:"Como você demonstra amor?",o:["Palavras e ações","Só palavras","Só ações","Espero que saibam"],good:[0]},
-    {q:"Você se comunica claramente sobre suas necessidades?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
-    {q:"Com que frequência vocês se divertem juntos?",o:["Muito","Bastante","Pouco","Quase nunca"],good:[0,1]},
-    {q:"Você aceita as diferenças do seu parceiro(a)?",o:["Totalmente","Na maioria","Algumas","Poucas"],good:[0,1]},
-    {q:"Como você lida com o passado do seu parceiro(a)?",o:["Aceito totalmente","Aceito mas incomoda","Não aceito bem","Cobro sempre"],good:[0,1]},
-    {q:"Você faz planos de futuro juntos?",o:["Sempre","Frequentemente","Às vezes","Nunca"],good:[0,1]},
-    {q:"Com que frequência você surpreende positivamente?",o:["Sempre","Frequentemente","Raramente","Nunca"],good:[0,1]},
-    {q:"Você valoriza a opinião do seu parceiro(a)?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
-    {q:"Como você reage quando está estressado?",o:["Comunico e peço paciência","Fico quieto","Descarrego no parceiro","Brigo"],good:[0,1]},
-    {q:"Você mantém as promessas que faz?",o:["Sempre","Quase sempre","Às vezes","Raramente"],good:[0,1]},
-    {q:"Com que frequência você mostra gratidão?",o:["Todo dia","Várias vezes por semana","Às vezes","Raramente"],good:[0,1]}
+{q:"Com que frequência você fala 'eu te amo' para seu parceiro(a)?",o:["Todo dia","Algumas vezes por semana","Raramente","Nunca"],good:[0,1]},
+{q:"Seu parceiro(a) está triste. Você:",o:["Pergunto o que houve e ajudo","Dou espaço","Tento animar","Não percebo"],good:[0,2]},
+{q:"Você costuma fazer surpresas românticas?",o:["Sempre que posso","De vez em quando","Raramente","Nunca"],good:[0,1]},
+{q:"Como você reage quando seu parceiro(a) erra?",o:["Brigo muito","Converso com calma","Ignoro","Perdoo fácil"],good:[1,3]},
+{q:"Você demonstra carinho em público?",o:["Sim, sempre","Às vezes","Raramente","Nunca"],good:[0,1]},
+{q:"Com que frequência você planeja encontros especiais?",o:["Toda semana","Todo mês","Raramente","Nunca"],good:[0,1]},
+{q:"Você escuta atentamente quando seu parceiro(a) fala?",o:["Sempre","Quase sempre","Às vezes","Raramente"],good:[0,1]},
+{q:"Como você lida com ciúmes?",o:["Não sinto","Sinto mas controlo","Fico muito ciumento","Faço cenas"],good:[0,1]},
+{q:"Você respeita o espaço pessoal do seu parceiro(a)?",o:["Sempre","Quase sempre","Às vezes","Nunca"],good:[0,1]},
+{q:"Com que frequência vocês brigam?",o:["Nunca","Raramente","Frequentemente","Todo dia"],good:[0,1]},
+{q:"Você apoia os sonhos do seu parceiro(a)?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
+{q:"Como você trata a família dele(a)?",o:["Com muito respeito","Bem","Normal","Evito"],good:[0,1]},
+{q:"Você admite quando está errado(a)?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
+{q:"Com que frequência vocês conversam profundamente?",o:["Todo dia","Várias vezes por semana","Raramente","Nunca"],good:[0,1]},
+{q:"Você faz elogios ao seu parceiro(a)?",o:["Todo dia","Várias vezes por semana","Raramente","Nunca"],good:[0,1]},
+{q:"Como você reage a críticas construtivas?",o:["Aceito e melhoro","Aceito mal","Ignoro","Brigo"],good:[0]},
+{q:"Você prioriza tempo de qualidade juntos?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
+{q:"Como você lida com problemas no relacionamento?",o:["Converso para resolver","Guardo para mim","Brigo","Ignoro"],good:[0]},
+{q:"Você confia no seu parceiro(a)?",o:["Totalmente","Na maioria das vezes","Às vezes","Pouco"],good:[0,1]},
+{q:"Com que frequência você faz algo especial sem motivo?",o:["Sempre","Às vezes","Raramente","Nunca"],good:[0,1]},
+{q:"Você valoriza as pequenas coisas que seu parceiro(a) faz?",o:["Sempre","Na maioria das vezes","Às vezes","Não percebo"],good:[0,1]},
+{q:"Como você age quando está com raiva?",o:["Respiro e converso depois","Falo na hora com calma","Brigo na hora","Ignoro por dias"],good:[0,1]},
+{q:"Você compartilha suas emoções abertamente?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
+{q:"Com que frequência você pede desculpas quando erra?",o:["Sempre","Na maioria das vezes","Raramente","Nunca"],good:[0,1]},
+{q:"Você se esforça para manter o relacionamento interessante?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
+{q:"Como você reage quando seu parceiro(a) precisa de espaço?",o:["Respeito completamente","Fico triste mas respeito","Insisto em ficar junto","Fico com raiva"],good:[0,1]},
+{q:"Você comemora as conquistas do seu parceiro(a)?",o:["Sempre com entusiasmo","Sim","Às vezes","Raramente"],good:[0,1]},
+{q:"Com que frequência você se dedica à aparência para agradar?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
+{q:"Você é fiel nos pensamentos e atitudes?",o:["Sempre","Na maioria das vezes","Às vezes","Não muito"],good:[0,1]},
+{q:"Como você demonstra amor?",o:["Palavras e ações","Só palavras","Só ações","Espero que saibam"],good:[0]},
+{q:"Você se comunica claramente sobre suas necessidades?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
+{q:"Com que frequência vocês se divertem juntos?",o:["Muito","Bastante","Pouco","Quase nunca"],good:[0,1]},
+{q:"Você aceita as diferenças do seu parceiro(a)?",o:["Totalmente","Na maioria","Algumas","Poucas"],good:[0,1]},
+{q:"Como você lida com o passado do seu parceiro(a)?",o:["Aceito totalmente","Aceito mas incomoda","Não aceito bem","Cobro sempre"],good:[0,1]},
+{q:"Você faz planos de futuro juntos?",o:["Sempre","Frequentemente","Às vezes","Nunca"],good:[0,1]},
+{q:"Com que frequência você surpreende positivamente?",o:["Sempre","Frequentemente","Raramente","Nunca"],good:[0,1]},
+{q:"Você valoriza a opinião do seu parceiro(a)?",o:["Sempre","Na maioria das vezes","Às vezes","Raramente"],good:[0,1]},
+{q:"Como você reage quando está estressado?",o:["Comunico e peço paciência","Fico quieto","Descarrego no parceiro","Brigo"],good:[0,1]},
+{q:"Você mantém as promessas que faz?",o:["Sempre","Quase sempre","Às vezes","Raramente"],good:[0,1]},
+{q:"Com que frequência você mostra gratidão?",o:["Todo dia","Várias vezes por semana","Às vezes","Raramente"],good:[0,1]}
 ];
 
 const cantoresQuestions=[
-    {q:"Qual cantor(a) dominou as paradas em 2020 com hits como 'Blinding Lights'?",o:["The Weeknd","Drake","Ariana Grande","Post Malone"],c:0},
-    {q:"Em 2019, qual cantora lançou o álbum 'Thank U, Next' que foi um grande sucesso?",o:["Taylor Swift","Billie Eilish","Ariana Grande","Dua Lipa"],c:2},
-    {q:"Qual artista foi o mais ouvido no Spotify em 2018?",o:["Drake","Post Malone","Ed Sheeran","XXXTentacion"],c:0},
-    {q:"Em 2017, qual cantor lançou o mega hit 'Shape of You'?",o:["Ed Sheeran","Justin Bieber","Shawn Mendes","Sam Smith"],c:0},
-    {q:"Qual cantora dominou 2016 com 'Formation' e o álbum 'Lemonade'?",o:["Rihanna","Beyoncé","Adele","Lady Gaga"],c:1},
-    {q:"Em 2015, qual cantor lançou o álbum 'Purpose' com hits como 'Sorry' e 'Love Yourself'?",o:["Justin Bieber","The Weeknd","Drake","Bruno Mars"],c:0},
-    {q:"Qual artista marcou 2014 com o hit 'Shake It Off' e o álbum '1989'?",o:["Katy Perry","Taylor Swift","Ariana Grande","Meghan Trainor"],c:1},
-    {q:"Em 2013, qual dupla lançou 'Get Lucky' que foi hit mundial?",o:["The Chainsmokers","Daft Punk","Calvin Harris","Major Lazer"],c:1},
-    {q:"Qual cantora dominou 2012 com 'We Are Never Getting Back Together'?",o:["Adele","Katy Perry","Taylor Swift","Rihanna"],c:2},
-    {q:"Em 2011, qual cantora lançou o álbum '21' com 'Someone Like You'?",o:["Adele","Amy Winehouse","Beyoncé","Lady Gaga"],c:0},
-    {q:"Qual artista foi fenômeno em 2010 com 'Baby' e conquistou milhões de fãs?",o:["Justin Bieber","One Direction","Drake","Bruno Mars"],c:0},
-    {q:"Em 2009, qual cantora lançou 'Bad Romance' e dominou as paradas?",o:["Madonna","Lady Gaga","Katy Perry","Rihanna"],c:1},
-    {q:"Qual grupo feminino fez sucesso em 2008 com 'Single Ladies'?",o:["Destiny's Child","Beyoncé Solo","Pussycat Dolls","The Saturdays"],c:1},
-    {q:"Em 2007, qual cantora lançou o hit 'Umbrella' com Jay-Z?",o:["Beyoncé","Rihanna","Alicia Keys","Fergie"],c:1},
-    {q:"Qual cantor marcou 2006 com 'SexyBack' voltando ao pop?",o:["Justin Timberlake","Usher","Ne-Yo","Chris Brown"],c:0},
-    {q:"Em 2005, qual rapper dominou com o álbum 'The Massacre'?",o:["Eminem","50 Cent","Kanye West","Jay-Z"],c:1},
-    {q:"Qual banda lançou 'American Idiot' e foi fenômeno em 2004?",o:["Linkin Park","Green Day","Blink-182","Sum 41"],c:1},
-    {q:"Em 2003, qual cantora fez sucesso com 'In Da Club'?",o:["50 Cent","Nelly","Ludacris","Ja Rule"],c:0},
-    {q:"Qual cantora dominou 2002 com 'Complicated' e álbum 'Let Go'?",o:["Ashanti","Avril Lavigne","Michelle Branch","Vanessa Carlton"],c:1},
-    {q:"Em 2001, qual grupo feminino lançou o mega hit 'Survivor'?",o:["TLC","Destiny's Child","Spice Girls","Atomic Kitten"],c:1}
+{q:"Qual cantor(a) dominou as paradas em 2020 com hits como 'Blinding Lights'?",o:["The Weeknd","Drake","Ariana Grande","Post Malone"],c:0},
+{q:"Em 2019, qual cantora lançou o álbum 'Thank U, Next' que foi um grande sucesso?",o:["Taylor Swift","Billie Eilish","Ariana Grande","Dua Lipa"],c:2},
+{q:"Qual artista foi o mais ouvido no Spotify em 2018?",o:["Drake","Post Malone","Ed Sheeran","XXXTentacion"],c:0},
+{q:"Em 2017, qual cantor lançou o mega hit 'Shape of You'?",o:["Ed Sheeran","Justin Bieber","Shawn Mendes","Sam Smith"],c:0},
+{q:"Qual cantora dominou 2016 com 'Formation' e o álbum 'Lemonade'?",o:["Rihanna","Beyoncé","Adele","Lady Gaga"],c:1},
+{q:"Em 2015, qual cantor lançou o álbum 'Purpose' com hits como 'Sorry' e 'Love Yourself'?",o:["Justin Bieber","The Weeknd","Drake","Bruno Mars"],c:0},
+{q:"Qual artista marcou 2014 com o hit 'Shake It Off' e o álbum '1989'?",o:["Katy Perry","Taylor Swift","Ariana Grande","Meghan Trainor"],c:1},
+{q:"Em 2013, qual dupla lançou 'Get Lucky' que foi hit mundial?",o:["The Chainsmokers","Daft Punk","Calvin Harris","Major Lazer"],c:1},
+{q:"Qual cantora dominou 2012 com 'We Are Never Getting Back Together'?",o:["Adele","Katy Perry","Taylor Swift","Rihanna"],c:2},
+{q:"Em 2011, qual cantora lançou o álbum '21' com 'Someone Like You'?",o:["Adele","Amy Winehouse","Beyoncé","Lady Gaga"],c:0},
+{q:"Qual artista foi fenômeno em 2010 com 'Baby' e conquistou milhões de fãs?",o:["Justin Bieber","One Direction","Drake","Bruno Mars"],c:0},
+{q:"Em 2009, qual cantora lançou 'Bad Romance' e dominou as paradas?",o:["Madonna","Lady Gaga","Katy Perry","Rihanna"],c:1},
+{q:"Qual grupo feminino fez sucesso em 2008 com 'Single Ladies'?",o:["Destiny's Child","Beyoncé Solo","Pussycat Dolls","The Saturdays"],c:1},
+{q:"Em 2007, qual cantora lançou o hit 'Umbrella' com Jay-Z?",o:["Beyoncé","Rihanna","Alicia Keys","Fergie"],c:1},
+{q:"Qual cantor marcou 2006 com 'SexyBack' voltando ao pop?",o:["Justin Timberlake","Usher","Ne-Yo","Chris Brown"],c:0},
+{q:"Em 2005, qual rapper dominou com o álbum 'The Massacre'?",o:["Eminem","50 Cent","Kanye West","Jay-Z"],c:1},
+{q:"Qual banda lançou 'American Idiot' e foi fenômeno em 2004?",o:["Linkin Park","Green Day","Blink-182","Sum 41"],c:1},
+{q:"Em 2003, qual cantora fez sucesso com 'In Da Club'?",o:["50 Cent","Nelly","Ludacris","Ja Rule"],c:0},
+{q:"Qual cantora dominou 2002 com 'Complicated' e álbum 'Let Go'?",o:["Ashanti","Avril Lavigne","Michelle Branch","Vanessa Carlton"],c:1},
+{q:"Em 2001, qual grupo feminino lançou o mega hit 'Survivor'?",o:["TLC","Destiny's Child","Spice Girls","Atomic Kitten"],c:1}
 ];
 
 let bemCruelAnswers={};
 let qiCurrentQuestions=[];
 let qiCurrentIndex=0;
 let qiScore=0;
+let qiUserAnswers=[];
 let qiSelectedAnswer=null;
 let qiTimerInterval=null;
 let qiTimeLeft=1200;
 let qiStartTime=0;
+
+let qi2CurrentQuestions=[];
+let qi2CurrentIndex=0;
+let qi2Score=0;
+let qi2UserAnswers=[];
+let qi2SelectedAnswer=null;
+let qi2TimerInterval=null;
+let qi2TimeLeft=1200;
+let qi2StartTime=0;
+
 let memoryLevel=1;
 let memorySequence=[];
 let memoryUserSequence=[];
@@ -556,386 +681,526 @@ let cantoresCurrentIndex=0;
 let cantoresScore=0;
 let cantoresSelectedAnswer=null;
 
+function saveHistory(game, score, result){
+const history = JSON.parse(localStorage.getItem('gameHistory') || '[]');
+const date = new Date().toLocaleDateString('pt-BR');
+history.push({ date, game, score, result });
+localStorage.setItem('gameHistory', JSON.stringify(history));
+}
+
+function loadHistory(){
+const history = JSON.parse(localStorage.getItem('gameHistory') || '[]');
+const tbody = document.getElementById('history-body');
+tbody.innerHTML = '';
+if(history.length === 0){
+tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum jogo registrado.</td></tr>';
+} else {
+history.slice().reverse().forEach(item => {
+const tr = document.createElement('tr');
+tr.innerHTML = `<td>${item.date}</td><td>${item.game}</td><td>${item.score}</td><td>${item.result}</td>`;
+tbody.appendChild(tr);
+});
+}
+}
+
 function showSection(sectionName){
-    document.querySelectorAll('.main-section').forEach(section=>{section.classList.add('hidden');});
-    document.getElementById(sectionName+'-section').classList.remove('hidden');
-    document.querySelector('.nav-links').classList.remove('active');
-    if(sectionName==='bem-cruel'){initBemCruel();}
-    if(sectionName==='namorado'){initNamorado();}
-    if(sectionName==='memoria'){initMemoryGame();}
+document.querySelectorAll('.main-section').forEach(section=>{section.classList.add('hidden');});
+document.getElementById(sectionName+'-section').classList.remove('hidden');
+document.querySelector('.nav-links').classList.remove('active');
+if(sectionName==='bem-cruel'){initBemCruel();}
+if(sectionName==='namorado'){initNamorado();}
+if(sectionName==='memoria'){initMemoryGame();}
+if(sectionName==='history'){loadHistory();}
 }
 
 function shuffleArray(array){
-    const arr=[...array];
-    for(let i=arr.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
-    return arr;
+const arr=[...array];
+for(let i=arr.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[arr[i],arr[j]]=[arr[j],arr[i]];
+}
+return arr;
 }
 
 function initBemCruel(){
-    const selected=shuffleArray(bemCruelQuestions).slice(0,10);
-    const container=document.getElementById('bem-cruel-questions');
-    container.innerHTML='';
-    selected.forEach((q,idx)=>{
-        const div=document.createElement('div');
-        div.className='question-card';
-        div.innerHTML=`
-            <div class="question-text">${idx+1}. ${q.q}</div>
-            <div class="options">
-                ${q.o.map((opt,i)=>`<div class="option" onclick="selectBemCruel(${idx},${i})">${opt}</div>`).join('')}
-            </div>
-        `;
-        container.appendChild(div);
-    });
-    bemCruelAnswers={};
-    window.currentBemCruelQuestions=selected;
+const selected=shuffleArray(bemCruelQuestions).slice(0,10);
+const container=document.getElementById('bem-cruel-questions');
+container.innerHTML='';
+selected.forEach((q,idx)=>{
+const div=document.createElement('div');
+div.className='question-card';
+div.innerHTML=`
+<div class="question-text">${idx+1}. ${q.q}</div>
+<div class="options">
+${q.o.map((opt,i)=>`<div class="option" onclick="selectBemCruel(${idx},${i})">${opt}</div>`).join('')}
+</div>
+`;
+container.appendChild(div);
+});
+bemCruelAnswers={};
+window.currentBemCruelQuestions=selected;
 }
 
 function selectBemCruel(qIdx,optIdx){
-    bemCruelAnswers[qIdx]=optIdx;
-    const options=document.querySelectorAll(`#bem-cruel-questions .question-card:nth-child(${qIdx+1}) .option`);
-    options.forEach((opt,i)=>{
-        opt.classList.remove('selected');
-        if(i===optIdx)opt.classList.add('selected');
-    });
+bemCruelAnswers[qIdx]=optIdx;
+const options=document.querySelectorAll(`#bem-cruel-questions .question-card:nth-child(${qIdx+1}) .option`);
+options.forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===optIdx)opt.classList.add('selected');
+});
 }
 
 function calculateBemCruel(){
-    const answered=Object.keys(bemCruelAnswers).length;
-    if(answered<10){alert('Responda todas as perguntas!');return;}
-    let goodPoints=0;
-    window.currentBemCruelQuestions.forEach((q,idx)=>{
-        const answer=bemCruelAnswers[idx];
-        if(q.good.includes(answer))goodPoints++;
-    });
-    const percentage=(goodPoints/10)*100;
-    document.getElementById('bem-cruel-quiz').classList.add('hidden');
-    document.getElementById('bem-cruel-result').classList.remove('hidden');
-    document.getElementById('bem-cruel-score').textContent=`${percentage}%`;
-    if(percentage>=80){
-        document.getElementById('bem-cruel-title').textContent='Você é uma Pessoa do Bem!';
-        document.getElementById('bem-cruel-desc').textContent='Suas escolhas mostram empatia, bondade e preocupação genuína com os outros. Continue assim!';
-    }else if(percentage>=50){
-        document.getElementById('bem-cruel-title').textContent='Você está no meio termo';
-        document.getElementById('bem-cruel-desc').textContent='Você tem momentos de bondade, mas às vezes pode ser um pouco egoísta. Há espaço para crescimento!';
-    }else{
-        document.getElementById('bem-cruel-title').textContent='Você tende a ser cruel';
-        document.getElementById('bem-cruel-desc').textContent='Suas escolhas mostram falta de empatia. Reflita sobre suas atitudes e tente ser mais gentil com os outros.';
-    }
+const answered=Object.keys(bemCruelAnswers).length;
+if(answered<10){alert('Responda todas as perguntas!');return;}
+let goodPoints=0;
+window.currentBemCruelQuestions.forEach((q,idx)=>{
+const answer=bemCruelAnswers[idx];
+if(q.good.includes(answer))goodPoints++;
+});
+const percentage=(goodPoints/10)*100;
+document.getElementById('bem-cruel-quiz').classList.add('hidden');
+document.getElementById('bem-cruel-result').classList.remove('hidden');
+document.getElementById('bem-cruel-score').textContent=`${percentage}%`;
+let resultText = '';
+if(percentage>=80){
+document.getElementById('bem-cruel-title').textContent='Você é uma Pessoa do Bem!';
+document.getElementById('bem-cruel-desc').textContent='Suas escolhas mostram empatia, bondade e preocupação genuína com os outros. Continue assim!';
+resultText = 'Pessoa do Bem';
+}else if(percentage>=50){
+document.getElementById('bem-cruel-title').textContent='Você está no meio termo';
+document.getElementById('bem-cruel-desc').textContent='Você tem momentos de bondade, mas às vezes pode ser um pouco egoísta. Há espaço para crescimento!';
+resultText = 'Meio Termo';
+}else{
+document.getElementById('bem-cruel-title').textContent='Você tende a ser cruel';
+document.getElementById('bem-cruel-desc').textContent='Suas escolhas mostram falta de empatia. Reflita sobre suas atitudes e tente ser mais gentil com os outros.';
+resultText = 'Tendência Cruel';
+}
+saveHistory('Bem ou Cruel', `${percentage}%`, resultText);
 }
 
 function resetBemCruel(){
-    document.getElementById('bem-cruel-result').classList.add('hidden');
-    document.getElementById('bem-cruel-quiz').classList.remove('hidden');
-    initBemCruel();
+document.getElementById('bem-cruel-result').classList.add('hidden');
+document.getElementById('bem-cruel-quiz').classList.remove('hidden');
+initBemCruel();
 }
 
 function startQI(){
-    qiCurrentQuestions=shuffleArray(qiQuestions).slice(0,20);
-    qiCurrentIndex=0;
-    qiScore=0;
-    qiSelectedAnswer=null;
-    qiTimeLeft=1200;
-    qiStartTime=Date.now();
-    document.getElementById('qi-start').classList.add('hidden');
-    document.getElementById('qi-active').classList.remove('hidden');
-    startQITimer();
-    displayQIQuestion();
+qiCurrentQuestions=shuffleArray(qiQuestions).slice(0,20);
+qiCurrentIndex=0;
+qiScore=0;
+qiUserAnswers=[];
+qiSelectedAnswer=null;
+qiTimeLeft=1200;
+qiStartTime=Date.now();
+document.getElementById('qi-start').classList.add('hidden');
+document.getElementById('qi-active').classList.remove('hidden');
+startQITimer();
+displayQIQuestion();
 }
 
 function startQITimer(){
-    updateQITimer();
-    qiTimerInterval=setInterval(()=>{
-        qiTimeLeft--;
-        updateQITimer();
-        if(qiTimeLeft<=0){endQI();}
-    },1000);
+updateQITimer();
+qiTimerInterval=setInterval(()=>{
+qiTimeLeft--;
+updateQITimer();
+if(qiTimeLeft<=0){endQI();}
+},1000);
 }
 
 function updateQITimer(){
-    const min=Math.floor(qiTimeLeft/60);
-    const sec=qiTimeLeft%60;
-    document.getElementById('qi-timer').textContent=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+const min=Math.floor(qiTimeLeft/60);
+const sec=qiTimeLeft%60;
+document.getElementById('qi-timer').textContent=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
 }
 
 function displayQIQuestion(){
-    const q=qiCurrentQuestions[qiCurrentIndex];
-    document.getElementById('qi-counter').textContent=`Questão ${qiCurrentIndex+1} de 20`;
-    document.getElementById('qi-question').textContent=q.q;
-    const opts=document.getElementById('qi-options');
-    opts.innerHTML='';
-    q.o.forEach((opt,i)=>{
-        const div=document.createElement('div');
-        div.className='option';
-        div.textContent=opt;
-        div.onclick=()=>selectQI(i);
-        opts.appendChild(div);
-    });
-    qiSelectedAnswer=null;
+const q=qiCurrentQuestions[qiCurrentIndex];
+document.getElementById('qi-counter').textContent=`Questão ${qiCurrentIndex+1} de 20`;
+document.getElementById('qi-question').textContent=q.q;
+const opts=document.getElementById('qi-options');
+opts.innerHTML='';
+q.o.forEach((opt,i)=>{
+const div=document.createElement('div');
+div.className='option';
+div.textContent=opt;
+div.onclick=()=>selectQI(i);
+opts.appendChild(div);
+});
+qiSelectedAnswer=null;
 }
 
 function selectQI(idx){
-    qiSelectedAnswer=idx;
-    document.querySelectorAll('#qi-options .option').forEach((opt,i)=>{
-        opt.classList.remove('selected');
-        if(i===idx)opt.classList.add('selected');
-    });
+qiSelectedAnswer=idx;
+document.querySelectorAll('#qi-options .option').forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===idx)opt.classList.add('selected');
+});
 }
 
 function nextQI(){
-    if(qiSelectedAnswer===null){alert('Selecione uma resposta!');return;}
-    if(qiSelectedAnswer===qiCurrentQuestions[qiCurrentIndex].c)qiScore++;
-    qiCurrentIndex++;
-    if(qiCurrentIndex<20){displayQIQuestion();}else{endQI();}
+if(qiSelectedAnswer===null){alert('Selecione uma resposta!');return;}
+qiUserAnswers.push(qiSelectedAnswer);
+if(qiSelectedAnswer===qiCurrentQuestions[qiCurrentIndex].c)qiScore++;
+qiCurrentIndex++;
+if(qiCurrentIndex<20){displayQIQuestion();}else{endQI();}
 }
 
 function endQI(){
-    clearInterval(qiTimerInterval);
-    const timeTaken=Math.floor((Date.now()-qiStartTime)/1000);
-    const timeBonus=Math.max(0,1200-timeTaken)/60;
-    const baseQI=85;
-    const scorePoints=(qiScore/20)*30;
-    const timePoints=timeBonus*0.5;
-    const finalQI=Math.round(baseQI+scorePoints+timePoints);
-    document.getElementById('qi-active').classList.add('hidden');
-    document.getElementById('qi-result').classList.remove('hidden');
-    document.getElementById('qi-score').textContent=finalQI;
-    let desc='';
-    if(finalQI>=130)desc='Genial! QI extremamente elevado.';
-    else if(finalQI>=120)desc='Superior! Inteligência acima da média.';
-    else if(finalQI>=110)desc='Acima da média! Muito bem!';
-    else if(finalQI>=90)desc='Médio. Raciocínio normal.';
-    else desc='Abaixo da média. Continue praticando!';
-    document.getElementById('qi-desc').textContent=`Você acertou ${qiScore} de 20 questões. ${desc}`;
+clearInterval(qiTimerInterval);
+const timeTaken=Math.floor((Date.now()-qiStartTime)/1000);
+const timeBonus=Math.max(0,1200-timeTaken)/60;
+const baseQI=85;
+const scorePoints=(qiScore/20)*30;
+const timePoints=timeBonus*0.5;
+const finalQI=Math.round(baseQI+scorePoints+timePoints);
+document.getElementById('qi-active').classList.add('hidden');
+document.getElementById('qi-result').classList.remove('hidden');
+document.getElementById('qi-score').textContent=finalQI;
+let desc='';
+if(finalQI>=130)desc='Genial! QI extremamente elevado.';
+else if(finalQI>=120)desc='Superior! Inteligência acima da média.';
+else if(finalQI>=110)desc='Acima da média! Muito bem!';
+else if(finalQI>=90)desc='Médio. Raciocínio normal.';
+else desc='Abaixo da média. Continue praticando!';
+document.getElementById('qi-desc').textContent=`Você acertou ${qiScore} de 20 questões. ${desc}`;
+
+const reviewDiv = document.getElementById('qi-review');
+reviewDiv.innerHTML = '<h3 style="color:white; margin-bottom:1rem;">Revisão das Respostas</h3>';
+qiCurrentQuestions.forEach((q, i) => {
+const userA = qiUserAnswers[i];
+const correct = userA === q.c;
+const div = document.createElement('div');
+div.className = `review-item ${correct ? 'correct' : 'wrong'}`;
+div.innerHTML = `
+<div class="review-q">${i+1}. ${q.q}</div>
+<div class="review-a ${correct ? 'review-correct-a' : 'review-wrong-a'}">Sua resposta: ${q.o[userA]}</div>
+${!correct ? `<div class="review-a review-correct-a">Resposta correta: ${q.o[q.c]}</div>` : ''}
+`;
+reviewDiv.appendChild(div);
+});
+saveHistory('Teste de QI 1', finalQI, desc);
 }
 
 function resetQI(){
-    document.getElementById('qi-result').classList.add('hidden');
-    document.getElementById('qi-start').classList.remove('hidden');
+document.getElementById('qi-result').classList.add('hidden');
+document.getElementById('qi-start').classList.remove('hidden');
+}
+
+function startQI2(){
+qi2CurrentQuestions=shuffleArray(qi2Questions).slice(0,20);
+qi2CurrentIndex=0;
+qi2Score=0;
+qi2UserAnswers=[];
+qi2SelectedAnswer=null;
+qi2TimeLeft=1200;
+qi2StartTime=Date.now();
+document.getElementById('qi2-start').classList.add('hidden');
+document.getElementById('qi2-active').classList.remove('hidden');
+startQI2Timer();
+displayQI2Question();
+}
+
+function startQI2Timer(){
+updateQI2Timer();
+qi2TimerInterval=setInterval(()=>{
+qi2TimeLeft--;
+updateQI2Timer();
+if(qi2TimeLeft<=0){endQI2();}
+},1000);
+}
+
+function updateQI2Timer(){
+const min=Math.floor(qi2TimeLeft/60);
+const sec=qi2TimeLeft%60;
+document.getElementById('qi2-timer').textContent=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+}
+
+function displayQI2Question(){
+const q=qi2CurrentQuestions[qi2CurrentIndex];
+document.getElementById('qi2-counter').textContent=`Questão ${qi2CurrentIndex+1} de 20`;
+document.getElementById('qi2-question').innerHTML=q.q;
+const opts=document.getElementById('qi2-options');
+opts.innerHTML='';
+q.o.forEach((opt,i)=>{
+const div=document.createElement('div');
+div.className='option';
+div.textContent=opt;
+div.onclick=()=>selectQI2(i);
+opts.appendChild(div);
+});
+qi2SelectedAnswer=null;
+}
+
+function selectQI2(idx){
+qi2SelectedAnswer=idx;
+document.querySelectorAll('#qi2-options .option').forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===idx)opt.classList.add('selected');
+});
+}
+
+function nextQI2(){
+if(qi2SelectedAnswer===null){alert('Selecione uma resposta!');return;}
+qi2UserAnswers.push(qi2SelectedAnswer);
+if(qi2SelectedAnswer===qi2CurrentQuestions[qi2CurrentIndex].c)qi2Score++;
+qi2CurrentIndex++;
+if(qi2CurrentIndex<20){displayQI2Question();}else{endQI2();}
+}
+
+function endQI2(){
+clearInterval(qi2TimerInterval);
+document.getElementById('qi2-active').classList.add('hidden');
+document.getElementById('qi2-result').classList.remove('hidden');
+document.getElementById('qi2-score').textContent=`${qi2Score}/20`;
+
+let desc = '';
+if(qi2Score >= 18) desc = 'Lendário! Você é um gênio das pegadinhas.';
+else if(qi2Score >= 14) desc = 'Impressionante! Muito acima da média.';
+else if(qi2Score >= 10) desc = 'Bom trabalho, mas o teste venceu.';
+else desc = 'O teste foi mais esperto que você.';
+
+document.getElementById('qi2-desc').textContent=desc;
+
+const reviewDiv = document.getElementById('qi2-review');
+reviewDiv.innerHTML = '<h3 style="color:white; margin-bottom:1rem;">Revisão das Respostas</h3>';
+qi2CurrentQuestions.forEach((q, i) => {
+const userA = qi2UserAnswers[i];
+const correct = userA === q.c;
+const div = document.createElement('div');
+div.className = `review-item ${correct ? 'correct' : 'wrong'}`;
+div.innerHTML = `
+<div class="review-q">${i+1}. ${q.q}</div>
+<div class="review-a ${correct ? 'review-correct-a' : 'review-wrong-a'}">Sua resposta: ${q.o[userA]}</div>
+${!correct ? `<div class="review-a review-correct-a">Resposta correta: ${q.o[q.c]}</div>` : ''}
+`;
+reviewDiv.appendChild(div);
+});
+saveHistory('Teste de QI 2', `${qi2Score}/20`, desc);
+}
+
+function resetQI2(){
+document.getElementById('qi2-result').classList.add('hidden');
+document.getElementById('qi2-start').classList.remove('hidden');
 }
 
 function initMemoryGame(){
-    const grid=document.getElementById('memory-grid');
-    grid.innerHTML='';
-    for(let i=0;i<16;i++){
-        const cell=document.createElement('div');
-        cell.className='memory-cell';
-        cell.dataset.index=i;
-        cell.onclick=()=>clickMemoryCell(i);
-        grid.appendChild(cell);
-    }
-    memoryLevel=1;
-    memorySequence=[];
-    memoryUserSequence=[];
-    memoryPlaying=false;
-    document.getElementById('memory-level').textContent='Nível: 1';
-    document.getElementById('memory-message').textContent='Clique em Iniciar para começar!';
+const grid=document.getElementById('memory-grid');
+grid.innerHTML='';
+for(let i=0;i<16;i++){
+const cell=document.createElement('div');
+cell.className='memory-cell';
+cell.dataset.index=i;
+cell.onclick=()=>clickMemoryCell(i);
+grid.appendChild(cell);
+}
+memoryLevel=1;
+memorySequence=[];
+memoryUserSequence=[];
+memoryPlaying=false;
+document.getElementById('memory-level').textContent='Nível: 1';
+document.getElementById('memory-message').textContent='Clique em Iniciar para começar!';
 }
 
 function startMemory(){
-    if(memoryPlaying)return;
-    document.getElementById('memory-start').disabled=true;
-    playMemorySequence();
+if(memoryPlaying)return;
+document.getElementById('memory-start').disabled=true;
+playMemorySequence();
 }
 
 function playMemorySequence(){
-    memoryPlaying=true;
-    memoryUserSequence=[];
-    memorySequence.push(Math.floor(Math.random()*16));
-    document.getElementById('memory-message').textContent='Memorize a sequência!';
-    let delay=0;
-    memorySequence.forEach((idx,i)=>{
-        setTimeout(()=>{
-            const cell=document.querySelector(`[data-index="${idx}"]`);
-            cell.classList.add('flash');
-            setTimeout(()=>cell.classList.remove('flash'),400);
-        },delay);
-        delay+=600;
-    });
-    setTimeout(()=>{
-        memoryPlaying=false;
-        document.getElementById('memory-message').textContent='Sua vez! Repita a sequência.';
-    },delay);
+memoryPlaying=true;
+memoryUserSequence=[];
+memorySequence.push(Math.floor(Math.random()*16));
+document.getElementById('memory-message').textContent='Memorize a sequência!';
+let delay=0;
+memorySequence.forEach((idx,i)=>{
+setTimeout(()=>{
+const cell=document.querySelector(`[data-index="${idx}"]`);
+cell.classList.add('flash');
+setTimeout(()=>cell.classList.remove('flash'),400);
+},delay);
+delay+=600;
+});
+setTimeout(()=>{
+memoryPlaying=false;
+document.getElementById('memory-message').textContent='Sua vez! Repita a sequência.';
+},delay);
 }
 
 function clickMemoryCell(idx){
-    if(memoryPlaying)return;
-    memoryUserSequence.push(idx);
-    const cell=document.querySelector(`[data-index="${idx}"]`);
-    cell.classList.add('flash');
-    setTimeout(()=>cell.classList.remove('flash'),200);
-    const currentStep=memoryUserSequence.length-1;
-    if(memoryUserSequence[currentStep]!==memorySequence[currentStep]){
-        document.getElementById('memory-message').textContent=`Game Over! Você chegou ao nível ${memoryLevel}`;
-        document.getElementById('memory-start').disabled=false;
-        setTimeout(()=>initMemoryGame(),2000);
-        return;
-    }
-    if(memoryUserSequence.length===memorySequence.length){
-        memoryLevel++;
-        if(memoryLevel>30){
-            document.getElementById('memory-message').textContent='Parabéns! Você completou todos os 30 níveis!';
-            setTimeout(()=>initMemoryGame(),3000);
-            return;
-        }
-        document.getElementById('memory-level').textContent=`Nível: ${memoryLevel}`;
-        setTimeout(()=>playMemorySequence(),1000);
-    }
+if(memoryPlaying)return;
+memoryUserSequence.push(idx);
+const cell=document.querySelector(`[data-index="${idx}"]`);
+cell.classList.add('flash');
+setTimeout(()=>cell.classList.remove('flash'),200);
+const currentStep=memoryUserSequence.length-1;
+if(memoryUserSequence[currentStep]!==memorySequence[currentStep]){
+document.getElementById('memory-message').textContent=`Game Over! Você chegou ao nível ${memoryLevel}`;
+document.getElementById('memory-start').disabled=false;
+saveHistory('Memória', `Nível ${memoryLevel}`, 'Game Over');
+setTimeout(()=>initMemoryGame(),2000);
+return;
+}
+if(memoryUserSequence.length===memorySequence.length){
+memoryLevel++;
+if(memoryLevel>30){
+document.getElementById('memory-message').textContent='Parabéns! Você completou todos os 30 níveis!';
+saveHistory('Memória', 'Nível 30', 'Zerou!');
+setTimeout(()=>initMemoryGame(),3000);
+return;
+}
+document.getElementById('memory-level').textContent=`Nível: ${memoryLevel}`;
+setTimeout(()=>playMemorySequence(),1000);
+}
 }
 
 function initNamorado(){
-    const selected=shuffleArray(namoradoQuestions).slice(0,20);
-    const container=document.getElementById('namorado-questions');
-    container.innerHTML='';
-    selected.forEach((q,idx)=>{
-        const div=document.createElement('div');
-        div.className='question-card';
-        div.innerHTML=`
-            <div class="question-text">${idx+1}. ${q.q}</div>
-            <div class="options">
-                ${q.o.map((opt,i)=>`<div class="option" onclick="selectNamorado(${idx},${i})">${opt}</div>`).join('')}
-            </div>
-        `;
-        container.appendChild(div);
-    });
-    namoradoAnswers={};
-    window.currentNamoradoQuestions=selected;
+const selected=shuffleArray(namoradoQuestions).slice(0,20);
+const container=document.getElementById('namorado-questions');
+container.innerHTML='';
+selected.forEach((q,idx)=>{
+const div=document.createElement('div');
+div.className='question-card';
+div.innerHTML=`
+<div class="question-text">${idx+1}. ${q.q}</div>
+<div class="options">
+${q.o.map((opt,i)=>`<div class="option" onclick="selectNamorado(${idx},${i})">${opt}</div>`).join('')}
+</div>
+`;
+container.appendChild(div);
+});
+namoradoAnswers={};
+window.currentNamoradoQuestions=selected;
 }
 
 function selectNamorado(qIdx,optIdx){
-    namoradoAnswers[qIdx]=optIdx;
-    const options=document.querySelectorAll(`#namorado-questions .question-card:nth-child(${qIdx+1}) .option`);
-    options.forEach((opt,i)=>{
-        opt.classList.remove('selected');
-        if(i===optIdx)opt.classList.add('selected');
-    });
+namoradoAnswers[qIdx]=optIdx;
+const options=document.querySelectorAll(`#namorado-questions .question-card:nth-child(${qIdx+1}) .option`);
+options.forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===optIdx)opt.classList.add('selected');
+});
 }
 
 function calculateNamorado(){
-    const answered=Object.keys(namoradoAnswers).length;
-    if(answered<20){alert('Responda todas as perguntas!');return;}
-    let goodPoints=0;
-    window.currentNamoradoQuestions.forEach((q,idx)=>{
-        const answer=namoradoAnswers[idx];
-        if(q.good.includes(answer))goodPoints++;
-    });
-    const percentage=(goodPoints/20)*100;
-    document.getElementById('namorado-quiz').classList.add('hidden');
-    document.getElementById('namorado-result').classList.remove('hidden');
-    document.getElementById('namorado-score').textContent=`${Math.round(percentage)}%`;
-    if(percentage>=80){
-        document.getElementById('namorado-title').textContent='Você é um(a) Namorado(a) Incrível!';
-        document.getElementById('namorado-desc').textContent='Você demonstra amor, respeito, comunicação e dedicação. Seu parceiro(a) tem muita sorte!';
-    }else if(percentage>=60){
-        document.getElementById('namorado-title').textContent='Você é um(a) Bom/Boa Namorado(a)';
-        document.getElementById('namorado-desc').textContent='Você tem boas qualidades, mas há áreas para melhorar. Continue se esforçando no relacionamento!';
-    }else if(percentage>=40){
-        document.getElementById('namorado-title').textContent='Você pode melhorar bastante';
-        document.getElementById('namorado-desc').textContent='Existem várias áreas onde você precisa trabalhar para ser um parceiro(a) melhor. Reflita sobre suas atitudes.';
-    }else{
-        document.getElementById('namorado-title').textContent='Você precisa mudar urgentemente';
-        document.getElementById('namorado-desc').textContent='Suas atitudes no relacionamento são problemáticas. É hora de uma reflexão séria e mudanças significativas.';
-    }
+const answered=Object.keys(namoradoAnswers).length;
+if(answered<20){alert('Responda todas as perguntas!');return;}
+let goodPoints=0;
+window.currentNamoradoQuestions.forEach((q,idx)=>{
+const answer=namoradoAnswers[idx];
+if(q.good.includes(answer))goodPoints++;
+});
+const percentage=(goodPoints/20)*100;
+document.getElementById('namorado-quiz').classList.add('hidden');
+document.getElementById('namorado-result').classList.remove('hidden');
+document.getElementById('namorado-score').textContent=`${Math.round(percentage)}%`;
+let resultText = '';
+if(percentage>=80){
+document.getElementById('namorado-title').textContent='Você é um(a) Namorado(a) Incrível!';
+document.getElementById('namorado-desc').textContent='Você demonstra amor, respeito, comunicação e dedicação. Seu parceiro(a) tem muita sorte!';
+resultText = 'Incrível';
+}else if(percentage>=60){
+document.getElementById('namorado-title').textContent='Você é um(a) Bom/Boa Namorado(a)';
+document.getElementById('namorado-desc').textContent='Você tem boas qualidades, mas há áreas para melhorar. Continue se esforçando no relacionamento!';
+resultText = 'Bom/Boa';
+}else if(percentage>=40){
+document.getElementById('namorado-title').textContent='Você pode melhorar bastante';
+document.getElementById('namorado-desc').textContent='Existem várias áreas onde você precisa trabalhar para ser um parceiro(a) melhor. Reflita sobre suas atitudes.';
+resultText = 'Pode Melhorar';
+}else{
+document.getElementById('namorado-title').textContent='Você precisa mudar urgentemente';
+document.getElementById('namorado-desc').textContent='Suas atitudes no relacionamento são problemáticas. É hora de uma reflexão séria e mudanças significativas.';
+resultText = 'Crítico';
+}
+saveHistory('Bom Namorado(a)', `${Math.round(percentage)}%`, resultText);
 }
 
 function resetNamorado(){
-    document.getElementById('namorado-result').classList.add('hidden');
-    document.getElementById('namorado-quiz').classList.remove('hidden');
-    initNamorado();
+document.getElementById('namorado-result').classList.add('hidden');
+document.getElementById('namorado-quiz').classList.remove('hidden');
+initNamorado();
 }
 
 function startCantores(){
-    cantoresCurrentQuestions=shuffleArray(cantoresQuestions).slice(0,10);
-    cantoresCurrentIndex=0;
-    cantoresScore=0;
-    cantoresSelectedAnswer=null;
-    document.getElementById('cantores-start').classList.add('hidden');
-    document.getElementById('cantores-active').classList.remove('hidden');
-    displayCantoresQuestion();
+cantoresCurrentQuestions=shuffleArray(cantoresQuestions).slice(0,10);
+cantoresCurrentIndex=0;
+cantoresScore=0;
+cantoresSelectedAnswer=null;
+document.getElementById('cantores-start').classList.add('hidden');
+document.getElementById('cantores-active').classList.remove('hidden');
+displayCantoresQuestion();
 }
 
 function displayCantoresQuestion(){
-    const q=cantoresCurrentQuestions[cantoresCurrentIndex];
-    document.getElementById('cantores-counter').textContent=`Questão ${cantoresCurrentIndex+1} de 10`;
-    document.getElementById('cantores-question').textContent=q.q;
-    const opts=document.getElementById('cantores-options');
-    opts.innerHTML='';
-    q.o.forEach((opt,i)=>{
-        const div=document.createElement('div');
-        div.className='option';
-        div.textContent=opt;
-        div.onclick=()=>selectCantores(i);
-        opts.appendChild(div);
-    });
-    cantoresSelectedAnswer=null;
+const q=cantoresCurrentQuestions[cantoresCurrentIndex];
+document.getElementById('cantores-counter').textContent=`Questão ${cantoresCurrentIndex+1} de 10`;
+document.getElementById('cantores-question').textContent=q.q;
+const opts=document.getElementById('cantores-options');
+opts.innerHTML='';
+q.o.forEach((opt,i)=>{
+const div=document.createElement('div');
+div.className='option';
+div.textContent=opt;
+div.onclick=()=>selectCantores(i);
+opts.appendChild(div);
+});
+cantoresSelectedAnswer=null;
 }
 
 function selectCantores(idx){
-    cantoresSelectedAnswer=idx;
-    document.querySelectorAll('#cantores-options .option').forEach((opt,i)=>{
-        opt.classList.remove('selected');
-        if(i===idx)opt.classList.add('selected');
-    });
+cantoresSelectedAnswer=idx;
+document.querySelectorAll('#cantores-options .option').forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===idx)opt.classList.add('selected');
+});
 }
 
 function nextCantores(){
-    if(cantoresSelectedAnswer===null){alert('Selecione uma resposta!');return;}
-    if(cantoresSelectedAnswer===cantoresCurrentQuestions[cantoresCurrentIndex].c)cantoresScore++;
-    cantoresCurrentIndex++;
-    if(cantoresCurrentIndex<10){displayCantoresQuestion();}else{endCantores();}
+if(cantoresSelectedAnswer===null){alert('Selecione uma resposta!');return;}
+if(cantoresSelectedAnswer===cantoresCurrentQuestions[cantoresCurrentIndex].c)cantoresScore++;
+cantoresCurrentIndex++;
+if(cantoresCurrentIndex<10){displayCantoresQuestion();}else{endCantores();}
 }
 
 function endCantores(){
-    document.getElementById('cantores-active').classList.add('hidden');
-    document.getElementById('cantores-result').classList.remove('hidden');
-    const percentage=(cantoresScore/10)*100;
-    document.getElementById('cantores-score').textContent=`${cantoresScore}/10`;
-    let desc='';
-    if(cantoresScore>=9)desc='Incrível! Você é um expert em música pop!';
-    else if(cantoresScore>=7)desc='Muito bem! Você conhece bastante sobre música!';
-    else if(cantoresScore>=5)desc='Razoável. Você tem conhecimento básico.';
-    else desc='Você precisa ouvir mais música!';
-    document.getElementById('cantores-desc').textContent=desc;
+document.getElementById('cantores-active').classList.add('hidden');
+document.getElementById('cantores-result').classList.remove('hidden');
+const percentage=(cantoresScore/10)*100;
+document.getElementById('cantores-score').textContent=`${cantoresScore}/10`;
+let desc='';
+if(cantoresScore>=9)desc='Incrível! Você é um expert em música pop!';
+else if(cantoresScore>=7)desc='Muito bem! Você conhece bastante sobre música!';
+else if(cantoresScore>=5)desc='Razoável. Você tem conhecimento básico.';
+else desc='Você precisa ouvir mais música!';
+document.getElementById('cantores-desc').textContent=desc;
+saveHistory('Cantores', `${cantoresScore}/10`, desc);
 }
 
 function resetCantores(){
-    document.getElementById('cantores-result').classList.add('hidden');
-    document.getElementById('cantores-start').classList.remove('hidden');
+document.getElementById('cantores-result').classList.add('hidden');
+document.getElementById('cantores-start').classList.remove('hidden');
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-    const isMobile=window.innerWidth<=768;
-    function createHeart(){
-        const heart=document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML='♥';
-        heart.style.left=Math.random()*100+'vw';
-        heart.style.animationDuration=Math.random()*4+6+'s';
-        heart.style.fontSize=Math.random()*20+25+'px';
-        heart.style.color=`hsl(${Math.random()*30+330}, 100%, ${Math.random()*20+70}%)`;
-        document.body.appendChild(heart);
-        setTimeout(()=>{heart.remove();},11000);
-    }
-    function createParticles(){
-        const particleCount=isMobile?10:25;
-        for(let i=0;i<particleCount;i++){
-            const particle=document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left=Math.random()*100+'vw';
-            particle.style.top=Math.random()*100+'vh';
-            particle.style.animationDelay=Math.random()*5+'s';
-            document.body.appendChild(particle);
-        }
-    }
-    setInterval(createHeart,isMobile?1500:800);
-    createParticles();
-    const menuToggle=document.querySelector('.menu-toggle');
-    const navLinks=document.querySelector('.nav-links');
-    const closeMenuBtn=document.querySelector('.close-menu-btn');
-    menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
-    closeMenuBtn.addEventListener('click',()=>{navLinks.classList.remove('active');});
+const isMobile=window.innerWidth<=768;
+function createParticles(){
+const particleCount=isMobile?10:25;
+for(let i=0;i<particleCount;i++){
+const particle=document.createElement('div');
+particle.classList.add('particle');
+particle.style.left=Math.random()*100+'vw';
+particle.style.top=Math.random()*100+'vh';
+particle.style.animationDelay=Math.random()*5+'s';
+document.body.appendChild(particle);
+}
+}
+createParticles();
+const menuToggle=document.querySelector('.menu-toggle');
+const navLinks=document.querySelector('.nav-links');
+const closeMenuBtn=document.querySelector('.close-menu-btn');
+menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
+closeMenuBtn.addEventListener('click',()=>{navLinks.classList.remove('active');});
 });
 </script>
 </body>
