@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -200,6 +199,17 @@ border-left: 5px solid #ccc;
 .history-table { width: 100%; border-collapse: collapse; margin-top: 1rem; color: white; }
 .history-table th, .history-table td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .history-table th { background: rgba(255,255,255,0.1); }
+.reaction-box {
+width: 100%; height: 300px; background-color: #e74c3c; border-radius: 20px;
+display: flex; align-items: center; justify-content: center;
+color: white; font-size: 2rem; cursor: pointer; user-select: none; transition: background 0.1s;
+}
+.reaction-box.ready { background-color: #e74c3c; }
+.reaction-box.go { background-color: #27ae60; }
+.stroop-text { font-size: 4rem; font-weight: bold; margin-bottom: 2rem; text-align: center; }
+.typing-area { width: 100%; padding: 1rem; font-size: 1.2rem; border-radius: 10px; margin-top: 1rem; }
+.cookie-card { cursor: pointer; transition: transform 0.5s; }
+.cookie-card:hover { transform: scale(1.05); }
 footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; }
 @media (max-width: 768px) {
 .hero-content h1 { font-size: 2rem; }
@@ -209,6 +219,7 @@ footer { background: transparent; color: white; text-align: center; padding: 2re
 .memory-grid { grid-template-columns: repeat(4, 1fr); }
 .content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
 nav { background-color: rgba(44, 62, 80, 0.5); }
+.stroop-text { font-size: 2.5rem; }
 }
 .hidden { display: none !important; }
 </style>
@@ -262,6 +273,50 @@ nav { background-color: rgba(44, 62, 80, 0.5); }
                 <div class="menu-card" onclick="showSection('cantores')">
                     <h3>Cantores Famosos</h3>
                     <p>Teste seus conhecimentos sobre os cantores mais famosos de cada ano!</p>
+                </div>
+                <div class="menu-card" onclick="showSection('reaction')">
+                    <h3>Teste de Reação</h3>
+                    <p>Você é rápido? Clique na tela assim que a cor mudar e meça seus milissegundos.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('stroop')">
+                    <h3>Desafio das Cores</h3>
+                    <p>Não confie no que lê! Teste a capacidade do seu cérebro de focar e não se confundir.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('typing')">
+                    <h3>Teste de Digitação</h3>
+                    <p>Quantas palavras você digita por minuto? Descubra se você é um digitador profissional.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('profissao')">
+                    <h3>Profissão Ideal</h3>
+                    <p>Não sabe o que fazer da vida ou quer mudar de carreira? Descubra o emprego perfeito para você.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('zumbi')">
+                    <h3>Sobrevivente Zumbi</h3>
+                    <p>Você sobreviveria ou seria o primeiro a virar lanche? Tome decisões e veja seu destino.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('idade-mental')">
+                    <h3>Sua Idade Mental</h3>
+                    <p>Seu RG diz uma coisa, mas sua mente diz outra. Você é um idoso rabugento ou uma eterna criança?</p>
+                </div>
+                <div class="menu-card" onclick="showSection('logos')">
+                    <h3>Adivinhe a Logo</h3>
+                    <p>Você é consumista? Tente reconhecer as marcas mais famosas do mundo apenas pelos detalhes.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('fatos')">
+                    <h3>Verdadeiro ou Falso</h3>
+                    <p>Teste seus conhecimentos gerais com fatos que parecem mentira, mas podem ser verdade.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('musica')">
+                    <h3>Complete a Música</h3>
+                    <p>Você sabe cantar no chuveiro? Prove que sabe a letra das músicas mais tocadas do Brasil.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('adivinho')">
+                    <h3>Adivinho Mental</h3>
+                    <p>Pense em um número... Eu vou ler sua mente através da matemática. Duvida?</p>
+                </div>
+                <div class="menu-card" onclick="showSection('biscoito')">
+                    <h3>Biscoito da Sorte</h3>
+                    <p>Veja o que o destino reservou para o seu dia hoje. Quebre o biscoito!</p>
                 </div>
             </div>
         </div>
@@ -469,6 +524,237 @@ nav { background-color: rgba(44, 62, 80, 0.5); }
     </div>
 </section>
 
+<section id="reaction-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 1rem;">Teste de Reação</h2>
+                <p style="margin-bottom: 2rem;">Clique na caixa abaixo assim que ela ficar VERDE.</p>
+                <div id="reaction-box" class="reaction-box" onclick="handleReactionClick()">Clique para Iniciar</div>
+                <div id="reaction-result" style="margin-top: 1rem; font-size: 1.5rem; font-weight: bold; color: white;"></div>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="stroop-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 1rem;">Desafio das Cores</h2>
+                <p style="margin-bottom: 2rem;">Clique no botão correspondente à COR DO TEXTO, não no que está escrito!</p>
+                <div id="stroop-game-area" class="hidden">
+                    <div id="stroop-word" class="stroop-text">PALAVRA</div>
+                    <div id="stroop-options" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;"></div>
+                    <p style="margin-top:1rem; color:white;">Pontos: <span id="stroop-score">0</span> | Tempo: <span id="stroop-timer">30</span>s</p>
+                </div>
+                <div id="stroop-start-area">
+                    <button class="btn btn-primary" onclick="startStroop()"><span>Começar</span></button>
+                </div>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="typing-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 1rem;">Teste de Digitação</h2>
+                <p style="margin-bottom: 1rem;">Digite o texto abaixo o mais rápido que puder.</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; user-select: none;">
+                    <p id="typing-sample" style="font-size: 1.2rem; color: #fff; font-style: italic;"></p>
+                </div>
+                <textarea id="typing-input" class="typing-area" rows="3" placeholder="Comece a digitar aqui..." oninput="checkTyping()"></textarea>
+                <div id="typing-result" style="margin-top: 1rem; font-size: 1.5rem; color: white;"></div>
+                <button class="btn btn-primary" onclick="startTyping()"><span>Novo Texto</span></button>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="profissao-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="profissao-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Qual sua Profissão Ideal?</h2>
+                <div id="profissao-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateProfissao()"><span>Ver Resultado</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="profissao-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Sua Profissão Ideal é:</h2>
+                    <div class="score-display" id="profissao-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="profissao-desc"></p>
+                    <button class="btn btn-primary" onclick="resetProfissao()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="zumbi-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="zumbi-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Sobrevivente do Apocalipse Zumbi</h2>
+                <div id="zumbi-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateZumbi()"><span>Ver Destino</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="zumbi-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Seu Destino:</h2>
+                    <div class="score-display" id="zumbi-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="zumbi-desc"></p>
+                    <button class="btn btn-primary" onclick="resetZumbi()"><span>Tentar Sobreviver</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="idade-mental-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="idade-mental-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Qual sua Idade Mental?</h2>
+                <div id="idade-mental-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateIdadeMental()"><span>Calcular Idade</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="idade-mental-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Sua Idade Mental é:</h2>
+                    <div class="score-display" id="idade-mental-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="idade-mental-desc"></p>
+                    <button class="btn btn-primary" onclick="resetIdadeMental()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="logos-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="logos-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Adivinhe a Marca pela Descrição</h2>
+                <div id="logos-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateLogos()"><span>Ver Pontuação</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="logos-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Resultado</h2>
+                    <div class="score-display" id="logos-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="logos-desc"></p>
+                    <button class="btn btn-primary" onclick="resetLogos()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="fatos-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="fatos-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Verdadeiro ou Falso?</h2>
+                <div id="fatos-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateFatos()"><span>Ver Resultado</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="fatos-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Pontuação</h2>
+                    <div class="score-display" id="fatos-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="fatos-desc"></p>
+                    <button class="btn btn-primary" onclick="resetFatos()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="musica-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div id="musica-quiz" class="content-card">
+                <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Complete a Música</h2>
+                <div id="musica-questions"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="calculateMusica()"><span>Ver Resultado</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="musica-result" class="content-card hidden">
+                <div class="result-card">
+                    <h2>Seu Conhecimento Musical</h2>
+                    <div class="score-display" id="musica-final"></div>
+                    <p style="color: white; font-size: 1.3rem;" id="musica-desc"></p>
+                    <button class="btn btn-primary" onclick="resetMusica()"><span>Jogar Novamente</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="adivinho-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 2rem;">O Adivinho Matemático</h2>
+                <div id="adivinho-step-container">
+                    <p id="adivinho-instruction" style="font-size: 1.5rem; margin-bottom: 2rem;">Pense em um número inteiro qualquer.</p>
+                    <button class="btn btn-primary" onclick="nextAdivinhoStep()"><span>Próximo Passo</span></button>
+                </div>
+                <button class="btn btn-back" onclick="showSection('home'); resetAdivinho();"><span>Sair</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="biscoito-section" class="main-section hidden">
+    <div class="section-content">
+        <div class="container">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="color: white; margin-bottom: 2rem;">Biscoito da Sorte</h2>
+                <div id="cookie-closed" class="cookie-card" onclick="openCookie()">
+                    <div style="font-size: 5rem;">🥠</div>
+                    <p>Clique para abrir!</p>
+                </div>
+                <div id="cookie-opened" class="hidden">
+                    <div style="font-size: 5rem;">✨</div>
+                    <p id="cookie-message" style="font-size: 1.5rem; color: var(--primary); font-style: italic; margin: 1rem 0;"></p>
+                    <button class="btn btn-primary" onclick="resetCookie()"><span>Abrir Outro</span></button>
+                </div>
+                <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
 <footer>
     <div class="container">
         <p>© 2025 Yasmim Nathalie</p>
@@ -652,6 +938,148 @@ const cantoresQuestions=[
 {q:"Em 2001, qual grupo feminino lançou o mega hit 'Survivor'?",o:["TLC","Destiny's Child","Spice Girls","Atomic Kitten"],c:1}
 ];
 
+const profissaoQuestions = [
+    {q:"O que você prefere fazer no seu tempo livre?", o:["Ler, estudar ou resolver quebra-cabeças", "Desenhar, escrever ou criar algo", "Sair com amigos e conhecer gente nova", "Praticar esportes ou atividades manuais"]},
+    {q:"Como você lida com problemas?", o:["Analiso a lógica e procuro a solução mais eficiente", "Penso em soluções criativas e fora da caixa", "Peço ajuda e discuto com outras pessoas", "Tento resolver na prática, botando a mão na massa"]},
+    {q:"Qual matéria você mais gostava na escola?", o:["Matemática ou Ciências", "Artes ou Literatura", "História ou Sociologia", "Educação Física ou Aulas Práticas"]},
+    {q:"Em um grupo de trabalho, você é aquele que:", o:["Organiza os dados e o planejamento", "Tem as ideias inovadoras", "Apresenta o trabalho e media conflitos", "Executa as tarefas e constrói o projeto"]},
+    {q:"O que é mais importante para você?", o:["Estabilidade e conhecimento", "Expressão e liberdade", "Impacto social e relacionamentos", "Resultados visíveis e ação"]},
+    {q:"Qual ambiente de trabalho você prefere?", o:["Escritório silencioso e organizado", "Estúdio colorido e inspirador", "Ambiente dinâmico com muitas pessoas", "Ao ar livre ou em movimento constante"]},
+    {q:"Qual dessas palavras te define melhor?", o:["Racional", "Criativo", "Comunicativo", "Prático"]},
+    {q:"Se você ganhasse na loteria, o que faria?", o:["Investiria em tecnologia e pesquisa", "Viajaria o mundo buscando inspiração", "Criaria uma fundação beneficente", "Compraria uma equipe esportiva ou fazenda"]},
+    {q:"Qual tipo de filme você prefere?", o:["Ficção científica ou documentário", "Fantasia ou filmes indie", "Drama ou comédia romântica", "Ação ou aventura"]},
+    {q:"Como você toma decisões importantes?", o:["Baseado em fatos e estatísticas", "Seguindo minha intuição", "Consultando pessoas de confiança", "Baseado no que trará resultados imediatos"]},
+    {q:"O que te irrita mais?", o:["Desorganização e falta de lógica", "Falta de originalidade e tédio", "Conflitos e falta de empatia", "Ficar parado e perder tempo"]},
+    {q:"Qual seria seu superpoder ideal?", o:["Super inteligência", "Poder de criar qualquer coisa", "Ler mentes", "Super força ou velocidade"]},
+    {q:"Qual hobby você gostaria de aprender?", o:["Programação ou xadrez", "Pintura ou tocar um instrumento", "Oratória ou psicologia", "Marcenaria ou escalada"]},
+    {q:"O que você valoriza num líder?", o:["Competência técnica", "Visão inovadora", "Carisma e empatia", "Coragem e força"]},
+    {q:"Como você gostaria de ser lembrado?", o:["Pelas minhas descobertas", "Pela minha arte", "Pelas pessoas que ajudei", "Pelos meus feitos e recordes"]}
+];
+const zumbiQuestions = [
+    {q:"O apocalipse começou! Qual a primeira coisa que você pega?", o:["Um kit de primeiros socorros", "Uma arma (ou algo que sirva como)", "Meu celular (para postar)", "Comida enlatada"], w:[1,3,0,2]},
+    {q:"Onde você se esconderia?", o:["Num shopping center", "Numa ilha deserta", "No sótão da minha casa", "Numa base militar"], w:[0,3,1,2]},
+    {q:"Você encontra um estranho no caminho. O que faz?", o:["Ajudo, pode ser útil", "Ignoro e sigo meu caminho", "Ataco antes que me ataque", "Roubo os suprimentos dele"], w:[2,0,1,0]},
+    {q:"Qual sua principal habilidade?", o:["Corro muito rápido", "Sei lutar/usar armas", "Sou muito inteligente/estrategista", "Sei cozinhar e plantar"], w:[1,3,2,3]},
+    {q:"Um zumbi te morde no braço. Você:", o:["Corto o braço fora na hora", "Escondo do grupo", "Peço para me matarem", "Espero virar zumbi para morder meu chefe"], w:[0,0,1,0]},
+    {q:"O grupo precisa decidir quem sacrificar. Você:", o:["Me ofereço para salvar a todos", "Aponto para o mais fraco", "Fujo enquanto eles discutem", "Tento criar um plano alternativo"], w:[0,0,2,3]},
+    {q:"Você encontra um mercado abandonado. O que prioriza?", o:["Armas e munição", "Água e comida", "Remédios", "Doces e cigarros"], w:[2,3,2,0]},
+    {q:"Qual veículo você escolheria?", o:["Uma moto rápida", "Um tanque de guerra", "Um motorhome espaçoso", "Uma bicicleta silenciosa"], w:[1,3,1,2]},
+    {q:"Como você lida com o medo?", o:["Paraliso", "Grito", "Transformo em raiva e luto", "Mantenho a calma e penso"], w:[0,0,2,3]},
+    {q:"Seu melhor amigo foi mordido, mas ainda não se transformou. O que você faz?", o:["Mato imediatamente", "Amarro ele e espero uma cura", "Abandono ele lá", "Fico com ele até o fim"], w:[3,1,1,0]},
+    {q:"Qual seria sua arma de preferência?", o:["Pistola", "Espada Katana", "Besta (Crossbow)", "Taco de beisebol"], w:[2,3,3,1]},
+    {q:"Você prefere:", o:["Viajar sozinho", "Liderar um grupo", "Seguir um líder forte", "Ficar em um lugar fixo"], w:[2,3,2,1]},
+    {q:"Um barulho estranho na noite. Você:", o:["Investiga sozinho", "Acorda todo mundo", "Fica quieto e espera", "Atira na direção do barulho"], w:[0,2,3,1]},
+    {q:"O que você mais sentiria falta?", o:["Internet", "Ar condicionado", "Segurança", "Fast food"], w:[0,1,2,0]},
+    {q:"Qual a regra número 1 da sobrevivência?", o:["Cardio (fôlego)", "Não confie em ninguém", "Tenha um plano B", "Divirta-se"], w:[2,1,3,0]}
+];
+const idadeMentalQuestions = [
+    {q:"O que você faz sexta à noite?", o:["Balada até o amanhecer", "Barzinho com amigos", "Netflix e pizza", "Durmo cedo"], v:[20,30,40,60]},
+    {q:"Qual seu tipo de programa de TV favorito?", o:["Desenhos animados", "Reality Shows", "Séries de drama/crime", "Jornal ou documentários"], v:[10,25,35,50]},
+    {q:"Como você reage a uma birra de criança?", o:["Faço birra junto", "Rio da situação", "Tento acalmar conversando", "Reclamo da educação dos pais"], v:[10,20,40,50]},
+    {q:"Qual seu doce preferido?", o:["Pirulito ou bala", "Chocolate", "Doce de leite ou compotas", "Não gosto muito de doce"], v:[10,25,40,50]},
+    {q:"O que você quer de aniversário?", o:["Brinquedos ou jogos", "Roupas ou eletrônicos", "Dinheiro ou viagem", "Paz e sossego"], v:[10,20,30,60]},
+    {q:"Qual sua relação com boletos?", o:["O que é boleto?", "Pago com raiva", "Organizo tudo em planilha", "Minha mãe paga"], v:[10,30,50,15]},
+    {q:"Qual sua ideia de diversão?", o:["Parque de diversões", "Show de rock", "Jantar com vinho", "Ler um livro em silêncio"], v:[12,22,40,60]},
+    {q:"Você usa gírias?", o:["O tempo todo, tá ligado?", "Às vezes, tipo assim", "Raramente", "Prefiro o português culto"], v:[15,25,45,70]},
+    {q:"Como você lida com responsabilidades?", o:["Fujo delas", "Faço o mínimo necessário", "Encaro de frente", "Eu procuro mais responsabilidades"], v:[12,20,35,55]},
+    {q:"O que você acha do TikTok?", o:["Amo, passo o dia lá", "Gosto de ver, mas não posto", "Não entendo nada", "Acho perda de tempo"], v:[15,25,45,60]},
+    {q:"Qual seu café da manhã ideal?", o:["Cereal com muito açúcar", "Pão na chapa e café", "Frutas e granola", "Apenas café preto"], v:[10,30,40,50]},
+    {q:"Você reclama de dores nas costas?", o:["Nunca", "Às vezes", "Sempre", "Já acostumei"], v:[15,30,50,70]},
+    {q:"Qual sua hora de dormir?", o:["Quando o sol nasce", "Meia-noite", "22h", "20h"], v:[18,28,45,70]},
+    {q:"O que você faz em um dia chuvoso?", o:["Pulo nas poças", "Jogo videogame", "Arrumo a casa", "Durmo a tarde toda"], v:[8,20,40,60]},
+    {q:"Qual sua opinião sobre 'jovens de hoje'?", o:["Eu sou um deles!", "São legais", "São meio estranhos", "No meu tempo era melhor"], v:[15,25,45,75]}
+];
+const logosQuestions = [
+    {q:"Um arco dourado (formando um M) com fundo vermelho.", o:["McDonald's", "Motorola", "Mastercard", "Burger King"], c:0},
+    {q:"Uma maçã mordida.", o:["Apple", "Samsung", "LG", "Nokia"], c:0},
+    {q:"Três listras paralelas.", o:["Nike", "Puma", "Adidas", "Reebok"], c:2},
+    {q:"Um cavalo rampante em um fundo amarelo.", o:["Lamborghini", "Ferrari", "Porsche", "Mustang"], c:1},
+    {q:"Um 'swoosh' (símbolo de verificado curvado).", o:["Adidas", "Under Armour", "Nike", "Mizuno"], c:2},
+    {q:"Quatro anéis entrelaçados.", o:["Audi", "Toyota", "BMW", "Mercedes"], c:0},
+    {q:"Uma sereia branca em um círculo verde.", o:["Costa Coffee", "Starbucks", "Dunkin Donuts", "Tim Hortons"], c:1},
+    {q:"Um pássaro azul (logo antiga).", o:["Facebook", "Instagram", "Twitter", "Snapchat"], c:2},
+    {q:"Uma concha amarela e vermelha.", o:["Petrobras", "Ipiranga", "Shell", "Texaco"], c:2},
+    {q:"Um panda preto e branco.", o:["Greenpeace", "WWF", "National Geographic", "Animal Planet"], c:1},
+    {q:"Um losango vermelho, amarelo e azul (antiga logo de software).", o:["Windows", "Office", "Chrome", "Firefox"], c:0},
+    {q:"Uma letra 'G' colorida.", o:["Gatorade", "Gap", "Google", "Gucci"], c:2},
+    {q:"Um círculo azul e branco dividido em quartos (hélice).", o:["Volkswagen", "BMW", "Ford", "Fiat"], c:1},
+    {q:"Uma seta amarela curvada de A a Z.", o:["Mercado Livre", "Amazon", "AliExpress", "FedEx"], c:1},
+    {q:"Dois círculos vermelhos e amarelos sobrepostos.", o:["Visa", "Maestro", "Mastercard", "Elo"], c:2},
+    {q:"Um coelho de gravata borboleta.", o:["Playboy", "Energizer", "Nesquik", "Páscoa"], c:0},
+    {q:"Uma coroa de cinco pontas.", o:["Rolex", "Hallmark", "Budweiser", "Burger King"], c:0},
+    {q:"Um crocodilo verde.", o:["Lacoste", "Crocs", "Animal Planet", "Reserva"], c:0},
+    {q:"Uma raposa laranja enrolada em um globo.", o:["Firefox", "Safari", "Opera", "Explorer"], c:0},
+    {q:"Três pontas formando um triângulo em círculo (estrela de três pontas).", o:["Mitsubishi", "Mercedes-Benz", "Chrysler", "Subaru"], c:1}
+];
+const fatosQuestions = [
+    {q:"Bananas são radioativas.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"O ser humano usa apenas 10% do cérebro.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Polvos têm três corações.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"A Grande Muralha da China é visível do espaço a olho nu.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"O tomate é uma fruta.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"Raios nunca caem duas vezes no mesmo lugar.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"A água conduz eletricidade pura.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Cleópatra viveu mais perto da invenção do iPhone do que da construção das Pirâmides.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"Morcegos são cegos.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Mel nunca estraga.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"O Monte Everest é a montanha mais alta do sistema solar.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Tubarões existem há mais tempo que as árvores.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"Você não consegue respirar e engolir ao mesmo tempo.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"A Antártida é o maior deserto do mundo.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"O ouro é comestível.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"O sangue humano é azul dentro das veias.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Girafas não têm cordas vocais.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"O sol é uma estrela de tamanho médio.", o:["Verdadeiro", "Falso"], c:0},
+    {q:"As unhas crescem depois que morremos.", o:["Verdadeiro", "Falso"], c:1},
+    {q:"Vacas têm melhores amigas e ficam estressadas quando separadas.", o:["Verdadeiro", "Falso"], c:0}
+];
+const musicaQuestions = [
+    {q:"Complete: 'E nessa loucura de dizer que não te quero...'", o:["Vou negando as aparências", "Vou fingindo que não dói", "Eu me sinto um herói", "A gente se ama"], c:0},
+    {q:"Complete: 'Segura teu filho no colo...'", o:["Sorria e abrace teus pais", "Corra e não olhe pra trás", "A vida é trem bala parceiro", "O mundo é um carrossel"], c:0},
+    {q:"Complete: 'Anna Júlia...'", o:["Quem te viu, quem te vê", "Eu te amo tanto", "Não vá embora", "Oh Anna Júlia"], c:3},
+    {q:"Complete: 'Exagerado...'", o:["Jogado aos teus pés", "Eu sou mesmo assim", "Adoro um amor inventado", "Mentira, eu não sou"], c:0},
+    {q:"Complete: 'Deixa acontecer...'", o:["Naturalmente", "De repente", "Infinitamente", "A gente se ver"], c:0},
+    {q:"Complete: 'Chega de mentiras...'", o:["De negar o meu desejo", "De fingir que não te quero", "Eu quero te amar", "Você não vale nada"], c:0},
+    {q:"Complete: 'Garota eu vou pra Califórnia...'", o:["Viver a vida sobre as ondas", "Comprar um carro novo", "Fugir com você", "Esquecer dos problemas"], c:0},
+    {q:"Complete: 'Mas é claro que o sol...'", o:["Vai voltar amanhã", "Está brilhando agora", "Queima a pele", "Nunca vai sumir"], c:0},
+    {q:"Complete: 'Não aprendi dizer adeus...'", o:["Mas tenho que aceitar", "Pra você ficar", "E nunca vou aprender", "Sem você não sei viver"], c:0},
+    {q:"Complete: 'Prepare o seu coração...'", o:["Para as coisas que eu vou contar", "O show vai começar", "Vamos viajar", "O amor chegou"], c:0},
+    {q:"Complete: 'Malandramente...'", o:["A menina inocente", "Ela olhou pra mim", "Passou na minha frente", "Fugiu de casa"], c:0},
+    {q:"Complete: 'O descobridor...'", o:["Dos sete mares", "De novos mundos", "Da América", "Do tesouro"], c:0},
+    {q:"Complete: 'Pense em mim...'", o:["Chore por mim", "Fale de mim", "Goste de mim", "Lembre de mim"], c:0},
+    {q:"Complete: 'Dormi na praça...'", o:["Pensando nela", "Com frio e fome", "Sem cobertor", "Bêbado demais"], c:0},
+    {q:"Complete: 'Show das poderosas...'", o:["Prepara que agora", "Desce, sobe, empina e rebola", "Vem com tudo", "Chegou a hora"], c:0}
+];
+const adivinhoSteps = [
+    "Multiplique esse número por 2.",
+    "Some 10 ao resultado.",
+    "Divida o resultado por 2.",
+    "Subtraia o número original que você pensou.",
+    "O resultado é 5!"
+];
+const cookies = [
+    "A sorte favorece os audazes.",
+    "Um sorriso é o seu melhor acessório hoje.",
+    "Boas notícias chegarão em breve.",
+    "Não tenha medo de mudanças.",
+    "Seja a mudança que você quer ver no mundo.",
+    "A paciência é uma virtude.",
+    "Você é mais forte do que imagina.",
+    "O sucesso é a soma de pequenos esforços.",
+    "Acredite nos seus sonhos.",
+    "Hoje é um bom dia para começar algo novo.",
+    "Grandes aventuras esperam por você.",
+    "Sua criatividade resolverá um problema difícil.",
+    "Um velho amigo entrará em contato em breve.",
+    "A felicidade está nas pequenas coisas.",
+    "Seu trabalho duro será recompensado.",
+    "Não deixe para amanhã o que pode fazer hoje.",
+    "O amor está mais perto do que você pensa.",
+    "Você aprenderá algo novo e valioso hoje.",
+    "Confie na sua intuição.",
+    "A vida é feita de escolhas, escolha ser feliz."
+];
+
 let bemCruelAnswers={};
 let qiCurrentQuestions=[];
 let qiCurrentIndex=0;
@@ -680,6 +1108,31 @@ let cantoresCurrentQuestions=[];
 let cantoresCurrentIndex=0;
 let cantoresScore=0;
 let cantoresSelectedAnswer=null;
+
+let reactionStartTime = 0;
+let reactionTimer = null;
+let reactionState = 'waiting';
+
+let stroopScore = 0;
+let stroopTimeLeft = 30;
+let stroopTimer = null;
+const stroopColors = ["Vermelho", "Azul", "Verde", "Amarelo", "Preto", "Roxo", "Laranja", "Rosa", "Cinza", "Marrom", "Branco", "Vinho", "Turquesa", "Bege", "Prata"];
+const stroopColorCodes = ["red", "blue", "green", "gold", "black", "purple", "orange", "pink", "gray", "brown", "white", "darkred", "turquoise", "beige", "silver"];
+
+let typingText = "O rato roeu a roupa do rei de Roma e a rainha com raiva resolveu remendar.";
+let typingStartTime = 0;
+
+let adivinhoStep = 0;
+
+let profissaoAnswers = {};
+let zumbiAnswers = {};
+let idadeMentalAnswers = {};
+let logosCurrentIndex = 0;
+let logosScore = 0;
+let fatosCurrentIndex = 0;
+let fatosScore = 0;
+let musicaCurrentIndex = 0;
+let musicaScore = 0;
 
 function saveHistory(game, score, result){
 const history = JSON.parse(localStorage.getItem('gameHistory') || '[]');
@@ -711,6 +1164,16 @@ if(sectionName==='bem-cruel'){initBemCruel();}
 if(sectionName==='namorado'){initNamorado();}
 if(sectionName==='memoria'){initMemoryGame();}
 if(sectionName==='history'){loadHistory();}
+if(sectionName==='profissao'){initProfissao();}
+if(sectionName==='zumbi'){initZumbi();}
+if(sectionName==='idade-mental'){initIdadeMental();}
+if(sectionName==='logos'){initLogos();}
+if(sectionName==='fatos'){initFatos();}
+if(sectionName==='musica'){initMusica();}
+if(sectionName==='reaction'){resetReaction();}
+if(sectionName==='stroop'){resetStroop();}
+if(sectionName==='typing'){resetTyping();}
+if(sectionName==='biscoito'){resetCookie();}
 }
 
 function shuffleArray(array){
@@ -1180,6 +1643,370 @@ saveHistory('Cantores', `${cantoresScore}/10`, desc);
 function resetCantores(){
 document.getElementById('cantores-result').classList.add('hidden');
 document.getElementById('cantores-start').classList.remove('hidden');
+}
+
+function resetReaction() {
+    reactionState = 'waiting';
+    const box = document.getElementById('reaction-box');
+    box.style.backgroundColor = '#e74c3c';
+    box.textContent = "Clique para Iniciar";
+    document.getElementById('reaction-result').textContent = "";
+}
+
+function handleReactionClick() {
+    const box = document.getElementById('reaction-box');
+    
+    if (reactionState === 'waiting') {
+        reactionState = 'ready';
+        box.textContent = "Aguarde o verde...";
+        box.style.backgroundColor = '#e74c3c';
+        document.getElementById('reaction-result').textContent = "";
+        
+        const randomTime = Math.floor(Math.random() * 3000) + 1000;
+        reactionTimer = setTimeout(() => {
+            reactionState = 'go';
+            box.style.backgroundColor = '#27ae60';
+            box.textContent = "CLIQUE AGORA!";
+            reactionStartTime = Date.now();
+        }, randomTime);
+    } else if (reactionState === 'ready') {
+        clearTimeout(reactionTimer);
+        reactionState = 'waiting';
+        box.textContent = "Muito rápido! Tente de novo.";
+        document.getElementById('reaction-result').textContent = "Queimou a largada!";
+    } else if (reactionState === 'go') {
+        const reactionTime = Date.now() - reactionStartTime;
+        reactionState = 'waiting';
+        box.style.backgroundColor = '#e74c3c';
+        box.textContent = "Clique para tentar de novo";
+        document.getElementById('reaction-result').textContent = `${reactionTime}ms`;
+        saveHistory('Teste de Reação', `${reactionTime}ms`, reactionTime < 250 ? 'Rápido!' : 'Normal');
+    }
+}
+
+function resetStroop() {
+    document.getElementById('stroop-start-area').classList.remove('hidden');
+    document.getElementById('stroop-game-area').classList.add('hidden');
+    clearInterval(stroopTimer);
+}
+
+function startStroop() {
+    document.getElementById('stroop-start-area').classList.add('hidden');
+    document.getElementById('stroop-game-area').classList.remove('hidden');
+    stroopScore = 0;
+    stroopTimeLeft = 30;
+    document.getElementById('stroop-score').textContent = stroopScore;
+    document.getElementById('stroop-timer').textContent = stroopTimeLeft;
+    nextStroop();
+    stroopTimer = setInterval(() => {
+        stroopTimeLeft--;
+        document.getElementById('stroop-timer').textContent = stroopTimeLeft;
+        if(stroopTimeLeft <= 0) endStroop();
+    }, 1000);
+}
+
+function nextStroop() {
+    const wordIndex = Math.floor(Math.random() * stroopColors.length);
+    const colorIndex = Math.floor(Math.random() * stroopColorCodes.length);
+    const wordDiv = document.getElementById('stroop-word');
+    wordDiv.textContent = stroopColors[wordIndex];
+    wordDiv.style.color = stroopColorCodes[colorIndex];
+    
+    const optionsDiv = document.getElementById('stroop-options');
+    optionsDiv.innerHTML = '';
+    
+    const shuffledColors = shuffleArray([...stroopColors]).slice(0, 5);
+    if (!shuffledColors.includes(stroopColors[colorIndex])) {
+        shuffledColors[Math.floor(Math.random() * 5)] = stroopColors[colorIndex];
+    }
+    
+    shuffledColors.forEach((color) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary';
+        btn.textContent = color;
+        btn.onclick = () => {
+            if(color === stroopColors[colorIndex]) stroopScore++;
+            else stroopScore = Math.max(0, stroopScore - 1);
+            document.getElementById('stroop-score').textContent = stroopScore;
+            nextStroop();
+        };
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function endStroop() {
+    clearInterval(stroopTimer);
+    document.getElementById('stroop-game-area').innerHTML = `
+        <h3>Fim de Jogo!</h3>
+        <p>Sua pontuação final: ${stroopScore}</p>
+        <button class="btn btn-primary" onclick="resetStroop()">Jogar Novamente</button>
+    `;
+    saveHistory('Desafio das Cores', stroopScore, 'Pontos');
+}
+
+function resetTyping() {
+    document.getElementById('typing-input').value = "";
+    document.getElementById('typing-result').textContent = "";
+    startTyping();
+}
+
+function startTyping() {
+    const texts = [
+        "O rato roeu a roupa do rei de Roma.",
+        "A pressa é inimiga da perfeição.",
+        "Quem com ferro fere, com ferro será ferido.",
+        "Um prato de trigo para três tigres tristes.",
+        "No meio do caminho tinha uma pedra.",
+        "A vida é aquilo que acontece enquanto você faz outros planos.",
+        "O sucesso nasce do querer, da determinação e persistência.",
+        "Seja a mudança que você quer ver no mundo.",
+        "Pedras no caminho? Eu guardo todas. Um dia vou construir um castelo.",
+        "Não existe um caminho para a felicidade. A felicidade é o caminho.",
+        "O saber a gente aprende com os mestres e os livros.",
+        "A sabedoria se aprende é com a vida e com os humildes.",
+        "Gatos são animais fascinantes e independentes.",
+        "Programar é a arte de transformar café em código.",
+        "O Brasil é um país rico em cultura e diversidade."
+    ];
+    typingText = texts[Math.floor(Math.random() * texts.length)];
+    document.getElementById('typing-sample').textContent = typingText;
+    document.getElementById('typing-input').value = "";
+    document.getElementById('typing-result').textContent = "";
+    typingStartTime = 0;
+}
+
+function checkTyping() {
+    const input = document.getElementById('typing-input').value;
+    if (typingStartTime === 0 && input.length > 0) typingStartTime = Date.now();
+    
+    if (input === typingText) {
+        const timeInSeconds = (Date.now() - typingStartTime) / 1000;
+        const words = typingText.split(' ').length;
+        const wpm = Math.round((words / timeInSeconds) * 60);
+        document.getElementById('typing-result').textContent = `Concluído em ${timeInSeconds.toFixed(2)}s! Velocidade: ${wpm} WPM`;
+        saveHistory('Digitação', `${wpm} WPM`, 'Concluído');
+    }
+}
+
+function initProfissao() {
+    const selected = shuffleArray(profissaoQuestions).slice(0, 5);
+    const container = document.getElementById('profissao-questions');
+    container.innerHTML = '';
+    selected.forEach((q, idx) => {
+        const div = document.createElement('div');
+        div.className = 'question-card';
+        div.innerHTML = `<div class="question-text">${idx+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="selectProfissao(${idx}, ${i})">${opt}</div>`).join('')}</div>`;
+        container.appendChild(div);
+    });
+    profissaoAnswers = {};
+    window.currentProfissaoQuestions = selected;
+}
+function selectProfissao(qIdx, optIdx) {
+    profissaoAnswers[qIdx] = optIdx;
+    const options = document.querySelectorAll(`#profissao-questions .question-card:nth-child(${qIdx+1}) .option`);
+    options.forEach((opt, i) => { opt.classList.remove('selected'); if(i===optIdx) opt.classList.add('selected'); });
+}
+function calculateProfissao() {
+    if(Object.keys(profissaoAnswers).length < 5) { alert('Responda tudo!'); return; }
+    let scores = [0, 0, 0, 0];
+    Object.values(profissaoAnswers).forEach(a => scores[a]++);
+    const max = Math.max(...scores);
+    const type = scores.indexOf(max);
+    let result = "", desc = "";
+    if(type === 0) { result = "Analista / Cientista"; desc = "Você é lógico e organizado."; }
+    else if(type === 1) { result = "Artista / Criativo"; desc = "Você tem alma de artista."; }
+    else if(type === 2) { result = "Professor / Psicólogo"; desc = "Você gosta de gente."; }
+    else { result = "Engenheiro / Atleta"; desc = "Você gosta de ação."; }
+    
+    document.getElementById('profissao-quiz').classList.add('hidden');
+    document.getElementById('profissao-result').classList.remove('hidden');
+    document.getElementById('profissao-final').textContent = result;
+    document.getElementById('profissao-desc').textContent = desc;
+    saveHistory('Profissão Ideal', result, 'Perfil');
+}
+function resetProfissao() { document.getElementById('profissao-result').classList.add('hidden'); document.getElementById('profissao-quiz').classList.remove('hidden'); initProfissao(); }
+
+function initZumbi() {
+    const selected = shuffleArray(zumbiQuestions).slice(0, 5);
+    const container = document.getElementById('zumbi-questions');
+    container.innerHTML = '';
+    selected.forEach((q, idx) => {
+        const div = document.createElement('div');
+        div.className = 'question-card';
+        div.innerHTML = `<div class="question-text">${idx+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="selectZumbi(${idx}, ${i})">${opt}</div>`).join('')}</div>`;
+        container.appendChild(div);
+    });
+    zumbiAnswers = {};
+    window.currentZumbiQuestions = selected;
+}
+function selectZumbi(qIdx, optIdx) {
+    zumbiAnswers[qIdx] = optIdx;
+    const options = document.querySelectorAll(`#zumbi-questions .question-card:nth-child(${qIdx+1}) .option`);
+    options.forEach((opt, i) => { opt.classList.remove('selected'); if(i===optIdx) opt.classList.add('selected'); });
+}
+function calculateZumbi() {
+    if(Object.keys(zumbiAnswers).length < 5) { alert('Responda tudo!'); return; }
+    let survival = 0;
+    window.currentZumbiQuestions.forEach((q, idx) => {
+        const answer = zumbiAnswers[idx];
+        if (q.w && q.w[answer] !== undefined) {
+            survival += q.w[answer];
+        }
+    });
+    
+    let result = "", desc = "";
+    if(survival >= 10) { result = "Sobrevivente Líder"; desc = "Você guiaria a humanidade."; }
+    else if(survival >= 6) { result = "Sobrevive por pouco"; desc = "Você viveria, mas sofreria."; }
+    else { result = "Virou Zumbi na hora"; desc = "Infelizmente, você foi o primeiro lanche."; }
+    
+    document.getElementById('zumbi-quiz').classList.add('hidden');
+    document.getElementById('zumbi-result').classList.remove('hidden');
+    document.getElementById('zumbi-final').textContent = result;
+    document.getElementById('zumbi-desc').textContent = desc;
+    saveHistory('Zumbi', result, 'Status');
+}
+function resetZumbi() { document.getElementById('zumbi-result').classList.add('hidden'); document.getElementById('zumbi-quiz').classList.remove('hidden'); initZumbi(); }
+
+function initIdadeMental() {
+    const selected = shuffleArray(idadeMentalQuestions).slice(0, 5);
+    const container = document.getElementById('idade-mental-questions');
+    container.innerHTML = '';
+    selected.forEach((q, idx) => {
+        const div = document.createElement('div');
+        div.className = 'question-card';
+        div.innerHTML = `<div class="question-text">${idx+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="selectIdadeMental(${idx}, ${i})">${opt}</div>`).join('')}</div>`;
+        container.appendChild(div);
+    });
+    idadeMentalAnswers = {};
+    window.currentIdadeMentalQuestions = selected;
+}
+function selectIdadeMental(qIdx, optIdx) {
+    idadeMentalAnswers[qIdx] = optIdx;
+    const options = document.querySelectorAll(`#idade-mental-questions .question-card:nth-child(${qIdx+1}) .option`);
+    options.forEach((opt, i) => { opt.classList.remove('selected'); if(i===optIdx) opt.classList.add('selected'); });
+}
+function calculateIdadeMental() {
+    if(Object.keys(idadeMentalAnswers).length < 5) { alert('Responda tudo!'); return; }
+    let score = 0;
+    window.currentIdadeMentalQuestions.forEach((q, idx) => {
+        const answer = idadeMentalAnswers[idx];
+        if (q.v && q.v[answer] !== undefined) {
+            score += q.v[answer];
+        }
+    });
+    score = Math.round(score / 5);
+    
+    document.getElementById('idade-mental-quiz').classList.add('hidden');
+    document.getElementById('idade-mental-result').classList.remove('hidden');
+    document.getElementById('idade-mental-final').textContent = `${score} anos`;
+    document.getElementById('idade-mental-desc').textContent = "Essa é a idade da sua alma baseada nas suas escolhas!";
+    saveHistory('Idade Mental', `${score} anos`, 'Resultado');
+}
+function resetIdadeMental() { document.getElementById('idade-mental-result').classList.add('hidden'); document.getElementById('idade-mental-quiz').classList.remove('hidden'); initIdadeMental(); }
+
+function initLogos() {
+    window.currentLogosQuestions = shuffleArray(logosQuestions).slice(0, 10);
+    logosCurrentIndex = 0; logosScore = 0;
+    displayLogos();
+}
+function displayLogos() {
+    const container = document.getElementById('logos-questions');
+    container.innerHTML = '';
+    if (logosCurrentIndex < window.currentLogosQuestions.length) {
+        const q = window.currentLogosQuestions[logosCurrentIndex];
+        container.innerHTML = `<div class="question-text">${logosCurrentIndex+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="checkLogo(${i})">${opt}</div>`).join('')}</div>`;
+    } else { calculateLogos(); }
+}
+function checkLogo(selected) {
+    if(selected === window.currentLogosQuestions[logosCurrentIndex].c) logosScore++;
+    logosCurrentIndex++;
+    displayLogos();
+}
+function calculateLogos() {
+    document.getElementById('logos-quiz').classList.add('hidden');
+    document.getElementById('logos-result').classList.remove('hidden');
+    document.getElementById('logos-final').textContent = `${logosScore}/10`;
+    document.getElementById('logos-desc').textContent = logosScore > 7 ? "Você é um expert em marcas!" : "Você não liga muito para consumismo.";
+    saveHistory('Logos', `${logosScore}/10`, 'Pontuação');
+}
+function resetLogos() { document.getElementById('logos-result').classList.add('hidden'); document.getElementById('logos-quiz').classList.remove('hidden'); initLogos(); }
+
+function initFatos() { 
+    window.currentFatosQuestions = shuffleArray(fatosQuestions).slice(0, 10);
+    fatosCurrentIndex = 0; fatosScore = 0; displayFatos(); 
+}
+function displayFatos() {
+    const container = document.getElementById('fatos-questions');
+    container.innerHTML = '';
+    if (fatosCurrentIndex < window.currentFatosQuestions.length) {
+        const q = window.currentFatosQuestions[fatosCurrentIndex];
+        container.innerHTML = `<div class="question-text">${fatosCurrentIndex+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="checkFatos(${i})">${opt}</div>`).join('')}</div>`;
+    } else { calculateFatos(); }
+}
+function checkFatos(selected) {
+    if(selected === window.currentFatosQuestions[fatosCurrentIndex].c) fatosScore++;
+    fatosCurrentIndex++;
+    displayFatos();
+}
+function calculateFatos() {
+    document.getElementById('fatos-quiz').classList.add('hidden');
+    document.getElementById('fatos-result').classList.remove('hidden');
+    document.getElementById('fatos-final').textContent = `${fatosScore}/10`;
+    document.getElementById('fatos-desc').textContent = fatosScore > 7 ? "Você sabe muito!" : "Alguns fatos te surpreenderam.";
+    saveHistory('Fatos', `${fatosScore}/10`, 'Pontuação');
+}
+function resetFatos() { document.getElementById('fatos-result').classList.add('hidden'); document.getElementById('fatos-quiz').classList.remove('hidden'); initFatos(); }
+
+function initMusica() { 
+    window.currentMusicaQuestions = shuffleArray(musicaQuestions).slice(0, 5);
+    musicaCurrentIndex = 0; musicaScore = 0; displayMusica(); 
+}
+function displayMusica() {
+    const container = document.getElementById('musica-questions');
+    container.innerHTML = '';
+    if (musicaCurrentIndex < window.currentMusicaQuestions.length) {
+        const q = window.currentMusicaQuestions[musicaCurrentIndex];
+        container.innerHTML = `<div class="question-text">${musicaCurrentIndex+1}. ${q.q}</div><div class="options">${q.o.map((opt, i) => `<div class="option" onclick="checkMusica(${i})">${opt}</div>`).join('')}</div>`;
+    } else { calculateMusica(); }
+}
+function checkMusica(selected) {
+    if(selected === window.currentMusicaQuestions[musicaCurrentIndex].c) musicaScore++;
+    musicaCurrentIndex++;
+    displayMusica();
+}
+function calculateMusica() {
+    document.getElementById('musica-quiz').classList.add('hidden');
+    document.getElementById('musica-result').classList.remove('hidden');
+    document.getElementById('musica-final').textContent = `${musicaScore}/5`;
+    document.getElementById('musica-desc').textContent = musicaScore > 3 ? "Cantor(a) de chuveiro profissional!" : "Precisa ouvir mais rádio.";
+    saveHistory('Música', `${musicaScore}/5`, 'Pontuação');
+}
+function resetMusica() { document.getElementById('musica-result').classList.add('hidden'); document.getElementById('musica-quiz').classList.remove('hidden'); initMusica(); }
+
+function nextAdivinhoStep() {
+    if (adivinhoStep < adivinhoSteps.length) {
+        document.getElementById('adivinho-instruction').textContent = adivinhoSteps[adivinhoStep];
+        adivinhoStep++;
+    } else {
+        document.getElementById('adivinho-instruction').textContent = "Eu sabia! Matemática é mágica.";
+        adivinhoStep = 0;
+    }
+}
+function resetAdivinho() {
+    adivinhoStep = 0;
+    document.getElementById('adivinho-instruction').textContent = "Pense em um número inteiro qualquer.";
+}
+
+function openCookie() {
+    document.getElementById('cookie-closed').classList.add('hidden');
+    document.getElementById('cookie-opened').classList.remove('hidden');
+    const msg = cookies[Math.floor(Math.random() * cookies.length)];
+    document.getElementById('cookie-message').textContent = msg;
+    saveHistory('Biscoito da Sorte', 'Aberto', 'Sorte');
+}
+function resetCookie() {
+    document.getElementById('cookie-opened').classList.add('hidden');
+    document.getElementById('cookie-closed').classList.remove('hidden');
 }
 
 document.addEventListener('DOMContentLoaded',function(){
