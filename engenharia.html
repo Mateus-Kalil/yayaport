@@ -1,832 +1,1235 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yasmim Nathalie</title>
-    <link rel="icon" href="yaya1.png" type="image/x-icon" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #FF6B9D; --secondary: #C44569; --accent: #FFA07A;
-            --purple: #9B59B6; --light-pink: #FFE5EC; --dark: #2C3E50; --light: #ECF0F1;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
-            color: var(--dark); overflow-x: hidden; position: relative;
-        }
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
-                radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
-            pointer-events: none; z-index: 0;
-        }
-        .heart {
-            position: fixed; top: -10vh; font-size: 45px; color: var(--primary); opacity: 0;
-            animation: fall3D linear infinite, heartPulse 1.5s ease-in-out infinite;
-            z-index: 1; pointer-events: none; will-change: transform, opacity;
-            filter: drop-shadow(0 5px 10px rgba(255, 107, 157, 0.6)) drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 107, 157, 0.5);
-        }
-        @keyframes fall3D {
-            0% { top: -10vh; opacity: 0; transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.5); }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            100% { top: 110vh; opacity: 0; transform: translateX(100px) translateZ(100px) rotateY(360deg) scale(1.2); }
-        }
-        @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        .particle {
-            position: fixed; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%; pointer-events: none; animation: float 6s ease-in-out infinite;
-            z-index: 1; will-change: transform;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-20px) translateX(20px); } }
-        nav {
-            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px); padding: 1rem 2rem; z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 107, 157, 0.3);
-            animation: slideDown 0.5s ease-out;
-        }
-        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        nav .logo {
-            font-size: 1.5rem; font-weight: bold;
-            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; cursor: pointer;
-        }
-        .menu-toggle {
-            display: flex; flex-direction: column; justify-content: space-around;
-            width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 1002;
-        }
-        .menu-toggle .bar { width: 100%; height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease-in-out; }
-        .nav-links {
-            position: fixed; top: 0; right: -100%; width: 250px; height: 100%;
-            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
-            box-shadow: -5px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; transition: right 0.4s ease-in-out; z-index: 1001;
-        }
-        .nav-links.active { right: 0; }
-        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 2rem; text-align: center; width: 100%; }
-        .nav-links a {
-            text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 500;
-            transition: color 0.3s; font-size: 1.2rem; padding: 0.5rem; cursor: pointer;
-        }
-        .nav-links a:hover { color: var(--primary); }
-        .close-menu-btn {
-            position: absolute; top: 2rem; right: 2rem; background: none; border: none;
-            color: white; font-size: 2rem; cursor: pointer; transition: transform 0.3s, color 0.3s;
-        }
-        .close-menu-btn:hover { color: var(--primary); transform: rotate(90deg); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .main-section {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            padding-top: 100px; padding-bottom: 50px; position: relative; z-index: 10;
-        }
-        .section-content { width: 100%; max-width: 1200px; }
-        .hero-content {
-            text-align: center; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            padding: 3rem; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 107, 157, 0.3); animation: fadeInUp 1s ease-out;
-        }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero-content h1 {
-            font-size: 3rem; margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;
-        }
-        .hero-content .subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; }
-        .hero-content p { color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 2rem; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: white; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); }
-        .content-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9);
-        }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .menu-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 3rem 2rem;
-            text-align: center; cursor: pointer; transition: all 0.3s;
-        }
-        .menu-card:hover {
-            transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .menu-card h3 { color: white; font-size: 1.8rem; margin-bottom: 1rem; }
-        .menu-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
-        .btn {
-            display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none;
-            font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; margin: 0.5rem;
-            position: relative; overflow: hidden; cursor: pointer; border: none; font-size: 1rem;
-        }
-        .btn-primary { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); color: white; }
-        .btn-primary::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #000000 0%, var(--purple) 100%); transition: left 0.3s; z-index: 0;
-        }
-        .btn-primary:hover::before { left: 0; }
-        .btn span { position: relative; z-index: 1; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4); }
-        .btn-success { background: linear-gradient(135deg, #27ae60 0%, #16a085 100%); color: white; }
-        .btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
-        .btn-info { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; }
-        .btn-back { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; margin-top: 2rem; }
-        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-        .timer {
-            background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; padding: 1rem 2rem;
-            border-radius: 15px; font-size: 1.5rem; font-weight: bold; color: white;
-        }
-        .question-counter {
-            background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; padding: 1rem 2rem;
-            border-radius: 15px; font-size: 1.2rem; color: white;
-        }
-        .question-card { background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
-        .question-text { font-size: 1.3rem; color: white; margin-bottom: 2rem; line-height: 1.6; }
-        .options { display: flex; flex-direction: column; gap: 1rem; }
-        .option {
-            background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 107, 157, 0.3);
-            padding: 1.5rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;
-            color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;
-        }
-        .option:hover { background: rgba(255, 107, 157, 0.2); border-color: var(--primary); transform: translateX(10px); }
-        .option.selected { background: rgba(155, 89, 182, 0.3); border-color: var(--purple); }
-        .result-card { text-align: center; padding: 3rem; }
-        .result-card h2 { font-size: 2.5rem; color: white; margin-bottom: 2rem; }
-        .score-display {
-            font-size: 4rem; font-weight: bold;
-            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem;
-        }
-        .history-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
-        .history-table th, .history-table td {
-            padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255, 107, 157, 0.3);
-            color: rgba(255, 255, 255, 0.9);
-        }
-        .history-table th { background: rgba(155, 89, 182, 0.3); font-weight: bold; }
-        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
-        .calculator-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
-        }
-        .calculator-card h3 { color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem; }
-        .calc-input {
-            width: 100%; padding: 0.8rem; margin-bottom: 1rem; border-radius: 10px;
-            border: 2px solid rgba(255, 107, 157, 0.3); background: rgba(255, 255, 255, 0.05);
-            color: white; font-size: 1rem;
-        }
-        .calc-input:focus { outline: none; border-color: var(--primary); }
-        .calc-result {
-            background: rgba(155, 89, 182, 0.2); border: 2px solid var(--purple);
-            padding: 1rem; border-radius: 10px; margin-top: 1rem; color: white; font-weight: bold;
-        }
-        .formula-card {
-            background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 15px;
-            margin-bottom: 1.5rem; border-left: 4px solid var(--primary);
-        }
-        .formula-card h4 { color: white; margin-bottom: 0.5rem; }
-        .formula-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
-        .topography-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
-        .topo-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
-        }
-        .topo-card h3 { color: #f39c12; margin-bottom: 1rem; font-size: 1.4rem; }
-        .topo-card ul { list-style: none; padding-left: 0; }
-        .topo-card li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.85); }
-        .topo-card li::before { content: '▸'; position: absolute; left: 0; color: var(--primary); }
-        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .tab-btn {
-            padding: 1rem 2rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 107, 157, 0.3);
-            border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s;
-        }
-        .tab-btn.active { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); border-color: var(--purple); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; }
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2rem; }
-            .hero-content .subtitle { font-size: 1.1rem; }
-            .section-title { font-size: 2rem; }
-            .quiz-header { flex-direction: column; }
-            .calculator-grid, .topography-grid { grid-template-columns: 1fr; }
-            .content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
-            nav { background-color: rgba(44, 62, 80, 0.5); }
-        }
-        .hidden { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yasmim Nathalie</title>
+<link rel="icon" href="yaya1.png" type="image/x-icon" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--primary: #FF6B9D; --secondary: #C44569; --accent: #FFA07A;
+--purple: #9B59B6; --light-pink: #FFE5EC; --dark: #2C3E50; --light: #ECF0F1;
+}
+html { scroll-behavior: smooth; }
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(180deg, #FF6B9D 0%, #C44569 30%, #8B3A62 60%, #000000 100%);
+color: var(--dark); overflow-x: hidden; position: relative;
+}
+body::before {
+content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background:
+radial-gradient(circle at top left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at top right, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at bottom left, transparent 30%, rgba(0, 0, 0, 0.7) 100%),
+radial-gradient(circle at bottom right, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+pointer-events: none; z-index: 0;
+}
+.particle {
+position: fixed; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5);
+border-radius: 50%; pointer-events: none; animation: float 6s ease-in-out infinite;
+z-index: 1; will-change: transform;
+}
+@keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-20px) translateX(20px); } }
+nav {
+position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(15px); padding: 1rem 2rem; z-index: 1000;
+box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+animation: slideDown 0.5s ease-out;
+}
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+nav .logo {
+font-size: 1.5rem; font-weight: bold;
+background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; cursor: pointer;
+}
+.menu-toggle {
+display: flex; flex-direction: column; justify-content: space-around;
+width: 30px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 1002;
+}
+.menu-toggle .bar { width: 100%; height: 3px; background-color: white; border-radius: 2px; transition: all 0.3s ease-in-out; }
+.nav-links {
+position: fixed; top: 0; right: -100%; width: 280px; height: 100%;
+background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
+box-shadow: -5px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+align-items: center; justify-content: center; transition: right 0.4s ease-in-out; z-index: 1001;
+}
+.nav-links.active { right: 0; }
+.nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; text-align: center; width: 100%; padding: 0 1rem; }
+.nav-links a {
+text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 500;
+transition: color 0.3s; font-size: 1.1rem; padding: 0.5rem; cursor: pointer; display: block;
+}
+.nav-links a:hover { color: var(--primary); }
+.close-menu-btn {
+position: absolute; top: 2rem; right: 2rem; background: none; border: none;
+color: white; font-size: 2rem; cursor: pointer; transition: transform 0.3s, color 0.3s;
+}
+.close-menu-btn:hover { color: var(--primary); transform: rotate(90deg); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.main-section {
+min-height: 100vh; display: flex; align-items: center; justify-content: center;
+padding-top: 100px; padding-bottom: 50px; position: relative; z-index: 10;
+}
+.section-content { width: 100%; max-width: 1200px; }
+.hero-content {
+text-align: center; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+padding: 3rem; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+border: 1px solid rgba(255, 107, 157, 0.3); animation: fadeInUp 1s ease-out;
+}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content h1 {
+font-size: 3rem; margin-bottom: 1rem;
+background: linear-gradient(135deg, var(--purple) 0%, #000000 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;
+}
+.hero-content .subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; }
+.hero-content p { color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 2rem; }
+.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: white; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); }
+.content-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9);
+}
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+.menu-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2.5rem 2rem;
+text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.menu-card:hover {
+transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+background: rgba(255, 255, 255, 0.12);
+}
+.menu-card h3 { color: white; font-size: 1.6rem; margin-bottom: 1rem; }
+.menu-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem; }
+.btn {
+display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none;
+font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; margin: 0.5rem;
+position: relative; overflow: hidden; cursor: pointer; border: none; font-size: 1rem;
+}
+.btn-primary { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); color: white; }
+.btn-primary::before {
+content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+background: linear-gradient(135deg, #000000 0%, var(--purple) 100%); transition: left 0.3s; z-index: 0;
+}
+.btn-primary:hover::before { left: 0; }
+.btn span { position: relative; z-index: 1; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4); }
+.btn-success { background: linear-gradient(135deg, #27ae60 0%, #16a085 100%); color: white; }
+.btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
+.btn-info { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; }
+.btn-back { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; margin-top: 2rem; }
+.quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.timer {
+background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; padding: 1rem 2rem;
+border-radius: 15px; font-size: 1.5rem; font-weight: bold; color: white;
+}
+.question-counter {
+background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; padding: 1rem 2rem;
+border-radius: 15px; font-size: 1.2rem; color: white;
+}
+.question-card { background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
+.question-text { font-size: 1.3rem; color: white; margin-bottom: 2rem; line-height: 1.6; }
+.options { display: flex; flex-direction: column; gap: 1rem; }
+.option {
+background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 107, 157, 0.3);
+padding: 1.5rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;
+color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;
+}
+.option:hover { background: rgba(255, 107, 157, 0.2); border-color: var(--primary); transform: translateX(10px); }
+.option.selected { background: rgba(155, 89, 182, 0.3); border-color: var(--purple); }
+.result-card { text-align: center; padding: 3rem; }
+.result-card h2 { font-size: 2.5rem; color: white; margin-bottom: 2rem; }
+.score-display {
+font-size: 4rem; font-weight: bold;
+background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem;
+}
+.history-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+.history-table th, .history-table td {
+padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+color: rgba(255, 255, 255, 0.9);
+}
+.history-table th { background: rgba(155, 89, 182, 0.3); font-weight: bold; }
+.calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.calculator-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+}
+.calculator-card h3 { color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem; }
+.calc-input {
+width: 100%; padding: 0.8rem; margin-bottom: 1rem; border-radius: 10px;
+border: 2px solid rgba(255, 107, 157, 0.3); background: rgba(255, 255, 255, 0.05);
+color: white; font-size: 1rem;
+}
+.calc-input:focus { outline: none; border-color: var(--primary); }
+.calc-result {
+background: rgba(155, 89, 182, 0.2); border: 2px solid var(--purple);
+padding: 1rem; border-radius: 10px; margin-top: 1rem; color: white; font-weight: bold;
+}
+.formula-card {
+background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 15px;
+margin-bottom: 1.5rem; border-left: 4px solid var(--primary);
+}
+.formula-card h4 { color: white; margin-bottom: 0.5rem; }
+.formula-card p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+.topography-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+.topo-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+}
+.topo-card h3 { color: #f39c12; margin-bottom: 1rem; font-size: 1.4rem; }
+.topo-card ul { list-style: none; padding-left: 0; }
+.topo-card li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.85); }
+.topo-card li::before { content: '▸'; position: absolute; left: 0; color: var(--primary); }
+.tab-buttons { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+.tab-btn {
+padding: 1rem 2rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 107, 157, 0.3);
+border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; flex-grow: 1; text-align: center; max-width: 200px;
+}
+.tab-btn.active { background: linear-gradient(135deg, var(--purple) 0%, #000000 100%); border-color: var(--purple); }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeInUp 0.5s ease-out; }
+.engineer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.engineer-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 1.5rem;
+text-align: center; transition: all 0.3s;
+}
+.engineer-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.15); border-color: var(--primary); }
+.engineer-img-placeholder {
+width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--purple));
+margin: 0 auto 1rem auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;
+}
+.engineer-card h3 { color: white; margin-bottom: 0.5rem; }
+.engineer-card .era { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; display: block; }
+.engineer-card p { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; line-height: 1.5; }
+.book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.book-card {
+background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 107, 157, 0.3); border-radius: 20px; padding: 2rem;
+display: flex; gap: 1.5rem; align-items: flex-start; transition: all 0.3s;
+}
+.book-card:hover { transform: translateX(10px); background: rgba(255, 255, 255, 0.12); }
+.book-icon {
+min-width: 60px; height: 80px; background: linear-gradient(180deg, var(--dark), var(--purple));
+border-radius: 5px; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;
+}
+.book-info h3 { color: white; margin-bottom: 0.5rem; font-size: 1.3rem; }
+.book-info .author { color: var(--primary); font-style: italic; margin-bottom: 0.5rem; display: block; }
+.book-info p { color: rgba(255, 255, 255, 0.8); font-size: 0.95rem; line-height: 1.5; }
+footer { background: transparent; color: white; text-align: center; padding: 2rem; position: relative; z-index: 10; margin-top: 3rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+@media (max-width: 768px) {
+.hero-content h1 { font-size: 2rem; }
+.hero-content .subtitle { font-size: 1.1rem; }
+.section-title { font-size: 2rem; }
+.quiz-header { flex-direction: column; }
+.calculator-grid, .topography-grid, .book-grid { grid-template-columns: 1fr; }
+.book-card { flex-direction: column; align-items: center; text-align: center; }
+.content-card, nav { backdrop-filter: none; background-color: rgba(44, 62, 80, 0.25); }
+nav { background-color: rgba(44, 62, 80, 0.8); }
+}
+.hidden { display: none !important; }
+</style>
 </head>
 <body>
-    <nav>
+<nav>
+<div class="container">
+<div class="logo" onclick="window.location.href='https://yasmim.pro/'">Yasmim Nathalie</div>
+<div class="nav-links">
+<button class="close-menu-btn">&times;</button>
+<ul>
+<li><a onclick="showSection('home')">Início</a></li>
+<li><a onclick="showSection('teste')">Teste</a></li>
+<li><a onclick="showSection('calculos')">Calculadoras</a></li>
+<li><a onclick="showSection('topografia')">Topografia</a></li>
+<li><a onclick="showSection('engenheiros')">Engenheiros</a></li>
+<li><a onclick="showSection('livros')">Livros</a></li>
+<li><a href="https://yasmim.pro/">Voltar ao Portfólio</a></li>
+</ul>
+</div>
+<button class="menu-toggle">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</button>
+</div>
+</nav>
+<section id="home-section" class="main-section">
+    <div class="section-content">
+        <div class="hero-content">
+            <h1>Engenharia Profissional</h1>
+            <p class="subtitle">Ferramentas, Cálculos e Conhecimento Técnico</p>
+            <p>Plataforma completa com teste de conhecimento avançado, calculadoras profissionais robustas, bibliografia essencial e história da engenharia.</p>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="showSection('teste')">
+                    <h3>Teste de Conhecimento</h3>
+                    <p>30 questões desafiadoras de engenharia civil com timer e histórico.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('calculos')">
+                    <h3>Calculadoras</h3>
+                    <p>Ferramentas robustas para Estruturas, Concreto, Solos e Hidráulica.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('topografia')">
+                    <h3>Topografia</h3>
+                    <p>Cálculos de azimute, coordenadas e conversão de declividade.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('engenheiros')">
+                    <h3>Grandes Engenheiros</h3>
+                    <p>Biografias dos 10 maiores nomes da história da engenharia.</p>
+                </div>
+                <div class="menu-card" onclick="showSection('livros')">
+                    <h3>Bibliografia</h3>
+                    <p>Os 10 livros essenciais para todo engenheiro civil.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="teste-section" class="main-section hidden">
+    <div class="section-content">
         <div class="container">
-            <div class="logo" onclick="window.location.href='https://yasmim.pro/'">Yasmim Nathalie</div>
-            <div class="nav-links">
-                <button class="close-menu-btn">&times;</button>
+            <h2 class="section-title">Teste de Conhecimento</h2>
+            <div id="quiz-start">
+                <div class="content-card" style="text-align: center;">
+                    <h3 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Desafio de Engenharia Civil</h3>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Teste seus conhecimentos com 30 questões de alto nível. Você terá 30 minutos.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 questões</p>
+                        <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 minutos</p>
+                        <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">Nível: Avançado</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="startQuiz()"><span>Iniciar Teste</span></button>
+                    <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
+                </div>
+                <div id="history-section" class="content-card hidden">
+                    <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1.5rem;">Histórico de Testes</h3>
+                    <table class="history-table" id="history-table">
+                        <thead><tr><th>Data</th><th>Pontuação</th><th>Acertos</th><th>Tempo</th></tr></thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                    <button class="btn btn-danger" onclick="clearHistory()" style="margin-top: 1rem;"><span>Limpar Histórico</span></button>
+                    <button class="btn btn-primary" onclick="hideHistory()" style="margin-top: 1rem;"><span>Voltar</span></button>
+                </div>
+            </div>
+            <div id="quiz-active" class="hidden">
+                <div class="content-card">
+                    <div class="quiz-header">
+                        <div class="timer" id="timer">30:00</div>
+                        <div class="question-counter" id="question-counter">Questão 1 de 30</div>
+                    </div>
+                    <div class="question-card" id="question-card">
+                        <div class="question-text" id="question-text"></div>
+                        <div class="options" id="options"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="nextQuestion()"><span>Próxima</span></button>
+                        <button class="btn btn-danger" onclick="endQuiz()"><span>Finalizar Teste</span></button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-result" class="hidden">
+                <div class="content-card result-card">
+                    <h2>Teste Concluído!</h2>
+                    <div class="score-display" id="final-score">0</div>
+                    <p style="color: white; font-size: 1.3rem;" id="result-text"></p>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-top: 1rem;" id="time-taken"></p>
+                    <button class="btn btn-primary" onclick="resetQuiz()"><span>Fazer Novamente</span></button>
+                    <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
+                    <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="calculos-section" class="main-section hidden">
+    <div class="section-content"><div class="container">
+        <h2 class="section-title">Calculadoras Profissionais</h2>
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="showTab('estruturas')">Estruturas</button>
+            <button class="tab-btn" onclick="showTab('concreto')">Concreto</button>
+            <button class="tab-btn" onclick="showTab('solo')">Geotecnia</button>
+            <button class="tab-btn" onclick="showTab('hidraulica')">Hidráulica</button>
+            <button class="tab-btn" onclick="showTab('diversos')">Geral</button>
+        </div>
+        
+        <div id="tab-estruturas" class="tab-content active">
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <h3>Viga Biapoiada (Simples)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Carga Distribuída Uniforme</p>
+                    <input type="number" class="calc-input" id="viga-carga" placeholder="Carga q (kN/m)">
+                    <input type="number" class="calc-input" id="viga-vao" placeholder="Vão L (m)">
+                    <button class="btn btn-success" onclick="calcVigaBiapoiada()"><span>Calcular Esforços</span></button>
+                    <div class="calc-result hidden" id="resultado-viga"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Flambagem (Carga Crítica)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Fórmula de Euler</p>
+                    <input type="number" class="calc-input" id="pilar-e" placeholder="Módulo Elasticidade (GPa)">
+                    <input type="number" class="calc-input" id="pilar-i" placeholder="Momento de Inércia (cm⁴)">
+                    <input type="number" class="calc-input" id="pilar-l" placeholder="Comprimento Efetivo (m)">
+                    <button class="btn btn-success" onclick="calcFlambagem()"><span>Calcular Pcr</span></button>
+                    <div class="calc-result hidden" id="resultado-flambagem"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Inércia Retangular</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Seção Retangular Cheia</p>
+                    <input type="number" class="calc-input" id="iner-b" placeholder="Base b (cm)">
+                    <input type="number" class="calc-input" id="iner-h" placeholder="Altura h (cm)">
+                    <button class="btn btn-success" onclick="calcInercia()"><span>Calcular I</span></button>
+                    <div class="calc-result hidden" id="resultado-inercia"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Tensão Normal</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Compressão/Tração Axial</p>
+                    <input type="number" class="calc-input" id="tensao-forca" placeholder="Força Normal (kN)">
+                    <input type="number" class="calc-input" id="tensao-area" placeholder="Área Seção (cm²)">
+                    <button class="btn btn-success" onclick="calcTensaoNormal()"><span>Calcular σ</span></button>
+                    <div class="calc-result hidden" id="resultado-tensao"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-concreto" class="tab-content">
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <h3>Volume de Concreto (Lajes)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Cálculo com perda estimada</p>
+                    <input type="number" class="calc-input" id="laje-area" placeholder="Área da Laje (m²)">
+                    <input type="number" class="calc-input" id="laje-esp" placeholder="Espessura (cm)">
+                    <input type="number" class="calc-input" id="laje-perda" placeholder="Perda (%) - Ex: 5" value="5">
+                    <button class="btn btn-success" onclick="calcVolLaje()"><span>Calcular Volume</span></button>
+                    <div class="calc-result hidden" id="resultado-vollaje"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Volume de Pilares/Vigas</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Elementos lineares</p>
+                    <input type="number" class="calc-input" id="elem-b" placeholder="Largura (cm)">
+                    <input type="number" class="calc-input" id="elem-h" placeholder="Altura (cm)">
+                    <input type="number" class="calc-input" id="elem-c" placeholder="Comprimento Total (m)">
+                    <button class="btn btn-success" onclick="calcVolLinear()"><span>Calcular Volume</span></button>
+                    <div class="calc-result hidden" id="resultado-vollinear"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Traço de Concreto (Estimativa)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Consumo de materiais</p>
+                    <input type="number" class="calc-input" id="conc-fck" placeholder="fck desejado (MPa)">
+                    <input type="number" class="calc-input" id="conc-volume" placeholder="Volume total (m³)">
+                    <button class="btn btn-success" onclick="calcTracoConcreto()"><span>Calcular Materiais</span></button>
+                    <div class="calc-result hidden" id="resultado-traco"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Área de Aço (Flexão Simples)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Armadura Longitudinal</p>
+                    <input type="number" class="calc-input" id="aco-momento" placeholder="Momento Mk (kN.m)">
+                    <input type="number" class="calc-input" id="aco-d" placeholder="Altura útil d (cm)">
+                    <input type="number" class="calc-input" id="aco-fck" placeholder="fck (MPa)">
+                    <button class="btn btn-success" onclick="calcAreaAco()"><span>Calcular As</span></button>
+                    <div class="calc-result hidden" id="resultado-aco"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-solo" class="tab-content">
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <h3>Capacidade de Carga (Terzaghi)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Sapata Corrida (Superficial)</p>
+                    <input type="number" class="calc-input" id="solo-coesao" placeholder="Coesão c (kPa)">
+                    <input type="number" class="calc-input" id="solo-angulo" placeholder="Ângulo de atrito φ (°)">
+                    <input type="number" class="calc-input" id="solo-largura" placeholder="Largura B (m)">
+                    <button class="btn btn-success" onclick="calcCapacidadeCarga()"><span>Calcular q_ult</span></button>
+                    <div class="calc-result hidden" id="resultado-capacidade"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Tensão Geostática Vertical</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">σ_v = γ × z</p>
+                    <input type="number" class="calc-input" id="geo-peso" placeholder="Peso Específico γ (kN/m³)">
+                    <input type="number" class="calc-input" id="geo-prof" placeholder="Profundidade z (m)">
+                    <button class="btn btn-success" onclick="calcTensaoGeo()"><span>Calcular Tensão</span></button>
+                    <div class="calc-result hidden" id="resultado-geo"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Índices Físicos</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Índice de Vazios (e)</p>
+                    <input type="number" class="calc-input" id="ind-n" placeholder="Porosidade n (%)">
+                    <button class="btn btn-success" onclick="calcVazios()"><span>Calcular e</span></button>
+                    <div class="calc-result hidden" id="resultado-vazios"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Empuxo Ativo (Rankine)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Solo não coesivo, superfície horizontal</p>
+                    <input type="number" class="calc-input" id="empuxo-phi" placeholder="Ângulo de atrito φ (°)">
+                    <input type="number" class="calc-input" id="empuxo-gamma" placeholder="Peso Específico (kN/m³)">
+                    <input type="number" class="calc-input" id="empuxo-h" placeholder="Altura Muro (m)">
+                    <button class="btn btn-success" onclick="calcEmpuxo()"><span>Calcular Empuxo</span></button>
+                    <div class="calc-result hidden" id="resultado-empuxo"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-hidraulica" class="tab-content">
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <h3>Vazão (Continuidade)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Q = A × v</p>
+                    <input type="number" class="calc-input" id="hid-diametro" placeholder="Diâmetro (mm)">
+                    <input type="number" class="calc-input" id="hid-velocidade" placeholder="Velocidade (m/s)">
+                    <button class="btn btn-success" onclick="calcVazao()"><span>Calcular Q</span></button>
+                    <div class="calc-result hidden" id="resultado-vazao"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Volume Reservatório Cilíndrico</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">V = π × r² × h</p>
+                    <input type="number" class="calc-input" id="res-diametro" placeholder="Diâmetro (m)">
+                    <input type="number" class="calc-input" id="res-altura" placeholder="Altura útil (m)">
+                    <button class="btn btn-success" onclick="calcVolReservatorio()"><span>Calcular Volume</span></button>
+                    <div class="calc-result hidden" id="resultado-reservatorio"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Fórmula de Manning (Canais)</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Canal Retangular (Estimativa)</p>
+                    <input type="number" class="calc-input" id="man-n" placeholder="Rugosidade n (ex: 0.013)">
+                    <input type="number" class="calc-input" id="man-i" placeholder="Declividade (m/m)">
+                    <input type="number" class="calc-input" id="man-rh" placeholder="Raio Hidráulico (m)">
+                    <button class="btn btn-success" onclick="calcManning()"><span>Calcular Velocidade</span></button>
+                    <div class="calc-result hidden" id="resultado-manning"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Perda de Carga Distribuída</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Darcy-Weisbach</p>
+                    <input type="number" class="calc-input" id="pc-comprimento" placeholder="Comprimento L (m)">
+                    <input type="number" class="calc-input" id="pc-diametro" placeholder="Diâmetro D (mm)">
+                    <input type="number" class="calc-input" id="pc-velocidade" placeholder="Velocidade v (m/s)">
+                    <button class="btn btn-success" onclick="calcPerdaCarga()"><span>Calcular hf</span></button>
+                    <div class="calc-result hidden" id="resultado-perda"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-diversos" class="tab-content">
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <h3>Interpolação Linear</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Encontrar Y para X</p>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" class="calc-input" id="int-x1" placeholder="X1">
+                        <input type="number" class="calc-input" id="int-y1" placeholder="Y1">
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" class="calc-input" id="int-x2" placeholder="X2">
+                        <input type="number" class="calc-input" id="int-y2" placeholder="Y2">
+                    </div>
+                    <input type="number" class="calc-input" id="int-x" placeholder="X desejado">
+                    <button class="btn btn-success" onclick="calcInterpolacao()"><span>Calcular Y</span></button>
+                    <div class="calc-result hidden" id="resultado-interpolacao"></div>
+                </div>
+                <div class="calculator-card">
+                    <h3>Conversão de Pressão</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">MPa para outras unidades</p>
+                    <input type="number" class="calc-input" id="conv-mpa" placeholder="Valor em MPa">
+                    <button class="btn btn-success" onclick="calcConversaoPressao()"><span>Converter</span></button>
+                    <div class="calc-result hidden" id="resultado-conversao"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+    </div></div>
+</section>
+
+<section id="topografia-section" class="main-section hidden">
+    <div class="section-content"><div class="container">
+        <h2 class="section-title">Topografia Aplicada</h2>
+        <div class="content-card" style="margin-bottom: 2rem;">
+            <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">Fundamentos e Prática</h3>
+            <p style="line-height: 1.8; margin-bottom: 1rem;">A topografia é a base de qualquer projeto de engenharia civil. Utilize as ferramentas abaixo para cálculos de campo e escritório.</p>
+        </div>
+        
+        <div class="calculator-grid" style="margin-bottom: 3rem;">
+            <div class="calculator-card">
+                <h3>Conversão Azimute -> Rumo</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Determinação de quadrante</p>
+                <input type="number" class="calc-input" id="az-angulo" placeholder="Azimute (°)">
+                <button class="btn btn-success" onclick="calcRumo()"><span>Converter</span></button>
+                <div class="calc-result hidden" id="resultado-rumo"></div>
+            </div>
+            <div class="calculator-card">
+                <h3>Cálculo de Coordenadas (Irradiação)</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">X = D.sin(Az) | Y = D.cos(Az)</p>
+                <input type="number" class="calc-input" id="coord-distancia" placeholder="Distância Horizontal (m)">
+                <input type="number" class="calc-input" id="coord-azimute" placeholder="Azimute (°)">
+                <button class="btn btn-success" onclick="calcCoordenadas()"><span>Calcular Projeções</span></button>
+                <div class="calc-result hidden" id="resultado-coordenadas"></div>
+            </div>
+            <div class="calculator-card">
+                <h3>Declividade (%)</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Relação Altura x Distância</p>
+                <input type="number" class="calc-input" id="dec-altura" placeholder="Desnível (m)">
+                <input type="number" class="calc-input" id="dec-distancia" placeholder="Distância Horizontal (m)">
+                <button class="btn btn-success" onclick="calcDeclividade()"><span>Calcular %</span></button>
+                <div class="calc-result hidden" id="resultado-declividade"></div>
+            </div>
+            <div class="calculator-card">
+                <h3>Correção de Distância (Inclinada)</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Obter Distância Horizontal</p>
+                <input type="number" class="calc-input" id="dist-inclinada" placeholder="Distância Inclinada (m)">
+                <input type="number" class="calc-input" id="dist-angulo" placeholder="Ângulo Vertical (°)">
+                <button class="btn btn-success" onclick="calcDistHorizontal()"><span>Calcular DH</span></button>
+                <div class="calc-result hidden" id="resultado-disth"></div>
+            </div>
+        </div>
+
+        <div class="topography-grid">
+            <div class="topo-card">
+                <h3>Planimetria</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano horizontal</p>
                 <ul>
-                    <li><a onclick="showSection('home')">Início</a></li>
-                    <li><a onclick="showSection('teste')">Teste de Conhecimento</a></li>
-                    <li><a onclick="showSection('calculos')">Calculadoras</a></li>
-                    <li><a onclick="showSection('topografia')">Topografia</a></li>
-                    <li><a href="https://yasmim.pro/">Voltar ao Portfólio</a></li>
+                    <li>Poligonais fechadas e abertas</li>
+                    <li>Irradiação e Interseção</li>
+                    <li>Cálculo de áreas analítico</li>
+                    <li>Locação de obras</li>
                 </ul>
             </div>
-            <button class="menu-toggle">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </button>
-        </div>
-    </nav>
-
-    <section id="home-section" class="main-section">
-        <div class="section-content">
-            <div class="hero-content">
-                <h1>Engenharia Profissional</h1>
-                <p class="subtitle">Ferramentas, Cálculos e Conhecimento Técnico</p>
-                <p>Plataforma completa com teste de conhecimento avançado, calculadoras profissionais e conteúdo técnico para engenheiros civis.</p>
-                <div class="menu-grid">
-                    <div class="menu-card" onclick="showSection('teste')">
-                        <h3>Teste de Conhecimento</h3>
-                        <p>Desafie-se com 30 questões difíceis de engenharia civil. Teste completo com timer de 30 minutos e histórico de resultados.</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('calculos')">
-                        <h3>Calculadoras</h3>
-                        <p>Ferramentas profissionais para cálculos de estruturas, concreto, solos e hidráulica com fórmulas e referências técnicas.</p>
-                    </div>
-                    <div class="menu-card" onclick="showSection('topografia')">
-                        <h3>Topografia</h3>
-                        <p>Conteúdo completo sobre topografia com calculadoras especializadas, fundamentos teóricos e aplicações práticas.</p>
-                    </div>
-                </div>
+            <div class="topo-card">
+                <h3>Altimetria</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano vertical</p>
+                <ul>
+                    <li>Nivelamento Geométrico (mais preciso)</li>
+                    <li>Nivelamento Trigonométrico</li>
+                    <li>Curvas de nível e MDT</li>
+                    <li>Terraplenagem (Corte/Aterro)</li>
+                </ul>
+            </div>
+            <div class="topo-card">
+                <h3>Tecnologias</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Equipamentos Modernos</p>
+                <ul>
+                    <li>Estação Total Robótica</li>
+                    <li>GNSS RTK (GPS de precisão)</li>
+                    <li>Laser Scanner 3D</li>
+                    <li>Fotogrametria com Drones</li>
+                </ul>
             </div>
         </div>
-    </section>
+        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+    </div></div>
+</section>
 
-    <section id="teste-section" class="main-section hidden">
-        <div class="section-content">
-            <div class="container">
-                <h2 class="section-title">Teste de Conhecimento</h2>
-                <div id="quiz-start">
-                    <div class="content-card" style="text-align: center;">
-                        <h3 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Desafio de Engenharia Civil</h3>
-                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Teste seus conhecimentos com 30 questões difíceis de engenharia civil. Você terá 30 minutos para completar o teste.</p>
-                        <div style="margin-bottom: 2rem;">
-                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 questões</p>
-                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">30 minutos</p>
-                            <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">Nível: Avançado</p>
-                        </div>
-                        <button class="btn btn-primary" onclick="startQuiz()"><span>Iniciar Teste</span></button>
-                        <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar</span></button>
-                    </div>
-                    <div id="history-section" class="content-card hidden">
-                        <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1.5rem;">Histórico de Testes</h3>
-                        <table class="history-table" id="history-table">
-                            <thead><tr><th>Data</th><th>Pontuação</th><th>Acertos</th><th>Tempo</th></tr></thead>
-                            <tbody id="history-body"></tbody>
-                        </table>
-                        <button class="btn btn-danger" onclick="clearHistory()" style="margin-top: 1rem;"><span>Limpar Histórico</span></button>
-                        <button class="btn btn-primary" onclick="hideHistory()" style="margin-top: 1rem;"><span>Voltar</span></button>
-                    </div>
+<section id="engenheiros-section" class="main-section hidden">
+    <div class="section-content"><div class="container">
+        <h2 class="section-title">Os 10 Maiores Engenheiros da História</h2>
+        <p style="text-align: center; color: white; margin-bottom: 2rem; font-size: 1.1rem;">Pioneiros que moldaram o mundo moderno através da inovação, cálculo e ousadia.</p>
+        <div class="engineer-grid">
+            <div class="engineer-card">
+                
+                <h3>Arquimedes</h3>
+                <span class="era">287 a.C. - 212 a.C. | Grécia Antiga</span>
+                <p>O pai da engenharia mecânica e hidrostática. Desenvolveu o parafuso de Arquimedes, leis da alavanca e princípios de flutuabilidade fundamentais para a engenharia naval e hidráulica.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Leonardo da Vinci</h3>
+                <span class="era">1452 - 1519 | Renascença</span>
+                <p>Visionário que conceitualizou máquinas voadoras, pontes autoportantes e sistemas hidráulicos séculos antes de serem tecnicamente viáveis. Uniu arte e engenharia.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Isambard K. Brunel</h3>
+                <span class="era">1806 - 1859 | Revolução Industrial</span>
+                <p>Gigante da engenharia civil britânica. Construiu a Great Western Railway, túneis subaquáticos inovadores e os primeiros navios transatlânticos a vapor de hélice.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Gustave Eiffel</h3>
+                <span class="era">1832 - 1923 | Estruturas Metálicas</span>
+                <p>Mestre do ferro forjado. Além da Torre Eiffel, projetou a estrutura interna da Estátua da Liberdade e viadutos impressionantes, revolucionando a resistência dos ventos em estruturas.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Nikola Tesla</h3>
+                <span class="era">1856 - 1943 | Engenharia Elétrica</span>
+                <p>Inventor do sistema de corrente alternada (AC), motor de indução e transmissão de energia sem fio. Sua engenharia é a base de toda a distribuição de energia moderna.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Karl von Terzaghi</h3>
+                <span class="era">1883 - 1963 | Geotecnia</span>
+                <p>O "Pai da Mecânica dos Solos". Transformou o estudo de solos e fundações de uma arte empírica em uma ciência rigorosa com sua teoria da consolidação e tensão efetiva.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Stephen Timoshenko</h3>
+                <span class="era">1878 - 1972 | Mecânica Aplicada</span>
+                <p>Pai da engenharia mecânica moderna. Suas obras seminais sobre resistência dos materiais, elasticidade e estabilidade elástica são a bíblia da análise estrutural.</p>
+            </div>
+            <div class="engineer-card">
+               
+                <h3>Robert Maillart</h3>
+                <span class="era">1872 - 1940 | Concreto Armado</span>
+                <p>Engenheiro suíço que revolucionou o uso do concreto armado, criando pontes em arco de rara beleza e eficiência estrutural, eliminando partes desnecessárias (laje cogumelo).</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Fazlur Rahman Khan</h3>
+                <span class="era">1929 - 1982 | Arranha-céus</span>
+                <p>O "Einstein da Engenharia Estrutural". Criou o sistema tubular para arranha-céus (Willis Tower, John Hancock), permitindo edifícios muito mais altos e eficientes.</p>
+            </div>
+            <div class="engineer-card">
+                
+                <h3>Ove Arup</h3>
+                <span class="era">1895 - 1988 | Design Total</span>
+                <p>Fundador da Arup, famoso pela Ópera de Sydney. Defendia a "arquitetura total", onde engenharia e arquitetura se fundem desde a concepção do projeto.</p>
+            </div>
+        </div>
+        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+    </div></div>
+</section>
+
+<section id="livros-section" class="main-section hidden">
+    <div class="section-content"><div class="container">
+        <h2 class="section-title">Bibliografia Essencial</h2>
+        <p style="text-align: center; color: white; margin-bottom: 2rem;">Os 10 livros que formam a biblioteca fundamental de um engenheiro civil de excelência.</p>
+        <div class="book-grid">
+            <div class="book-card">
+                <div class="book-icon">∑</div>
+                <div class="book-info">
+                    <h3>Estruturas: Ou Por Que as Coisas Não Caem</h3>
+                    <span class="author">J.E. Gordon</span>
+                    <p>Uma explicação acessível e brilhante sobre como as estruturas funcionam. Leitura obrigatória para entender a intuição física antes da matemática complexa.</p>
                 </div>
-                <div id="quiz-active" class="hidden">
-                    <div class="content-card">
-                        <div class="quiz-header">
-                            <div class="timer" id="timer">30:00</div>
-                            <div class="question-counter" id="question-counter">Questão 1 de 30</div>
-                        </div>
-                        <div class="question-card" id="question-card">
-                            <div class="question-text" id="question-text"></div>
-                            <div class="options" id="options"></div>
-                        </div>
-                        <div style="text-align: center;">
-                            <button class="btn btn-primary" onclick="nextQuestion()"><span>Próxima</span></button>
-                            <button class="btn btn-danger" onclick="endQuiz()"><span>Finalizar Teste</span></button>
-                        </div>
-                    </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🏗️</div>
+                <div class="book-info">
+                    <h3>A Engenharia e a Mente do Projetista</h3>
+                    <span class="author">Henry Petroski</span>
+                    <p>Explora a natureza do projeto de engenharia, enfatizando que o fracasso e a análise de erros são fundamentais para o sucesso e inovação tecnológica.</p>
                 </div>
-                <div id="quiz-result" class="hidden">
-                    <div class="content-card result-card">
-                        <h2>Teste Concluído!</h2>
-                        <div class="score-display" id="final-score">0</div>
-                        <p style="color: white; font-size: 1.3rem;" id="result-text"></p>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-top: 1rem;" id="time-taken"></p>
-                        <button class="btn btn-primary" onclick="resetQuiz()"><span>Fazer Novamente</span></button>
-                        <button class="btn btn-info" onclick="showHistory()"><span>Ver Histórico</span></button>
-                        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
-                    </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🌍</div>
+                <div class="book-info">
+                    <h3>Mecânica dos Solos na Prática da Engenharia</h3>
+                    <span class="author">Karl Terzaghi & Ralph Peck</span>
+                    <p>A obra definitiva sobre geotecnia. Combina teoria rigorosa com observações práticas de campo, essencial para qualquer obra de fundação.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">📏</div>
+                <div class="book-info">
+                    <h3>Resistência dos Materiais</h3>
+                    <span class="author">R.C. Hibbeler (ou Beer & Johnston)</span>
+                    <p>O manual clássico acadêmico. Base fundamental para compreender tensões, deformações, torção e flexão em elementos estruturais.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🏢</div>
+                <div class="book-info">
+                    <h3>Concreto Armado: Eu Te Amo</h3>
+                    <span class="author">Manoel Henrique Campos Botelho</span>
+                    <p>Um clássico brasileiro. Aborda o concreto armado de forma didática, prática e com humor, focado no dia a dia da obra e projetos residenciais.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🌉</div>
+                <div class="book-info">
+                    <h3>Theory of Plates and Shells</h3>
+                    <span class="author">S. Timoshenko</span>
+                    <p>Para o engenheiro estrutural avançado. A referência mundial para o cálculo de lajes, cascas e estruturas complexas.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">💧</div>
+                <div class="book-info">
+                    <h3>Hidráulica Básica</h3>
+                    <span class="author">Rodrigo de Melo Porto</span>
+                    <p>Referência nacional essencial para compreender o escoamento em condutos forçados e canais livres. Didático e completo.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🔨</div>
+                <div class="book-info">
+                    <h3>Materiais de Construção</h3>
+                    <span class="author">L.A. Falcão Bauer</span>
+                    <p>Enciclopédia dos materiais. Cobre desde a química do cimento, madeiras, metais até novos polímeros. Fundamental para especificações.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">📐</div>
+                <div class="book-info">
+                    <h3>Topografia Geral</h3>
+                    <span class="author">Irineu Silva (e outros)</span>
+                    <p>Aborda as técnicas clássicas e modernas de levantamento, geodesia e ajustamento de observações. Vital para locação e cartografia.</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-icon">🌪️</div>
+                <div class="book-info">
+                    <h3>Why Buildings Fall Down</h3>
+                    <span class="author">Matthys Levy & Mario Salvadori</span>
+                    <p>Uma análise fascinante de desastres estruturais históricos, ensinando engenharia através da patologia e da investigação forense.</p>
                 </div>
             </div>
         </div>
-    </section>
+        <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
+    </div></div>
+</section>
 
-    <section id="calculos-section" class="main-section hidden">
-        <div class="section-content"><div class="container">
-            <h2 class="section-title">Calculadoras Profissionais</h2>
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="showTab('estruturas')">Estruturas</button>
-                <button class="tab-btn" onclick="showTab('concreto')">Concreto</button>
-                <button class="tab-btn" onclick="showTab('solo')">Solos</button>
-                <button class="tab-btn" onclick="showTab('hidraulica')">Hidráulica</button>
-            </div>
-            <div id="tab-estruturas" class="tab-content active">
-                <div class="calculator-grid">
-                    <div class="calculator-card">
-                        <h3>Momento Fletor</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Calcula o momento fletor máximo em vigas</p>
-                        <input type="number" class="calc-input" id="viga-carga" placeholder="Carga (kN)">
-                        <input type="number" class="calc-input" id="viga-vao" placeholder="Vão (m)">
-                        <button class="btn btn-success" onclick="calcMomentoFletor()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-momento"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Flambagem de Pilares</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Cálculo da carga crítica de Euler</p>
-                        <input type="number" class="calc-input" id="pilar-e" placeholder="Módulo E (GPa)">
-                        <input type="number" class="calc-input" id="pilar-i" placeholder="Inércia I (cm⁴)">
-                        <input type="number" class="calc-input" id="pilar-l" placeholder="Comprimento L (m)">
-                        <button class="btn btn-success" onclick="calcFlambagem()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-flambagem"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Tensão Normal</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">σ = N / A</p>
-                        <input type="number" class="calc-input" id="tensao-forca" placeholder="Força Normal (kN)">
-                        <input type="number" class="calc-input" id="tensao-area" placeholder="Área (cm²)">
-                        <button class="btn btn-success" onclick="calcTensaoNormal()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-tensao"></div>
-                    </div>
-                </div>
-                <div class="content-card" style="margin-top: 2rem;">
-                    <h3 style="color: white; margin-bottom: 1.5rem;">Fórmulas Importantes</h3>
-                    <div class="formula-card">
-                        <h4>Momento Fletor Máximo (Viga Biapoiada)</h4>
-                        <p>M = (q × L²) / 8</p>
-                        <p>Onde: q = carga distribuída, L = vão da viga</p>
-                    </div>
-                    <div class="formula-card">
-                        <h4>Carga Crítica de Euler</h4>
-                        <p>Pcr = (π² × E × I) / L²</p>
-                        <p>Onde: E = módulo de elasticidade, I = momento de inércia, L = comprimento</p>
-                    </div>
-                </div>
-            </div>
-            <div id="tab-concreto" class="tab-content">
-                <div class="calculator-grid">
-                    <div class="calculator-card">
-                        <h3>Traço de Concreto</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Dosagem de materiais para concreto</p>
-                        <input type="number" class="calc-input" id="conc-fck" placeholder="fck desejado (MPa)">
-                        <input type="number" class="calc-input" id="conc-volume" placeholder="Volume (m³)">
-                        <button class="btn btn-success" onclick="calcTracoConcreto()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-traco"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Área de Aço</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Armadura longitudinal</p>
-                        <input type="number" class="calc-input" id="aco-momento" placeholder="Momento (kN.m)">
-                        <input type="number" class="calc-input" id="aco-d" placeholder="Altura útil d (cm)">
-                        <input type="number" class="calc-input" id="aco-fck" placeholder="fck (MPa)">
-                        <button class="btn btn-success" onclick="calcAreaAco()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-aco"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="tab-solo" class="tab-content">
-                <div class="calculator-grid">
-                    <div class="calculator-card">
-                        <h3>Capacidade de Carga</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Fórmula de Terzaghi</p>
-                        <input type="number" class="calc-input" id="solo-coesao" placeholder="Coesão (kPa)">
-                        <input type="number" class="calc-input" id="solo-angulo" placeholder="Ângulo de atrito (°)">
-                        <input type="number" class="calc-input" id="solo-largura" placeholder="Largura sapata (m)">
-                        <button class="btn btn-success" onclick="calcCapacidadeCarga()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-capacidade"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Recalque de Fundação</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Estimativa de recalque</p>
-                        <input type="number" class="calc-input" id="rec-carga" placeholder="Carga (kN)">
-                        <input type="number" class="calc-input" id="rec-area" placeholder="Área (m²)">
-                        <input type="number" class="calc-input" id="rec-modulo" placeholder="Módulo solo (MPa)">
-                        <button class="btn btn-success" onclick="calcRecalque()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-recalque"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="tab-hidraulica" class="tab-content">
-                <div class="calculator-grid">
-                    <div class="calculator-card">
-                        <h3>Vazão em Tubulações</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Q = A × v</p>
-                        <input type="number" class="calc-input" id="hid-diametro" placeholder="Diâmetro (mm)">
-                        <input type="number" class="calc-input" id="hid-velocidade" placeholder="Velocidade (m/s)">
-                        <button class="btn btn-success" onclick="calcVazao()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-vazao"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Perda de Carga</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Equação de Darcy-Weisbach</p>
-                        <input type="number" class="calc-input" id="pc-comprimento" placeholder="Comprimento (m)">
-                        <input type="number" class="calc-input" id="pc-diametro" placeholder="Diâmetro (mm)">
-                        <input type="number" class="calc-input" id="pc-velocidade" placeholder="Velocidade (m/s)">
-                        <button class="btn btn-success" onclick="calcPerdaCarga()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-perda"></div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
-        </div></div>
-    </section>
-
-    <section id="topografia-section" class="main-section hidden">
-        <div class="section-content"><div class="container">
-            <h2 class="section-title">Topografia</h2>
-            <div class="content-card" style="margin-bottom: 2rem;">
-                <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">Fundamentos de Topografia</h3>
-                <p style="line-height: 1.8; margin-bottom: 1rem;">A topografia é a ciência que estuda os métodos e procedimentos para realizar levantamentos e representações da superfície terrestre. É fundamental para projetos de engenharia civil, permitindo a elaboração de plantas, perfis e modelos digitais do terreno.</p>
-            </div>
-            <div class="topography-grid">
-                <div class="topo-card">
-                    <h3>Planimetria</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano horizontal</p>
-                    <ul>
-                        <li>Medição de distâncias horizontais</li>
-                        <li>Determinação de ângulos horizontais</li>
-                        <li>Métodos de levantamento planimétrico</li>
-                        <li>Coordenadas planas (X, Y)</li>
-                    </ul>
-                </div>
-                <div class="topo-card">
-                    <h3>Altimetria</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Medições no plano vertical</p>
-                    <ul>
-                        <li>Determinação de diferenças de nível</li>
-                        <li>Nivelamento geométrico</li>
-                        <li>Nivelamento trigonométrico</li>
-                        <li>Curvas de nível</li>
-                    </ul>
-                </div>
-                <div class="topo-card">
-                    <h3>Equipamentos</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Instrumentos topográficos</p>
-                    <ul>
-                        <li>Estação Total</li>
-                        <li>Nível Ótico e Digital</li>
-                        <li>GPS/GNSS RTK</li>
-                        <li>Drone para fotogrametria</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="content-card" style="margin-top: 2rem;">
-                <h3 style="color: white; margin-bottom: 1.5rem;">Cálculos Topográficos</h3>
-                <div class="calculator-grid">
-                    <div class="calculator-card">
-                        <h3>Azimute e Rumo</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Conversão de direções</p>
-                        <input type="number" class="calc-input" id="az-angulo" placeholder="Azimute (°)">
-                        <button class="btn btn-success" onclick="calcRumo()"><span>Converter</span></button>
-                        <div class="calc-result hidden" id="resultado-rumo"></div>
-                    </div>
-                    <div class="calculator-card">
-                        <h3>Coordenadas</h3>
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Cálculo de coordenadas</p>
-                        <input type="number" class="calc-input" id="coord-distancia" placeholder="Distância (m)">
-                        <input type="number" class="calc-input" id="coord-azimute" placeholder="Azimute (°)">
-                        <button class="btn btn-success" onclick="calcCoordenadas()"><span>Calcular</span></button>
-                        <div class="calc-result hidden" id="resultado-coordenadas"></div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-back" onclick="showSection('home')"><span>Voltar ao Menu</span></button>
-        </div></div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>© 2025 Yasmim Nathalie - Engenharia Civil</p>
-            <p>Plataforma de Conhecimento Técnico</p>
-        </div>
-    </footer>
+<footer>
+    <div class="container">
+        <p>© 2025 Yasmim Nathalie - Engenharia Civil</p>
+        <p>Plataforma de Conhecimento Técnico Profissional</p>
+    </div>
+</footer>
 <script>
 const questions=[{question:"Em uma análise de estabilidade de taludes pelo método de Bishop Simplificado, qual das afirmações sobre o fator de segurança é INCORRETA?",options:["O método satisfaz o equilíbrio de momentos mas não o equilíbrio de forças horizontais","O fator de segurança é obtido por processo iterativo até a convergência","O método considera forças normais e tangenciais nas laterais das fatias","A superfície de ruptura é assumida como circular"],correct:2},{question:"Qual o valor aproximado da tensão característica de escoamento do aço CA-50?",options:["500 MPa","250 MPa","600 MPa","400 MPa"],correct:0},{question:"Considerando a NBR 6122, qual o coeficiente de segurança global mínimo para estacas?",options:["1,5","2,0","2,5","3,0"],correct:1},{question:"Qual o critério de ruptura mais utilizado para solos coesivos saturados não drenados?",options:["Critério de Mohr-Coulomb com φ = 0","Critério de Von Mises","Critério de Tresca","Critério de Drucker-Prager"],correct:0},{question:"Em terraplenagem, qual o valor típico do fator de empolamento para argila compacta?",options:["1,10 a 1,25","1,25 a 1,40","1,40 a 1,60","1,60 a 1,80"],correct:1},{question:"Qual tipo de cimento Portland é mais adequado para ambientes com sulfatos?",options:["CP I","CP II","CP V","CP RS"],correct:3},{question:"Qual ensaio determina a máxima densidade e umidade ótima de compactação?",options:["CBR","Triaxial","Proctor","Cisalhamento direto"],correct:2},{question:"No projeto de estruturas metálicas, qual fenômeno pode ocorrer em perfis esbeltos?",options:["Flambagem local","Escoamento dúctil","Fadiga estrutural","Corrosão"],correct:0},{question:"Em obras de contenção, qual muro trabalha por peso próprio?",options:["Flexão","Cortina atirantada","Gravidade","Solo grampeado"],correct:2},{question:"Qual o coeficiente de Manning típico para concreto alisado?",options:["0,010 a 0,013","0,013 a 0,017","0,017 a 0,020","0,020 a 0,025"],correct:0},{question:"No dimensionamento de sapatas, qual verificação relaciona-se ao puncionamento?",options:["Tensões normais","Tensões de cisalhamento junto ao pilar","Momento fletor","Recalque"],correct:1},{question:"Qual a classe de agressividade ambiental para ambientes marinhos?",options:["CAA I","CAA II","CAA III","CAA IV"],correct:3},{question:"Em barragens de terra, qual o gradiente hidráulico crítico para piping?",options:["0,5","1,0","2,0","5,0"],correct:1},{question:"Qual teoria é usada para dimensionar pavimentos rígidos?",options:["Boussinesq","Camadas elásticas","Westergaard","CBR"],correct:2},{question:"Qual o cobrimento mínimo para concreto em CAA III?",options:["20 mm","30 mm","40 mm","50 mm"],correct:2},{question:"Qual norma regulamenta projeto de estruturas de concreto no Brasil?",options:["NBR 6118","NBR 6120","NBR 6122","NBR 8800"],correct:0},{question:"Qual método de cravação é mais eficiente em solos arenosos?",options:["Bate-estacas vapor","Bate-estacas diesel","Vibro-cravação","Macaco hidráulico"],correct:2},{question:"Para NSPT = 15, qual a consistência da argila?",options:["Mole","Média","Rija","Dura"],correct:2},{question:"Qual o tempo mínimo de detenção em reservatórios de água potável?",options:["15 minutos","30 minutos","1 hora","2 horas"],correct:3},{question:"Em pré-dimensionamento de lajes, qual a relação h e vão?",options:["h = l/15","h = l/25","h = l/35","h = l/45"],correct:2},{question:"Qual o coeficiente de Poisson típico para concreto?",options:["0,10","0,20","0,30","0,40"],correct:1},{question:"Qual a superelevação máxima recomendada para vias urbanas?",options:["6%","8%","10%","12%"],correct:1},{question:"Qual tipo de solda é mais resistente a tração perpendicular?",options:["Filete","Entalhe penetração total","Tampão","Pontos"],correct:1},{question:"Qual o índice de vazios crítico para areia fofa susceptível à liquefação?",options:["e < 0,4","0,4 < e < 0,6","0,6 < e < 0,8","e > 0,8"],correct:3},{question:"Qual o critério de verificação ELS em vigas protendidas?",options:["Ruptura","Controle de fissuras e flechas","Cisalhamento","Ancoragem"],correct:1},{question:"Qual a inclinação máxima típica de rampa para ferrovias de carga?",options:["0,5%","1,0%","2,0%","3,0%"],correct:2},{question:"Qual o módulo de elasticidade do aço estrutural?",options:["150 GPa","190 GPa","210 GPa","250 GPa"],correct:2},{question:"O número de Froude representa a relação entre:",options:["Forças gravitacionais e viscosidade","Forças inerciais e gravitacionais","Forças de pressão e inerciais","Tensão superficial e gravitacionais"],correct:1},{question:"Principal diferença entre CAA e concreto convencional?",options:["Maior agregado graúdo","Maior teor de finos e superplastificantes","Menor relação água/cimento","Maior energia"],correct:1},{question:"Na dosagem Marshall, qual parâmetro indica resistência ao cisalhamento?",options:["Fluência","Estabilidade","Densidade","VAM"],correct:1}];
 
 let currentQuestions=[];let currentQuestionIndex=0;let score=0;let selectedAnswer=null;let timerInterval=null;let timeLeft=1800;let startTime=0;
 
 function showSection(sectionName){
-    document.querySelectorAll('.main-section').forEach(section=>{section.classList.add('hidden');});
-    document.getElementById(sectionName+'-section').classList.remove('hidden');
-    document.querySelector('.nav-links').classList.remove('active');
+document.querySelectorAll('.main-section').forEach(section=>{section.classList.add('hidden');});
+document.getElementById(sectionName+'-section').classList.remove('hidden');
+document.querySelector('.nav-links').classList.remove('active');
+window.scrollTo(0,0);
 }
 
 function startQuiz(){
-    currentQuestions=shuffleArray([...questions]).slice(0,30);
-    currentQuestionIndex=0;score=0;selectedAnswer=null;timeLeft=1800;startTime=Date.now();
-    document.getElementById('quiz-start').classList.add('hidden');
-    document.getElementById('quiz-active').classList.remove('hidden');
-    startTimer();displayQuestion();
+currentQuestions=shuffleArray([...questions]).slice(0,30);
+currentQuestionIndex=0;score=0;selectedAnswer=null;timeLeft=1800;startTime=Date.now();
+document.getElementById('quiz-start').classList.add('hidden');
+document.getElementById('quiz-active').classList.remove('hidden');
+startTimer();displayQuestion();
 }
 
 function shuffleArray(array){
-    for(let i=array.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [array[i],array[j]]=[array[j],array[i]];
-    }
-    return array;
+for(let i=array.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[array[i],array[j]]=[array[j],array[i]];
+}
+return array;
 }
 
 function startTimer(){
-    updateTimerDisplay();
-    timerInterval=setInterval(()=>{
-        timeLeft--;updateTimerDisplay();
-        if(timeLeft<=0){endQuiz();}
-    },1000);
+updateTimerDisplay();
+timerInterval=setInterval(()=>{
+timeLeft--;updateTimerDisplay();
+if(timeLeft<=0){endQuiz();}
+},1000);
 }
 
 function updateTimerDisplay(){
-    const minutes=Math.floor(timeLeft/60);
-    const seconds=timeLeft%60;
-    document.getElementById('timer').textContent=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+const minutes=Math.floor(timeLeft/60);
+const seconds=timeLeft%60;
+document.getElementById('timer').textContent=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
 }
 
 function displayQuestion(){
-    const question=currentQuestions[currentQuestionIndex];
-    document.getElementById('question-counter').textContent=`Questão ${currentQuestionIndex+1} de ${currentQuestions.length}`;
-    document.getElementById('question-text').textContent=question.question;
-    const optionsContainer=document.getElementById('options');
-    optionsContainer.innerHTML='';
-    question.options.forEach((option,index)=>{
-        const optionDiv=document.createElement('div');
-        optionDiv.className='option';
-        optionDiv.textContent=option;
-        optionDiv.onclick=()=>selectAnswer(index);
-        optionsContainer.appendChild(optionDiv);
-    });
-    selectedAnswer=null;
+const question=currentQuestions[currentQuestionIndex];
+document.getElementById('question-counter').textContent=`Questão ${currentQuestionIndex+1} de ${currentQuestions.length}`;
+document.getElementById('question-text').textContent=question.question;
+const optionsContainer=document.getElementById('options');
+optionsContainer.innerHTML='';
+question.options.forEach((option,index)=>{
+const optionDiv=document.createElement('div');
+optionDiv.className='option';
+optionDiv.textContent=option;
+optionDiv.onclick=()=>selectAnswer(index);
+optionsContainer.appendChild(optionDiv);
+});
+selectedAnswer=null;
 }
 
 function selectAnswer(index){
-    selectedAnswer=index;
-    document.querySelectorAll('.option').forEach((opt,i)=>{
-        opt.classList.remove('selected');
-        if(i===index){opt.classList.add('selected');}
-    });
+selectedAnswer=index;
+document.querySelectorAll('.option').forEach((opt,i)=>{
+opt.classList.remove('selected');
+if(i===index){opt.classList.add('selected');}
+});
 }
 
 function nextQuestion(){
-    if(selectedAnswer!==null){
-        if(selectedAnswer===currentQuestions[currentQuestionIndex].correct){score++;}
-        currentQuestionIndex++;
-        if(currentQuestionIndex<currentQuestions.length){displayQuestion();}else{endQuiz();}
-    }else{alert('Por favor, selecione uma resposta antes de continuar.');}
+if(selectedAnswer!==null){
+if(selectedAnswer===currentQuestions[currentQuestionIndex].correct){score++;}
+currentQuestionIndex++;
+if(currentQuestionIndex<currentQuestions.length){displayQuestion();}else{endQuiz();}
+}else{alert('Por favor, selecione uma resposta antes de continuar.');}
 }
 
 function endQuiz(){
-    clearInterval(timerInterval);
-    const timeTaken=Math.floor((Date.now()-startTime)/1000);
-    const percentage=Math.round((score/currentQuestions.length)*100);
-    saveToHistory(percentage,score,timeTaken);
-    document.getElementById('quiz-active').classList.add('hidden');
-    document.getElementById('quiz-result').classList.remove('hidden');
-    document.getElementById('final-score').textContent=`${percentage}%`;
-    document.getElementById('result-text').textContent=`Você acertou ${score} de ${currentQuestions.length} questões`;
-    const minutes=Math.floor(timeTaken/60);
-    const seconds=timeTaken%60;
-    document.getElementById('time-taken').textContent=`Tempo utilizado: ${minutes}min ${seconds}s`;
+clearInterval(timerInterval);
+const timeTaken=Math.floor((Date.now()-startTime)/1000);
+const percentage=Math.round((score/currentQuestions.length)*100);
+saveToHistory(percentage,score,timeTaken);
+document.getElementById('quiz-active').classList.add('hidden');
+document.getElementById('quiz-result').classList.remove('hidden');
+document.getElementById('final-score').textContent=`${percentage}%`;
+document.getElementById('result-text').textContent=`Você acertou ${score} de ${currentQuestions.length} questões`;
+const minutes=Math.floor(timeTaken/60);
+const seconds=timeTaken%60;
+document.getElementById('time-taken').textContent=`Tempo utilizado: ${minutes}min ${seconds}s`;
 }
 
 function resetQuiz(){
-    document.getElementById('quiz-result').classList.add('hidden');
-    document.getElementById('quiz-start').classList.remove('hidden');
+document.getElementById('quiz-result').classList.add('hidden');
+document.getElementById('quiz-start').classList.remove('hidden');
 }
 
 function saveToHistory(percentage,correct,time){
-    let history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
-    const now=new Date();
-    const dateStr=now.toLocaleDateString('pt-BR');
-    const timeStr=now.toLocaleTimeString('pt-BR');
-    const minutes=Math.floor(time/60);
-    const seconds=time%60;
-    const timeDuration=`${minutes}min ${seconds}s`;
-    
-    history.unshift({
-        date:dateStr,
-        time:timeStr,
-        score:percentage,
-        correct:correct,
-        total:currentQuestions.length,
-        duration:timeDuration
-    });
-    
-    if(history.length>10){history.pop();}
-    localStorage.setItem('quizHistory',JSON.stringify(history));
+let history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
+const now=new Date();
+const dateStr=now.toLocaleDateString('pt-BR');
+const timeStr=now.toLocaleTimeString('pt-BR');
+const minutes=Math.floor(time/60);
+const seconds=time%60;
+const timeDuration=`${minutes}min ${seconds}s`;
+
+history.unshift({
+date:dateStr,
+time:timeStr,
+score:percentage,
+correct:correct,
+total:currentQuestions.length,
+duration:timeDuration
+});
+
+if(history.length>10){history.pop();}
+localStorage.setItem('quizHistory',JSON.stringify(history));
 }
 
 function showHistory(){
-    const history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
-    const tbody=document.getElementById('history-body');
-    tbody.innerHTML='';
-    
-    if(history.length===0){
-        tbody.innerHTML='<tr><td colspan="4" style="text-align: center;">Nenhum teste realizado ainda</td></tr>';
-    }else{
-        history.forEach(item=>{
-            const row=tbody.insertRow();
-            row.innerHTML=`
-                <td>${item.date} ${item.time}</td>
-                <td>${item.score}%</td>
-                <td>${item.correct}/${item.total}</td>
-                <td>${item.duration}</td>
-            `;
-        });
-    }
-    
-    document.getElementById('quiz-start').style.display='none';
-    document.getElementById('history-section').classList.remove('hidden');
+const history=JSON.parse(localStorage.getItem('quizHistory')||'[]');
+const tbody=document.getElementById('history-body');
+tbody.innerHTML='';
+
+if(history.length===0){
+tbody.innerHTML='<tr><td colspan="4" style="text-align: center;">Nenhum teste realizado ainda</td></tr>';
+}else{
+history.forEach(item=>{
+const row=tbody.insertRow();
+row.innerHTML=`
+<td>${item.date} ${item.time}</td>
+<td>${item.score}%</td>
+<td>${item.correct}/${item.total}</td>
+<td>${item.duration}</td>
+`;
+});
+}
+
+document.getElementById('quiz-start').style.display='none';
+document.getElementById('history-section').classList.remove('hidden');
 }
 
 function hideHistory(){
-    document.getElementById('history-section').classList.add('hidden');
-    document.getElementById('quiz-start').style.display='block';
+document.getElementById('history-section').classList.add('hidden');
+document.getElementById('quiz-start').style.display='block';
 }
 
 function clearHistory(){
-    if(confirm('Tem certeza que deseja limpar todo o histórico?')){
-        localStorage.removeItem('quizHistory');
-        showHistory();
-    }
+if(confirm('Tem certeza que deseja limpar todo o histórico?')){
+localStorage.removeItem('quizHistory');
+showHistory();
 }
-
-function calcMomentoFletor(){
-    const carga=parseFloat(document.getElementById('viga-carga').value);
-    const vao=parseFloat(document.getElementById('viga-vao').value);
-    if(carga&&vao){
-        const momento=(carga*vao*vao)/8;
-        document.getElementById('resultado-momento').textContent=`Momento Fletor Máximo: ${momento.toFixed(2)} kN.m`;
-        document.getElementById('resultado-momento').classList.remove('hidden');
-    }
-}
-
-function calcFlambagem(){
-    const e=parseFloat(document.getElementById('pilar-e').value)*1000;
-    const i=parseFloat(document.getElementById('pilar-i').value)/10000;
-    const l=parseFloat(document.getElementById('pilar-l').value);
-    if(e&&i&&l){
-        const pcr=(Math.PI*Math.PI*e*i)/(l*l);
-        document.getElementById('resultado-flambagem').textContent=`Carga Crítica de Euler: ${pcr.toFixed(2)} kN`;
-        document.getElementById('resultado-flambagem').classList.remove('hidden');
-    }
-}
-
-function calcTensaoNormal(){
-    const forca=parseFloat(document.getElementById('tensao-forca').value);
-    const area=parseFloat(document.getElementById('tensao-area').value);
-    if(forca&&area){
-        const tensao=(forca*10)/area;
-        document.getElementById('resultado-tensao').textContent=`Tensão Normal: ${tensao.toFixed(2)} MPa`;
-        document.getElementById('resultado-tensao').classList.remove('hidden');
-    }
-}
-
-function calcTracoConcreto(){
-    const fck=parseFloat(document.getElementById('conc-fck').value);
-    const volume=parseFloat(document.getElementById('conc-volume').value);
-    if(fck&&volume){
-        const cimento=volume*350;
-        const areia=volume*700;
-        const brita=volume*1050;
-        const agua=volume*190;
-        document.getElementById('resultado-traco').innerHTML=`Traço aproximado para ${fck} MPa:<br>Cimento: ${cimento.toFixed(0)} kg<br>Areia: ${areia.toFixed(0)} kg<br>Brita: ${brita.toFixed(0)} kg<br>Água: ${agua.toFixed(0)} L`;
-        document.getElementById('resultado-traco').classList.remove('hidden');
-    }
-}
-
-function calcAreaAco(){
-    const momento=parseFloat(document.getElementById('aco-momento').value);
-    const d=parseFloat(document.getElementById('aco-d').value);
-    const fck=parseFloat(document.getElementById('aco-fck').value);
-    if(momento&&d&&fck){
-        const as=(momento*100000)/(43.5*0.9*d);
-        document.getElementById('resultado-aco').textContent=`Área de Aço necessária: ${as.toFixed(2)} cm²`;
-        document.getElementById('resultado-aco').classList.remove('hidden');
-    }
-}
-
-function calcCapacidadeCarga(){
-    const coesao=parseFloat(document.getElementById('solo-coesao').value);
-    const angulo=parseFloat(document.getElementById('solo-angulo').value);
-    const largura=parseFloat(document.getElementById('solo-largura').value);
-    if(coesao&&angulo&&largura){
-        const angleRad=angulo*Math.PI/180;
-        const Nc=5.14;
-        const qult=coesao*Nc+0.5*18*largura*Math.tan(angleRad);
-        document.getElementById('resultado-capacidade').textContent=`Capacidade de Carga Última: ${qult.toFixed(2)} kPa`;
-        document.getElementById('resultado-capacidade').classList.remove('hidden');
-    }
-}
-
-function calcRecalque(){
-    const carga=parseFloat(document.getElementById('rec-carga').value);
-    const area=parseFloat(document.getElementById('rec-area').value);
-    const modulo=parseFloat(document.getElementById('rec-modulo').value);
-    if(carga&&area&&modulo){
-        const tensao=carga/area;
-        const recalque=(tensao*1)/(modulo*1000);
-        document.getElementById('resultado-recalque').textContent=`Recalque estimado: ${(recalque*1000).toFixed(2)} mm`;
-        document.getElementById('resultado-recalque').classList.remove('hidden');
-    }
-}
-
-function calcVazao(){
-    const diametro=parseFloat(document.getElementById('hid-diametro').value)/1000;
-    const velocidade=parseFloat(document.getElementById('hid-velocidade').value);
-    if(diametro&&velocidade){
-        const area=Math.PI*diametro*diametro/4;
-        const vazao=area*velocidade*1000;
-        document.getElementById('resultado-vazao').textContent=`Vazão: ${vazao.toFixed(2)} L/s`;
-        document.getElementById('resultado-vazao').classList.remove('hidden');
-    }
-}
-
-function calcPerdaCarga(){
-    const comprimento=parseFloat(document.getElementById('pc-comprimento').value);
-    const diametro=parseFloat(document.getElementById('pc-diametro').value)/1000;
-    const velocidade=parseFloat(document.getElementById('pc-velocidade').value);
-    if(comprimento&&diametro&&velocidade){
-        const f=0.02;
-        const hf=f*(comprimento/diametro)*(velocidade*velocidade)/(2*9.81);
-        document.getElementById('resultado-perda').textContent=`Perda de Carga: ${hf.toFixed(2)} m`;
-        document.getElementById('resultado-perda').classList.remove('hidden');
-    }
-}
-
-function calcRumo(){
-    const azimute=parseFloat(document.getElementById('az-angulo').value);
-    if(azimute!==null&&!isNaN(azimute)){
-        let rumo,quadrante;
-        if(azimute>=0&&azimute<=90){rumo=azimute;quadrante='NE';}
-        else if(azimute>90&&azimute<=180){rumo=180-azimute;quadrante='SE';}
-        else if(azimute>180&&azimute<=270){rumo=azimute-180;quadrante='SW';}
-        else{rumo=360-azimute;quadrante='NW';}
-        document.getElementById('resultado-rumo').textContent=`Rumo: ${rumo.toFixed(2)}° ${quadrante}`;
-        document.getElementById('resultado-rumo').classList.remove('hidden');
-    }
-}
-
-function calcCoordenadas(){
-    const distancia=parseFloat(document.getElementById('coord-distancia').value);
-    const azimute=parseFloat(document.getElementById('coord-azimute').value);
-    if(distancia&&azimute!==null&&!isNaN(azimute)){
-        const azRad=azimute*Math.PI/180;
-        const deltaX=distancia*Math.sin(azRad);
-        const deltaY=distancia*Math.cos(azRad);
-        document.getElementById('resultado-coordenadas').innerHTML=`ΔX: ${deltaX.toFixed(3)} m<br>ΔY: ${deltaY.toFixed(3)} m`;
-        document.getElementById('resultado-coordenadas').classList.remove('hidden');
-    }
 }
 
 function showTab(tabName){
-    document.querySelectorAll('.tab-content').forEach(tab=>{tab.classList.remove('active');});
-    document.querySelectorAll('.tab-btn').forEach(btn=>{btn.classList.remove('active');});
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-    event.target.classList.add('active');
+document.querySelectorAll('.tab-content').forEach(tab=>{tab.classList.remove('active');});
+document.querySelectorAll('.tab-btn').forEach(btn=>{btn.classList.remove('active');});
+document.getElementById(`tab-${tabName}`).classList.add('active');
+event.target.classList.add('active');
+}
+
+function calcVigaBiapoiada(){
+const q=parseFloat(document.getElementById('viga-carga').value);
+const l=parseFloat(document.getElementById('viga-vao').value);
+if(q&&l){
+const m=(q*l*l)/8;
+const v=(q*l)/2;
+const resultDiv=document.getElementById('resultado-viga');
+resultDiv.innerHTML=`Momento Máx: ${m.toFixed(2)} kN.m<br>Cortante Máx: ${v.toFixed(2)} kN`;
+resultDiv.classList.remove('hidden');
+}
+}
+
+function calcFlambagem(){
+const e=parseFloat(document.getElementById('pilar-e').value)*100;
+const i=parseFloat(document.getElementById('pilar-i').value);
+const l=parseFloat(document.getElementById('pilar-l').value)*100;
+if(e&&i&&l){
+const pcr=(Math.PI*Math.PI*e*i)/(l*l);
+const resultDiv=document.getElementById('resultado-flambagem');
+resultDiv.textContent=`Carga Crítica (Euler): ${pcr.toFixed(2)} kN`;
+resultDiv.classList.remove('hidden');
+}
+}
+
+function calcInercia(){
+const b=parseFloat(document.getElementById('iner-b').value);
+const h=parseFloat(document.getElementById('iner-h').value);
+if(b&&h){
+const i=(b*Math.pow(h,3))/12;
+const resultDiv=document.getElementById('resultado-inercia');
+resultDiv.textContent=`Inércia I: ${i.toFixed(2)} cm⁴`;
+resultDiv.classList.remove('hidden');
+}
+}
+
+function calcTensaoNormal(){
+const forca=parseFloat(document.getElementById('tensao-forca').value);
+const area=parseFloat(document.getElementById('tensao-area').value);
+if(forca&&area){
+const tensao=(forca*10)/area;
+document.getElementById('resultado-tensao').textContent=`Tensão Normal σ: ${tensao.toFixed(2)} MPa`;
+document.getElementById('resultado-tensao').classList.remove('hidden');
+}
+}
+
+function calcVolLaje(){
+const area=parseFloat(document.getElementById('laje-area').value);
+const esp=parseFloat(document.getElementById('laje-esp').value)/100;
+const perda=parseFloat(document.getElementById('laje-perda').value)||0;
+if(area&&esp){
+const vol=area*esp;
+const total=vol*(1+(perda/100));
+document.getElementById('resultado-vollaje').innerHTML=`Volume Teórico: ${vol.toFixed(3)} m³<br>Total com ${perda}%: <strong>${total.toFixed(3)} m³</strong>`;
+document.getElementById('resultado-vollaje').classList.remove('hidden');
+}
+}
+
+function calcVolLinear(){
+const b=parseFloat(document.getElementById('elem-b').value)/100;
+const h=parseFloat(document.getElementById('elem-h').value)/100;
+const c=parseFloat(document.getElementById('elem-c').value);
+if(b&&h&&c){
+const vol=b*h*c;
+document.getElementById('resultado-vollinear').textContent=`Volume: ${vol.toFixed(3)} m³`;
+document.getElementById('resultado-vollinear').classList.remove('hidden');
+}
+}
+
+function calcTracoConcreto(){
+const fck=parseFloat(document.getElementById('conc-fck').value);
+const volume=parseFloat(document.getElementById('conc-volume').value);
+if(fck&&volume){
+const cimento=volume*350;
+const areia=volume*750;
+const brita=volume*1000;
+const agua=volume*180;
+document.getElementById('resultado-traco').innerHTML=`Estimativa (350kg cimento/m³):<br>Cimento: ${cimento.toFixed(0)} kg<br>Areia: ${areia.toFixed(0)} kg<br>Brita: ${brita.toFixed(0)} kg<br>Água: ${agua.toFixed(0)} L`;
+document.getElementById('resultado-traco').classList.remove('hidden');
+}
+}
+
+function calcAreaAco(){
+const mk=parseFloat(document.getElementById('aco-momento').value);
+const d=parseFloat(document.getElementById('aco-d').value);
+const fck=parseFloat(document.getElementById('aco-fck').value);
+if(mk&&d&&fck){
+const md=mk*1.4;
+const kmd=(md*100)/(1*d*d*(fck/14));
+const as=(md*100)/(0.87*50*0.85*d);
+document.getElementById('resultado-aco').textContent=`As estimado: ${as.toFixed(2)} cm²`;
+document.getElementById('resultado-aco').classList.remove('hidden');
+}
+}
+
+function calcCapacidadeCarga(){
+const c=parseFloat(document.getElementById('solo-coesao').value);
+const phi=parseFloat(document.getElementById('solo-angulo').value);
+const b=parseFloat(document.getElementById('solo-largura').value);
+if(c>=0&&phi>=0&&b>0){
+const rad=phi*Math.PI/180;
+const nc=5.14;
+const nq=Math.exp(Math.PI*Math.tan(rad))*Math.pow(Math.tan(45*Math.PI/180+rad/2),2);
+const ny=2*(nq+1)*Math.tan(rad);
+const qult=(c*nc) + (0.5*18*b*ny);
+document.getElementById('resultado-capacidade').textContent=`Capacidade Última (qult): ${qult.toFixed(2)} kPa`;
+document.getElementById('resultado-capacidade').classList.remove('hidden');
+}
+}
+
+function calcTensaoGeo(){
+const gamma=parseFloat(document.getElementById('geo-peso').value);
+const z=parseFloat(document.getElementById('geo-prof').value);
+if(gamma&&z){
+const sigma=gamma*z;
+document.getElementById('resultado-geo').textContent=`Tensão Vertical (σv): ${sigma.toFixed(2)} kPa`;
+document.getElementById('resultado-geo').classList.remove('hidden');
+}
+}
+
+function calcVazios(){
+const n=parseFloat(document.getElementById('ind-n').value);
+if(n){
+const e=n/(100-n);
+document.getElementById('resultado-vazios').textContent=`Índice de Vazios (e): ${e.toFixed(3)}`;
+document.getElementById('resultado-vazios').classList.remove('hidden');
+}
+}
+
+function calcEmpuxo(){
+const phi=parseFloat(document.getElementById('empuxo-phi').value);
+const gamma=parseFloat(document.getElementById('empuxo-gamma').value);
+const h=parseFloat(document.getElementById('empuxo-h').value);
+if(phi>=0&&gamma&&h){
+const rad=phi*Math.PI/180;
+const ka=Math.pow(Math.tan((45*Math.PI/180)-(rad/2)), 2);
+const ea=0.5*gamma*h*h*ka;
+document.getElementById('resultado-empuxo').innerHTML=`Coeficiente Ka: ${ka.toFixed(3)}<br>Empuxo Ativo: ${ea.toFixed(2)} kN/m`;
+document.getElementById('resultado-empuxo').classList.remove('hidden');
+}
+}
+
+function calcVazao(){
+const d=parseFloat(document.getElementById('hid-diametro').value)/1000;
+const v=parseFloat(document.getElementById('hid-velocidade').value);
+if(d&&v){
+const area=Math.PI*Math.pow(d,2)/4;
+const q=area*v*1000;
+document.getElementById('resultado-vazao').textContent=`Vazão Q: ${q.toFixed(2)} L/s`;
+document.getElementById('resultado-vazao').classList.remove('hidden');
+}
+}
+
+function calcVolReservatorio(){
+const d=parseFloat(document.getElementById('res-diametro').value);
+const h=parseFloat(document.getElementById('res-altura').value);
+if(d&&h){
+const vol=Math.PI*Math.pow(d/2,2)*h;
+document.getElementById('resultado-reservatorio').innerHTML=`Volume: ${vol.toFixed(3)} m³<br>Capacidade: ${(vol*1000).toFixed(0)} Litros`;
+document.getElementById('resultado-reservatorio').classList.remove('hidden');
+}
+}
+
+function calcManning(){
+const n=parseFloat(document.getElementById('man-n').value);
+const i=parseFloat(document.getElementById('man-i').value);
+const rh=parseFloat(document.getElementById('man-rh').value);
+if(n&&i&&rh){
+const v=(1/n)*Math.pow(rh,2/3)*Math.pow(i,0.5);
+document.getElementById('resultado-manning').textContent=`Velocidade v: ${v.toFixed(3)} m/s`;
+document.getElementById('resultado-manning').classList.remove('hidden');
+}
+}
+
+function calcPerdaCarga(){
+const l=parseFloat(document.getElementById('pc-comprimento').value);
+const d=parseFloat(document.getElementById('pc-diametro').value)/1000;
+const v=parseFloat(document.getElementById('pc-velocidade').value);
+if(l&&d&&v){
+const f=0.02;
+const hf=f*(l/d)*(Math.pow(v,2)/(2*9.81));
+document.getElementById('resultado-perda').textContent=`Perda de Carga hf: ${hf.toFixed(3)} m`;
+document.getElementById('resultado-perda').classList.remove('hidden');
+}
+}
+
+function calcInterpolacao(){
+const x1=parseFloat(document.getElementById('int-x1').value);
+const y1=parseFloat(document.getElementById('int-y1').value);
+const x2=parseFloat(document.getElementById('int-x2').value);
+const y2=parseFloat(document.getElementById('int-y2').value);
+const x=parseFloat(document.getElementById('int-x').value);
+if(x1!==null&&x2!==null){
+const y=y1+((x-x1)*(y2-y1))/(x2-x1);
+document.getElementById('resultado-interpolacao').textContent=`Valor Interpolado Y: ${y.toFixed(4)}`;
+document.getElementById('resultado-interpolacao').classList.remove('hidden');
+}
+}
+
+function calcConversaoPressao(){
+const mpa=parseFloat(document.getElementById('conv-mpa').value);
+if(mpa){
+const kpa=mpa*1000;
+const bar=mpa*10;
+const kgf=mpa*10.197;
+const psi=mpa*145.038;
+document.getElementById('resultado-conversao').innerHTML=`
+${kpa.toFixed(1)} kPa<br>
+${bar.toFixed(2)} bar<br>
+${kgf.toFixed(2)} kgf/cm²<br>
+${psi.toFixed(1)} psi
+`;
+document.getElementById('resultado-conversao').classList.remove('hidden');
+}
+}
+
+function calcRumo(){
+const az=parseFloat(document.getElementById('az-angulo').value);
+if(az>=0){
+let rumo, quad;
+if(az<=90){ rumo=az; quad="NE"; }
+else if(az<=180){ rumo=180-az; quad="SE"; }
+else if(az<=270){ rumo=az-180; quad="SW"; }
+else if(az<=360){ rumo=360-az; quad="NW"; }
+else { rumo="Inválido"; quad=""; }
+document.getElementById('resultado-rumo').textContent=`Rumo: ${rumo.toFixed(2)}° ${quad}`;
+document.getElementById('resultado-rumo').classList.remove('hidden');
+}
+}
+
+function calcCoordenadas(){
+const d=parseFloat(document.getElementById('coord-distancia').value);
+const az=parseFloat(document.getElementById('coord-azimute').value);
+if(d&&az>=0){
+const rad=az*Math.PI/180;
+const x=d*Math.sin(rad);
+const y=d*Math.cos(rad);
+document.getElementById('resultado-coordenadas').innerHTML=`ΔX: ${x.toFixed(3)} m<br>ΔY: ${y.toFixed(3)} m`;
+document.getElementById('resultado-coordenadas').classList.remove('hidden');
+}
+}
+
+function calcDeclividade(){
+const h=parseFloat(document.getElementById('dec-altura').value);
+const d=parseFloat(document.getElementById('dec-distancia').value);
+if(h&&d){
+const perc=(h/d)*100;
+const angulo=Math.atan(h/d)*(180/Math.PI);
+document.getElementById('resultado-declividade').innerHTML=`Declividade: ${perc.toFixed(2)}%<br>Ângulo: ${angulo.toFixed(2)}°`;
+document.getElementById('resultado-declividade').classList.remove('hidden');
+}
+}
+
+function calcDistHorizontal(){
+const di=parseFloat(document.getElementById('dist-inclinada').value);
+const ang=parseFloat(document.getElementById('dist-angulo').value);
+if(di&&ang!==null){
+const rad=ang*Math.PI/180;
+const dh=di*Math.cos(rad);
+const dv=di*Math.sin(rad);
+document.getElementById('resultado-disth').innerHTML=`Dist. Horizontal: ${dh.toFixed(3)} m<br>Desnível: ${dv.toFixed(3)} m`;
+document.getElementById('resultado-disth').classList.remove('hidden');
+}
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-    const isMobile=window.innerWidth<=768;
-    function createHeart(){
-        const heart=document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML='♥';
-        heart.style.left=Math.random()*100+'vw';
-        heart.style.animationDuration=Math.random()*4+6+'s';
-        heart.style.fontSize=Math.random()*20+25+'px';
-        heart.style.color=`hsl(${Math.random()*30+330}, 100%, ${Math.random()*20+70}%)`;
-        document.body.appendChild(heart);
-        setTimeout(()=>{heart.remove();},11000);
-    }
-    function createParticles(){
-        const particleCount=isMobile?10:25;
-        for(let i=0;i<particleCount;i++){
-            const particle=document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left=Math.random()*100+'vw';
-            particle.style.top=Math.random()*100+'vh';
-            particle.style.animationDelay=Math.random()*5+'s';
-            document.body.appendChild(particle);
-        }
-    }
-    setInterval(createHeart,isMobile?1500:800);
-    createParticles();
-    const menuToggle=document.querySelector('.menu-toggle');
-    const navLinks=document.querySelector('.nav-links');
-    const closeMenuBtn=document.querySelector('.close-menu-btn');
-    menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
-    closeMenuBtn.addEventListener('click',()=>{navLinks.classList.remove('active');});
+const isMobile=window.innerWidth<=768;
+function createParticles(){
+const particleCount=isMobile?10:25;
+for(let i=0;i<particleCount;i++){
+const particle=document.createElement('div');
+particle.classList.add('particle');
+particle.style.left=Math.random()*100+'vw';
+particle.style.top=Math.random()*100+'vh';
+particle.style.animationDelay=Math.random()*5+'s';
+document.body.appendChild(particle);
+}
+}
+createParticles();
+const menuToggle=document.querySelector('.menu-toggle');
+const navLinks=document.querySelector('.nav-links');
+const closeMenuBtn=document.querySelector('.close-menu-btn');
+menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
+closeMenuBtn.addEventListener('click',()=>{navLinks.classList.remove('active');});
 });
 </script>
 </body>
